@@ -56,33 +56,51 @@ namespace MovtechForms.Application.Services.GroupFormService
 
         public async Task<DataTable> DeleteFormGroup(int id)
         {
-            string query = "DELETE FROM FormsGroup WHERE Id = @Id;";
+            string deleteQuery = "DELETE FROM FormsGroup WHERE Id = @Id;";
+            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
 
-            SqlParameter[] parameter =
+            SqlParameter[] selectParameter =
+            {
+                new("@Id", id)
+            };
+
+            DataTable selectResult = await _dbService!.ExecuteQueryAsync(selectQuery, selectParameter);
+
+
+            SqlParameter[] deleteParameter =
                 {
                     new("@Id", id)
                 };
 
-            DataTable itemDeleted = await _dbService!.ExecuteQueryAsync(query, parameter);
+            DataTable itemDeleted = await _dbService!.ExecuteQueryAsync(deleteQuery, deleteParameter);
 
-            return itemDeleted;
+            return selectResult;
         }
 
         // UPDATE METHOD
 
-        public async Task<DataTable> UpdateFormGroup([FromBody] FormsGroup formGroup,int id)
+        public async Task<DataTable> UpdateFormGroup([FromBody] FormsGroup formGroup, int id)
         {
             string query = "UPDATE FormsGroup SET Title = @Title WHERE Id = @Id;";
 
             SqlParameter[] parameter =
             {
-                new("@Title",formGroup ),
+                new("@Title",formGroup.Title ),
                 new("@Id", id)
             };
 
             DataTable result = await _dbService!.ExecuteQueryAsync(query, parameter);
 
-            return result;
+            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
+
+            SqlParameter[] selectParameter =
+            {
+                        new("@Id", id)
+                    };
+
+            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
+
+            return selectResult;
         }
     }
 }

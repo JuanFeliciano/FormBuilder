@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Services.GroupFormService;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
@@ -63,13 +62,31 @@ namespace MovtechForms.Application.Controllers
                 DataTable data = await _formGroupService.DeleteFormGroup(id);
                 string item = ConvertFormat.ConvertDataTableToJson(data);
 
-                return Ok("Successfully deleted object");
+                return Ok($"Successfully deleted object\n {item}");
 
             }
             catch (Exception ex)
             {
 
                 return StatusCode(500, $"Error when deleting object: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromBody] FormsGroup formGroup, int id)
+        {
+            try
+            {
+                DataTable data = await _formGroupService.UpdateFormGroup(formGroup, id);
+                string item = ConvertFormat.ConvertDataTableToJson(data);
+
+                return Ok(item);
+
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"Error when updating object: {ex.Message}");
             }
         }
 
