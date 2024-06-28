@@ -3,7 +3,7 @@
     public class Questions
     {
         public int Id { get; private set; }
-        public int FormId { get; set; }
+        public int FormId { get; private set; }
         public string Title { get; set; }
 
         //Relationship

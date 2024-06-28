@@ -8,5 +8,11 @@
         // Ralationship
 
         public ICollection<Forms>? Forms { get; set; }
+
+        public FormsGroup(int id, string title)
+        {
+            Id = id;
+            Title = title;
+        }
     }
 }

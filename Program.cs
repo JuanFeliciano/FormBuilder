@@ -1,6 +1,5 @@
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using MovtechForms.Application.Services.GroupFormService;
 using MovtechForms.Domain.Interfaces;
 using MovtechForms.Infrastructure;
 
@@ -13,8 +12,9 @@ var app = builder.Build();
 
 static void ConfigureServices(IServiceCollection services)
 {
+    services.AddScoped<IDatabaseService, DatabaseService>();
+    services.AddScoped<IFormGroupService, FormGroupService>();
     services.AddControllers();
-    services.AddSingleton<IDatabaseService, DatabaseService>();
 }
 
 // Configure the HTTP request pipeline.

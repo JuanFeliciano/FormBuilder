@@ -33,23 +33,5 @@ namespace MovtechForms.Infrastructure
                 }
             }
         }
-
-        public async Task<int> ExecuteQueryNonAsync(string query, SqlParameter[] parameters)
-        {
-            using (SqlConnection connection = new(_connectionString))
-            {
-                using (SqlCommand command = new(query, connection))
-                {
-                    if (parameters != null)
-                    {
-                        command.Parameters.AddRange(parameters);
-                    }
-
-                    await connection.OpenAsync();
-                    return await command.ExecuteNonQueryAsync();
-                }
-            }
-        }
-
     }
 }
