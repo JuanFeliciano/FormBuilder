@@ -4,11 +4,9 @@
     {
         public int Id { get; private set; }
         public int FormId { get; private set; }
-        public string Title { get; set; }
+        public string Content { get; set; }
 
         //Relationship
-
-        public Forms Forms { get; set; }
         public ICollection<Answer> Answers { get; set; }
     }
 }

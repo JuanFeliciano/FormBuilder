@@ -6,7 +6,7 @@ namespace MovtechForms.Application
     {
         public static string ConvertDataTableToJson(DataTable dataTable)
         {
-            if (dataTable == null)
+            if (dataTable is null)
             {
                 return string.Empty;
             }

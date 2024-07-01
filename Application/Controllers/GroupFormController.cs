@@ -9,15 +9,10 @@ namespace MovtechForms.Application.Controllers
     [Route("[controller]")]
     public class GroupFormController : ControllerBase
     {
-        private readonly IDatabaseService _dbService;
-        private readonly IFormGroupService _formGroupService;
+        private readonly IServices<FormsGroup> _formGroupService;
 
 
-        public GroupFormController(IDatabaseService dbService, IFormGroupService formGroupService)
-        {
-            _dbService = dbService ?? throw new ArgumentNullException(nameof(dbService));
-            _formGroupService = formGroupService;
-        }
+        public GroupFormController(IDatabaseService dbService, IServices<FormsGroup> formGroupService) => _formGroupService = formGroupService;
 
 
         [HttpGet]
@@ -25,8 +20,13 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _formGroupService.GetFormGroup();
+                DataTable data = await _formGroupService.Get();
                 string item = ConvertFormat.ConvertDataTableToJson(data);
+
+                if (item is "[]")
+                {
+                    return NotFound("There are no form groups");
+                }
 
                 return Ok(item);
             }
@@ -42,10 +42,10 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _formGroupService.PostFormGroup(formGroup);
+                DataTable data = await _formGroupService.Post(formGroup);
                 string item = ConvertFormat.ConvertDataTableToJson(data);
 
-                return Ok(item);
+                return StatusCode(201,item);
             }
             catch (Exception ex)
             {
@@ -59,8 +59,13 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _formGroupService.DeleteFormGroup(id);
+                DataTable data = await _formGroupService.Delete(id);
                 string item = ConvertFormat.ConvertDataTableToJson(data);
+
+                if (item is "[]")
+                {
+                    return NotFound("Object doesn't exist");
+                }
 
                 return Ok($"Successfully deleted object\n {item}");
 
@@ -77,8 +82,13 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _formGroupService.UpdateFormGroup(formGroup, id);
+                DataTable data = await _formGroupService.Update(formGroup, id);
                 string item = ConvertFormat.ConvertDataTableToJson(data);
+
+                if (item is "[]")
+                {
+                    return NotFound("Object doesn't exist");
+                }
 
                 return Ok(item);
 

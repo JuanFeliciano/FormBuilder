@@ -6,37 +6,38 @@ using System.Data.SqlClient;
 
 namespace MovtechForms.Application.Services.GroupFormService
 {
-    public class FormGroupService : IFormGroupService
+    public class FormGroupService : IServices<FormsGroup>
     {
-        private static IDatabaseService? _dbService;
+        private readonly IDatabaseService _dbService;
 
         public FormGroupService(IDatabaseService dbService) => _dbService = dbService;
 
 
         // GET METHOD
-        public async Task<DataTable> GetFormGroup()
+        public async Task<DataTable> Get()
         {
             string query = "SELECT * FROM FormsGroup;";
-            DataTable result = await _dbService!.ExecuteQueryAsync(query, null!);
+            DataTable result = await _dbService.ExecuteQueryAsync(query, null!);
 
             return result;
         }
 
         // POST METHOD
-        public async Task<DataTable> PostFormGroup([FromBody] FormsGroup formGroup)
+        public async Task<DataTable> Post([FromBody] FormsGroup formGroup)
         {
             string query = "INSERT INTO FormsGroup (Title) OUTPUT INSERTED.Id VALUES (@Title);";
+
+            if (string.IsNullOrWhiteSpace(formGroup.Title))
+            {
+                throw new Exception("The value cannot be null or empty");
+            }
+
             SqlParameter[] parameters =
                 {
-                            new("@Title", formGroup.Title)
-                        };
+                    new("@Title", formGroup.Title.Trim())
+                };
 
-            var result = await _dbService!.ExecuteQueryAsync(query, parameters);
-
-            if (result.Rows.Count <= 0)
-            {
-                throw new Exception("Erro ao criar grupo");
-            }
+            var result = await _dbService.ExecuteQueryAsync(query, parameters);
 
             int newId = Convert.ToInt32(result.Rows[0]["Id"]);
 
@@ -44,8 +45,8 @@ namespace MovtechForms.Application.Services.GroupFormService
 
             SqlParameter[] selectParameter =
             {
-                        new("@Id", newId)
-                    };
+                new("@Id", newId)
+            };
 
             DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
 
@@ -54,42 +55,40 @@ namespace MovtechForms.Application.Services.GroupFormService
 
         // DELETE METHOD
 
-        public async Task<DataTable> DeleteFormGroup(int id)
+        public async Task<DataTable> Delete(int id)
         {
             string deleteQuery = "DELETE FROM FormsGroup WHERE Id = @Id;";
             string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
 
-            SqlParameter[] selectParameter =
+            SqlParameter[] parameter =
             {
                 new("@Id", id)
             };
 
-            DataTable selectResult = await _dbService!.ExecuteQueryAsync(selectQuery, selectParameter);
-
-
-            SqlParameter[] deleteParameter =
-                {
-                    new("@Id", id)
-                };
-
-            DataTable itemDeleted = await _dbService!.ExecuteQueryAsync(deleteQuery, deleteParameter);
+            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, parameter);
+            DataTable itemDeleted = await _dbService.ExecuteQueryAsync(deleteQuery, parameter);
 
             return selectResult;
         }
 
         // UPDATE METHOD
 
-        public async Task<DataTable> UpdateFormGroup([FromBody] FormsGroup formGroup, int id)
+        public async Task<DataTable> Update([FromBody] FormsGroup formGroup, int id)
         {
             string query = "UPDATE FormsGroup SET Title = @Title WHERE Id = @Id;";
 
+            if (string.IsNullOrWhiteSpace(formGroup.Title))
+            {
+                throw new Exception("The value cannot be null or empty");
+            }
+
             SqlParameter[] parameter =
             {
-                new("@Title",formGroup.Title ),
+                new("@Title",formGroup.Title.Trim()),
                 new("@Id", id)
             };
 
-            DataTable result = await _dbService!.ExecuteQueryAsync(query, parameter);
+            DataTable result = await _dbService.ExecuteQueryAsync(query, parameter);
 
             string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
 
