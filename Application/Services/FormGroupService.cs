@@ -4,7 +4,7 @@ using MovtechForms.Domain.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MovtechForms.Application.Services.GroupFormService
+namespace MovtechForms.Application.Services
 {
     public class FormGroupService : IServices<FormsGroup>
     {
@@ -60,13 +60,11 @@ namespace MovtechForms.Application.Services.GroupFormService
             string deleteQuery = "DELETE FROM FormsGroup WHERE Id = @Id;";
             string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
 
-            SqlParameter[] parameter =
-            {
-                new("@Id", id)
-            };
+            SqlParameter[] parameter = { new("Id", id) };
+            SqlParameter[] Delparameter = { new("Id", id) };
 
             DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, parameter);
-            DataTable itemDeleted = await _dbService.ExecuteQueryAsync(deleteQuery, parameter);
+            DataTable itemDeleted = await _dbService.ExecuteQueryAsync(deleteQuery, Delparameter);
 
             return selectResult;
         }
@@ -79,7 +77,7 @@ namespace MovtechForms.Application.Services.GroupFormService
 
             if (string.IsNullOrWhiteSpace(formGroup.Title))
             {
-                throw new Exception("The value cannot be null or empty");
+                throw new Exception("The title cannot be null or empty");
             }
 
             SqlParameter[] parameter =

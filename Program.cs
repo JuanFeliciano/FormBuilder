@@ -1,6 +1,5 @@
 
-using MovtechForms.Application.Services.FormService;
-using MovtechForms.Application.Services.GroupFormService;
+using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using MovtechForms.Infrastructure;
@@ -17,6 +16,7 @@ static void ConfigureServices(IServiceCollection services)
     services.AddScoped<IDatabaseService, DatabaseService>();
     services.AddScoped<IServices<FormsGroup>, FormGroupService>();
     services.AddScoped<IServices<Forms>, FormService>();
+    services.AddScoped<IServices<Questions>, QuestionService>();
     services.AddControllers();
 }
 

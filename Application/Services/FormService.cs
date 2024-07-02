@@ -4,7 +4,7 @@ using MovtechForms.Domain.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MovtechForms.Application.Services.FormService
+namespace MovtechForms.Application.Services
 {
     public class FormService : IServices<Forms>
     {
@@ -36,10 +36,20 @@ namespace MovtechForms.Application.Services.FormService
                 new("@Title", form.Title.Trim()),
                 new("@IdGroup", form.IdGroup)
             };
-
             DataTable result = await _dbService.ExecuteQueryAsync(query, parameters);
 
-            return result;
+            int newId = Convert.ToInt32(result.Rows[0]["Id"]);
+
+            string selectQuery = "SELECT * FROM Forms WHERE Id = @Id;";
+
+            SqlParameter[] selectParameter =
+            {
+                new("@Id", newId)
+            };
+            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
+
+
+            return selectResult;
         }
 
         // DELETE METHOD
@@ -61,8 +71,30 @@ namespace MovtechForms.Application.Services.FormService
         // PUT METHOD
         public async Task<DataTable> Update([FromBody] Forms form, int id)
         {
-            string query = "SELECT * FROM Forms;";
-            DataTable result = await _dbService.ExecuteQueryAsync(query, null!);
+            string updateQuery = "UPDATE Forms SET IdGroup = @IdGroup, Title = @Title WHERE Id = @Id;";
+            string selectQuery = "SELECT * FROM Forms WHERE Id = @Id;";
+
+            if (string.IsNullOrWhiteSpace(form.Title))
+            {
+                throw new Exception("The title cannot be null or empty");
+            }
+
+            SqlParameter[] updateParameters =
+            {
+                new("@IdGroup", form.IdGroup),
+                new("@Title", form.Title.Trim()),
+                new("@Id", id)
+            };
+
+            SqlParameter[] selectParameter =
+            {
+                new("@Id", id)
+            };
+
+
+            await _dbService.ExecuteQueryAsync(updateQuery, updateParameters);
+
+            DataTable result = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
 
             return result;
         }

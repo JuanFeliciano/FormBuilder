@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using MovtechForms.Application.Services.FormService;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
@@ -33,7 +31,7 @@ namespace MovtechForms.Application.Controllers
             catch (Exception ex)
             {
 
-                return StatusCode(500,$"Error when querying data: {ex.Message}");
+                return StatusCode(500, $"Error when querying data: {ex.Message}");
             }
         }
 
@@ -61,13 +59,41 @@ namespace MovtechForms.Application.Controllers
                 DataTable data = await _formService.Delete(id);
                 string item = ConvertFormat.ConvertDataTableToJson(data);
 
+                if (item is "[]")
+                {
+                    return NotFound("Object doesn't exist");
+                }
+
                 return Ok($"Successfully deleted object\n {item}");
             }
             catch (Exception ex)
             {
 
-                return StatusCode(500,$"Error when deleting data: {ex.Message}");
+                return StatusCode(500, $"Error when deleting data: {ex.Message}");
             }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromBody] Forms forms, int id)
+        {
+            try
+            {
+                DataTable data = await _formService.Update(forms, id);
+                string item = ConvertFormat.ConvertDataTableToJson(data);
+
+                if (item is "[]")
+                {
+                    return StatusCode(404,"Error id doesn't exist");
+                }
+
+                return StatusCode(201, item);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"Error when updating data: {ex.Message}");
+            }
+
         }
     }
 }

@@ -64,7 +64,7 @@ namespace MovtechForms.Application.Controllers
 
                 if (item is "[]")
                 {
-                    return NotFound("Object doesn't exist");
+                    return NotFound("ID parameter doesn't exist");
                 }
 
                 return Ok($"Successfully deleted object\n {item}");
