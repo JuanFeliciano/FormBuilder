@@ -6,6 +6,6 @@
         public int IdGroup { get; set; }
         public string Title { get; set; }
 
-        public ICollection<Questions>? Questions { get; set; }
+        public ICollection<Questions>? Questions { get; set; } = new List<Questions>();
     }
 }

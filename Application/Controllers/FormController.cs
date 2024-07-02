@@ -43,6 +43,10 @@ namespace MovtechForms.Application.Controllers
                 DataTable data = await _formService.Post(forms);
                 string item = ConvertFormat.ConvertDataTableToJson(data);
 
+                List<Forms> collection = new();
+
+                //await collection.Add(forms.Questions);
+
                 return StatusCode(201, item);
             }
             catch (Exception ex)
@@ -93,7 +97,6 @@ namespace MovtechForms.Application.Controllers
 
                 return StatusCode(500, $"Error when updating data: {ex.Message}");
             }
-
         }
     }
 }

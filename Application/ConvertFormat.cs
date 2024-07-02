@@ -14,5 +14,14 @@ namespace MovtechForms.Application
             return Newtonsoft.Json.JsonConvert.SerializeObject(dataTable, Newtonsoft.Json.Formatting.Indented);
         }
 
+        public static string ConvertICollectionToJson<T>(ICollection<T> collection)
+        {
+            if (collection is null)
+            {
+                return string.Empty;
+            }
+
+            return Newtonsoft.Json.JsonConvert.SerializeObject(collection, Newtonsoft.Json.Formatting.Indented);
+        }
     }
 }

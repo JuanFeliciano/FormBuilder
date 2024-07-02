@@ -15,42 +15,53 @@ namespace MovtechForms.Application.Services
         // GET METHOD
         public async Task<DataTable> Get()
         {
-            string query = "SELECT * FROM Forms;";
+            string query = "SELECT * FROM Forms JOIN Questions ON Forms.Id = Questions.IdForm;";
             DataTable result = await _dbService.ExecuteQueryAsync(query, null!);
-
             return result;
+
         }
 
         // POST METHOD
         public async Task<DataTable> Post([FromBody] Forms form)
         {
-            string query = "INSERT INTO Forms (Title, IdGroup) OUTPUT INSERTED.Id VALUES (@Title, @IdGroup);";
+            string insertFormQuery = "INSERT INTO Forms (Title, IdGroup) OUTPUT INSERTED.Id VALUES (@Title, @IdGroup);";
 
             if (string.IsNullOrWhiteSpace(form.Title))
             {
                 throw new Exception("The value cannot be null or empty");
             }
 
-            SqlParameter[] parameters =
-            {
-                new("@Title", form.Title.Trim()),
-                new("@IdGroup", form.IdGroup)
-            };
-            DataTable result = await _dbService.ExecuteQueryAsync(query, parameters);
+            SqlParameter[] formParameters = {
+        new("@Title", form.Title.Trim()),
+        new("@IdGroup", form.IdGroup)
+    };
 
-            int newId = Convert.ToInt32(result.Rows[0]["Id"]);
+            DataTable formResult = await _dbService.ExecuteQueryAsync(insertFormQuery, formParameters);
+            int newFormId = Convert.ToInt32(formResult.Rows[0]["Id"]);
+
+            if (form.Questions != null && form.Questions.Any())
+            {
+                foreach (var question in form.Questions)
+                {
+                    string insertQuestionQuery = "INSERT INTO Questions (IdForm, Content) VALUES (@IdForm, @Content);";
+
+                    SqlParameter[] questionParameters = {
+                new("@IdForm", newFormId),
+                new("@Content", question.Content.Trim())
+            };
+
+                    await _dbService.ExecuteQueryAsync(insertQuestionQuery, questionParameters);
+                }
+            }
 
             string selectQuery = "SELECT * FROM Forms WHERE Id = @Id;";
+            SqlParameter[] selectParameters = { new("@Id", newFormId) };
 
-            SqlParameter[] selectParameter =
-            {
-                new("@Id", newId)
-            };
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-
+            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameters);
 
             return selectResult;
         }
+
 
         // DELETE METHOD
         public async Task<DataTable> Delete(int id)
@@ -71,7 +82,7 @@ namespace MovtechForms.Application.Services
         // PUT METHOD
         public async Task<DataTable> Update([FromBody] Forms form, int id)
         {
-            string updateQuery = "UPDATE Forms SET IdGroup = @IdGroup, Title = @Title WHERE Id = @Id;";
+            string updateQuery = "UPDATE Forms SET IdGroup = @IdGroup, Title = @Title, Questions = @Questions WHERE Id = @Id;";
             string selectQuery = "SELECT * FROM Forms WHERE Id = @Id;";
 
             if (string.IsNullOrWhiteSpace(form.Title))
@@ -83,6 +94,7 @@ namespace MovtechForms.Application.Services
             {
                 new("@IdGroup", form.IdGroup),
                 new("@Title", form.Title.Trim()),
+                new("@Question", form.Questions),
                 new("@Id", id)
             };
 
