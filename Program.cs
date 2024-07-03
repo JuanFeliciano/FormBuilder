@@ -1,5 +1,6 @@
 
 using Microsoft.OpenApi.Models;
+using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
@@ -17,7 +18,7 @@ Configure(app, builder.Environment);
 static void ConfigureServices(IServiceCollection services)
 {
     services.AddScoped<IDatabaseService, DatabaseService>();
-    services.AddScoped<IServices<FormsGroup>, FormGroupService>();
+    services.AddScoped<IServices<FormsGroup>, FormGroupRepository>();
     services.AddScoped<IServices<Forms>, FormService>();
     services.AddScoped<IServices<Questions>, QuestionService>();
     services.AddControllers();

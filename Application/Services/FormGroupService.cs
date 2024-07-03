@@ -1,103 +1,73 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovtechForms.Application.Repositories;
 using MovtechForms.Domain.Entities;
-using MovtechForms.Domain.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace MovtechForms.Application.Services
 {
-    public class FormGroupService : IServices<FormsGroup>
+    public class FormGroupService 
     {
-        private readonly IDatabaseService _dbService;
+        private readonly FormGroupRepository _formGroupRepo;
 
-        public FormGroupService(IDatabaseService dbService) => _dbService = dbService;
+        public FormGroupService(FormGroupRepository formGroupRepo) => _formGroupRepo = formGroupRepo;
 
 
         // GET METHOD
-        public async Task<DataTable> Get()
+        public async Task<string> Get()
         {
-            string query = "SELECT * FROM FormsGroup;";
-            DataTable result = await _dbService.ExecuteQueryAsync(query, null!);
+            DataTable selectResult = await _formGroupRepo.Get();
+            string selectJson = ConvertFormat.ConvertDataTableToJson(selectResult);
+            if (selectJson is "[]")
+            {
+                throw new Exception("There are no form groups");
+            }
 
-            return result;
+            return selectJson;
         }
 
         // POST METHOD
-        public async Task<DataTable> Post([FromBody] FormsGroup formGroup)
+        public async Task<string> Post([FromBody] FormsGroup formsGroup)
         {
-            string query = "INSERT INTO FormsGroup (Title) OUTPUT INSERTED.Id VALUES (@Title);";
-
-            if (string.IsNullOrWhiteSpace(formGroup.Title))
+            if (string.IsNullOrWhiteSpace(formsGroup.Title))
             {
                 throw new Exception("The value cannot be null or empty");
             }
 
-            SqlParameter[] parameters =
-                {
-                    new("@Title", formGroup.Title.Trim())
-                };
+            DataTable insertResult = await _formGroupRepo.Post(formsGroup);
+            string insertJson = ConvertFormat.ConvertDataTableToJson(insertResult);
 
-            var result = await _dbService.ExecuteQueryAsync(query, parameters);
-
-            int newId = Convert.ToInt32(result.Rows[0]["Id"]);
-
-            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
-
-            SqlParameter[] selectParameter =
-            {
-                new("@Id", newId)
-            };
-
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-
-            return selectResult;
+            return insertJson;
         }
 
         // DELETE METHOD
 
-        public async Task<DataTable> Delete(int id)
+        public async Task<string> Delete(int id)
         {
-            string deleteQuery = "DELETE FROM FormsGroup WHERE Id = @Id;";
-            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
+            DataTable deleteResult = await _formGroupRepo.Delete(id);
+            string deleteJson = ConvertFormat.ConvertDataTableToJson(deleteResult);
 
-            SqlParameter[] parameter = { new("Id", id) };
-            SqlParameter[] Delparameter = { new("Id", id) };
+            if (deleteJson is "[]")
+            {
+                throw new Exception("ID parameter doesn't exist");
+            }
 
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, parameter);
-            DataTable itemDeleted = await _dbService.ExecuteQueryAsync(deleteQuery, Delparameter);
-
-            return selectResult;
+            return deleteJson;
         }
 
         // UPDATE METHOD
 
-        public async Task<DataTable> Update([FromBody] FormsGroup formGroup, int id)
+        public async Task<string> Update([FromBody] FormsGroup formGroup, int id)
         {
-            string query = "UPDATE FormsGroup SET Title = @Title WHERE Id = @Id;";
+            DataTable updateResult = await _formGroupRepo.Update(formGroup, id);
+            string updateJson = ConvertFormat.ConvertDataTableToJson(updateResult);
 
             if (string.IsNullOrWhiteSpace(formGroup.Title))
             {
                 throw new Exception("The title cannot be null or empty");
             }
 
-            SqlParameter[] parameter =
-            {
-                new("@Title",formGroup.Title.Trim()),
-                new("@Id", id)
-            };
-
-            DataTable result = await _dbService.ExecuteQueryAsync(query, parameter);
-
-            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
-
-            SqlParameter[] selectParameter =
-            {
-                        new("@Id", id)
-                    };
-
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-
-            return selectResult;
+            return updateJson;
         }
     }
 }

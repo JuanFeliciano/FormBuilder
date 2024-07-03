@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
-using System.Data;
 using System.Data.SqlClient;
+using System.Data;
 
-namespace MovtechForms.Application.Services
+namespace MovtechForms.Application.Repositories
 {
-    public class FormService : IServices<Forms>
+    public class FormRepository
     {
         private readonly IDatabaseService _dbService;
 
-        public FormService(IDatabaseService dbService) => _dbService = dbService;
+        public FormRepository(IDatabaseService dbService) => _dbService = dbService;
 
         // GET METHOD
         public async Task<DataTable> Get()
@@ -110,7 +110,5 @@ namespace MovtechForms.Application.Services
 
             return result;
         }
-
-
     }
 }
