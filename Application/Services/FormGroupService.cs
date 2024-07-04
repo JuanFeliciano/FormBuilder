@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Domain.Entities;
+using MovtechForms.Domain.Interfaces;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace MovtechForms.Application.Services
 {
-    public class FormGroupService 
+    public class FormGroupService : IServices<FormsGroup> 
     {
-        private readonly FormGroupRepository _formGroupRepo;
+        private readonly IRepository<FormsGroup> _formGroupRepo;
 
-        public FormGroupService(FormGroupRepository formGroupRepo) => _formGroupRepo = formGroupRepo;
+        public FormGroupService(IRepository<FormsGroup> formGroupRepo) => _formGroupRepo = formGroupRepo;
 
 
         // GET METHOD

@@ -7,15 +7,18 @@ using System.Data;
 
 namespace MovtechForms.Application.Repositories
 {
-    public class FormGroupRepository : IServices<FormsGroup>
+    public class FormGroupRepository : IRepository<FormsGroup>
     {
-        private readonly DatabaseService _dbService;
-        private readonly ForEachCommand forEachCommand;
-        public FormGroupRepository(DatabaseService dbService, ForEachCommand forEach)
+        private readonly IDatabaseService _dbService;
+        private readonly IForEach<FormsGroup> _forEachCommand;
+
+        public FormGroupRepository(IDatabaseService dbService, IForEach<FormsGroup> forEachCommand)
         {
             _dbService = dbService;
-            forEachCommand = forEach;
+            _forEachCommand = forEachCommand;
         }
+
+
 
         // GET METHOD
         public async Task<DataTable> Get()
@@ -39,7 +42,7 @@ namespace MovtechForms.Application.Repositories
 
             DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
 
-            forEachCommand.ForEach(formsGroup);
+            _forEachCommand.ForEach(formsGroup);
 
             return selectResult;
         }

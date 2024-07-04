@@ -1,90 +1,57 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovtechForms.Application.Repositories;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace MovtechForms.Application.Services
 {
     public class QuestionService : IServices<Questions>
     {
-        private readonly IDatabaseService _dbService;
+        private readonly IRepository<Questions> _questionRepo;
 
-        public QuestionService(IDatabaseService dbService) => _dbService = dbService;
+        public QuestionService(IRepository<Questions> questionRepo) => _questionRepo = questionRepo;
 
-        public async Task<DataTable> Get()
+        public async Task<string> Get()
         {
-            string query = "SELECT * FROM Questions;";
-            DataTable result = await _dbService.ExecuteQueryAsync(query, null!);
+            DataTable selectResult = await _questionRepo.Get();
+            string selectJson = ConvertFormat.ConvertDataTableToJson(selectResult);
 
-            return result;
+            return selectJson;
         }
 
-        public async Task<DataTable> Post([FromBody] Questions questions)
+        public async Task<string> Post([FromBody] Questions questions)
         {
-            string query = "INSERT INTO Questions (IdForm, Content) OUTPUT INSERTED.Id VALUES (@IdForm, @Content)";
-            string selectQuery = "SELECT * FROM Questions WHERE Id = @Id;";
-
             if (string.IsNullOrWhiteSpace(questions.Content))
             {
                 throw new Exception("The content cannot be null or empty");
             }
 
-            SqlParameter[] insertParameters =
-            {
-                new("@IdForm", questions.IdForm),
-                new("@Content", questions.Content.Trim())
-            };
+            DataTable insertResult = await _questionRepo.Post(questions);
+            string insertJson = ConvertFormat.ConvertDataTableToJson(insertResult);
 
-            DataTable insertOperation
-                = await _dbService.ExecuteQueryAsync(query, insertParameters);
-
-            int insertId = Convert.ToInt32(insertOperation.Rows[0]["Id"]);
-            SqlParameter[] selectParameter = { new("Id", insertId) };
-
-            DataTable selectOperation = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-
-            return selectOperation;
+            return insertJson;
         }
 
-        public async Task<DataTable> Delete(int id)
+        public async Task<string> Delete(int id)
         {
-            string deleteQuery = "DELETE FROM Questions WHERE Id = @Id;";
-            string selectQuery = "SELECT * FROM Questions WHERE Id = @Id;";
+            DataTable deleteResult = await _questionRepo.Delete(id);    
+            string deleteJson = ConvertFormat.ConvertDataTableToJson(deleteResult);
 
-            SqlParameter[] deleteParameter = { new("@Id", id) };
-            SqlParameter[] selectParameter = { new("@Id", id) };
-
-            DataTable selectOperation = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-            await _dbService.ExecuteQueryAsync(deleteQuery, deleteParameter);
-
-            return selectOperation;
+            return deleteJson;
         }
 
-        public async Task<DataTable> Update([FromBody] Questions questions, int id)
+        public async Task<string> Update([FromBody] Questions questions, int id)
         {
-            string updateQuery = "UPDATE Questions SET IdForm = @IdForm, Content = @Content WHERE Id = @Id;";
-            string selectQuery = "SELECT * FROM Questions WHERE Id = @Id;";
-
             if (string.IsNullOrWhiteSpace(questions.Content))
             {
                 throw new Exception("The content cannot be null or empty");
             }
 
-            SqlParameter[] updateParameters =
-            {
-                new("@IdGroup", questions.IdForm),
-                new("@Title", questions.Content.Trim()),
-                new("@Id", id)
-            };
+            DataTable updateResult = await _questionRepo.Update(questions, id);
+            string updateJson = ConvertFormat.ConvertDataTableToJson(updateResult);
 
-            SqlParameter[] selectParameter = { new("@Id", id) };
-
-            await _dbService.ExecuteQueryAsync(updateQuery, updateParameters);
-
-            DataTable selectOperation = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-
-            return selectOperation;
+            return updateJson;
         }
     }
 }

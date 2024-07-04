@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
-using System.Data;
 
 namespace MovtechForms.Application.Controllers
 {
@@ -11,22 +11,16 @@ namespace MovtechForms.Application.Controllers
     {
         private readonly IServices<Forms> _formService;
 
-        public FormController(IServices<Forms> formService, IDatabaseService dbService) => _formService = formService;
+        public FormController(IServices<Forms> formService) => _formService = formService;
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
-                DataTable data = await _formService.Get();
-                string item = ConvertFormat.ConvertDataTableToJson(data);
+                string data = await _formService.Get();
 
-                if (item is "[]")
-                {
-                    return NotFound("There are no forms");
-                }
-
-                return Ok(item);
+                return StatusCode(200, data);
             }
             catch (Exception ex)
             {
@@ -40,10 +34,9 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _formService.Post(forms);
-                string item = ConvertFormat.ConvertDataTableToJson(data);
+                string data = await _formService.Post(forms);
 
-                return StatusCode(201, item);
+                return StatusCode(201, data);
             }
             catch (Exception ex)
             {
@@ -56,19 +49,12 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _formService.Delete(id);
-                string item = ConvertFormat.ConvertDataTableToJson(data);
+                string data = await _formService.Delete(id);
 
-                if (item is "[]")
-                {
-                    return NotFound("Object doesn't exist");
-                }
-
-                return Ok($"Successfully deleted object\n {item}");
+                return Ok($"Successfully deleted object\n {data}");
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when deleting data: {ex.Message}");
             }
         }
@@ -78,19 +64,12 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _formService.Update(forms, id);
-                string item = ConvertFormat.ConvertDataTableToJson(data);
+                string data = await _formService.Update(forms, id);
 
-                if (item is "[]")
-                {
-                    return StatusCode(404,"Error id doesn't exist");
-                }
-
-                return StatusCode(201, item);
+                return StatusCode(201, data);
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when updating data: {ex.Message}");
             }
         }

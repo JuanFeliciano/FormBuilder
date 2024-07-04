@@ -6,7 +6,7 @@ using System.Data;
 
 namespace MovtechForms.Application.Repositories
 {
-    public class FormRepository
+    public class FormRepository : IRepository<Forms>
     {
         private readonly IDatabaseService _dbService;
 
@@ -32,9 +32,9 @@ namespace MovtechForms.Application.Repositories
             }
 
             SqlParameter[] formParameters = {
-        new("@Title", form.Title.Trim()),
-        new("@IdGroup", form.IdGroup)
-    };
+                new("@Title", form.Title.Trim()),
+                new("@IdGroup", form.IdGroup)
+            };
 
             DataTable formResult = await _dbService.ExecuteQueryAsync(insertFormQuery, formParameters);
             int newFormId = Convert.ToInt32(formResult.Rows[0]["Id"]);
@@ -98,11 +98,7 @@ namespace MovtechForms.Application.Repositories
                 new("@Id", id)
             };
 
-            SqlParameter[] selectParameter =
-            {
-                new("@Id", id)
-            };
-
+            SqlParameter[] selectParameter = { new("@Id", id) };
 
             await _dbService.ExecuteQueryAsync(updateQuery, updateParameters);
 

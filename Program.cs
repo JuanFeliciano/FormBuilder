@@ -1,5 +1,6 @@
 
 using Microsoft.OpenApi.Models;
+using MovtechForms.Application;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
@@ -17,10 +18,22 @@ Configure(app, builder.Environment);
 
 static void ConfigureServices(IServiceCollection services)
 {
-    services.AddScoped<IDatabaseService, DatabaseService>();
-    services.AddScoped<IServices<FormsGroup>, FormGroupRepository>();
+    
+    // Registro de serviços
+    services.AddScoped<IServices<FormsGroup>,FormGroupService>();
     services.AddScoped<IServices<Forms>, FormService>();
     services.AddScoped<IServices<Questions>, QuestionService>();
+
+    // Registro de repositórios
+    services.AddScoped<IRepository<FormsGroup>, FormGroupRepository>();
+    services.AddScoped<IRepository<Forms>, FormRepository>();
+    services.AddScoped<IRepository<Questions>, QuestionRepository>();
+    
+    //Registro de outros serviços necessarios
+    services.AddScoped<IDatabaseService, DatabaseService>();
+    services.AddScoped<IForEach<FormsGroup>,ForEachCommand>();
+    
+    // Outros registros
     services.AddControllers();
     services.AddSwaggerGen(c =>
     {

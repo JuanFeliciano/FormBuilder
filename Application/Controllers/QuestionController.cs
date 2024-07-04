@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.SqlServer.Server;
 using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
-using System.Data;
 
 namespace MovtechForms.Application.Controllers
 {
@@ -20,15 +18,9 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _questionService.Get();
-                string dataJson = ConvertFormat.ConvertDataTableToJson(data);
+                string data = await _questionService.Get();
 
-                if (dataJson is "[]")
-                {
-                    return NotFound("There are no questions");
-                }
-
-                return StatusCode(200, dataJson);
+                return StatusCode(200, data);
             }
             catch (Exception ex)
             {
@@ -41,10 +33,9 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _questionService.Post(questions);
-                string dataJson = ConvertFormat.ConvertDataTableToJson(data);
+                string data = await _questionService.Post(questions);
 
-                return StatusCode(201, dataJson);
+                return StatusCode(201, data);
             }
             catch (Exception ex)
             {
@@ -57,19 +48,12 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _questionService.Delete(id);
-                string dataJson = ConvertFormat.ConvertDataTableToJson(data);
+                string data = await _questionService.Delete(id);
 
-                if (dataJson is "[]")
-                {
-                    return NotFound("ID parameter doesn't exist");
-                }
-
-                return StatusCode(200, $"Successfully deleted object\n {dataJson}");
+                return StatusCode(200, $"Successfully deleted object\n {data}");
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when deleting object: {ex.Message}");
             }
         }
@@ -79,19 +63,12 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                DataTable data = await _questionService.Update(questions, id);
-                string dataJson = ConvertFormat.ConvertDataTableToJson(data);
+                string data = await _questionService.Update(questions, id);
 
-                if (dataJson is "[]")
-                {
-                    return StatusCode(404, "Error id doesn't exist");
-                }
-
-                return StatusCode(201, dataJson);
+                return StatusCode(201, data);
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when updating object: {ex.Message}");
             }
         }

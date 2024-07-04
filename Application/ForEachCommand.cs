@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace MovtechForms.Application
 {
-    public class ForEachCommand
+    public class ForEachCommand : IForEach<FormsGroup>
     {
         private readonly IDatabaseService _dbService;
 

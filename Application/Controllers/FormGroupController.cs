@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
+using MovtechForms.Domain.Interfaces;
 
 namespace MovtechForms.Application.Controllers
 {
@@ -8,9 +9,9 @@ namespace MovtechForms.Application.Controllers
     [Route("[controller]")]
     public class FormGroupController : ControllerBase
     {
-        private readonly FormGroupService _formGroupRepo;
+        private readonly IServices<FormsGroup> _formGroupRepo;
 
-        public FormGroupController(FormGroupService formGroupRepo) => _formGroupRepo = formGroupRepo;
+        public FormGroupController(IServices<FormsGroup> formGroupRepo) => _formGroupRepo = formGroupRepo;
 
 
         [HttpGet]
