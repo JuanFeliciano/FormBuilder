@@ -9,10 +9,9 @@
 
         public ICollection<Forms>? Forms { get; set; }
 
-        public FormsGroup(int id, string title)
+        public FormsGroup()
         {
-            Id = id;
-            Title = title;
+            Forms = new List<Forms>();
         }
     }
 }

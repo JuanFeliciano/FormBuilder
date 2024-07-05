@@ -1,8 +1,8 @@
 
 using Microsoft.OpenApi.Models;
-using MovtechForms.Application;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Services;
+using MovtechForms.Application.Utilities;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using MovtechForms.Infrastructure;
@@ -28,10 +28,13 @@ static void ConfigureServices(IServiceCollection services)
     services.AddScoped<IRepository<FormsGroup>, FormGroupRepository>();
     services.AddScoped<IRepository<Forms>, FormRepository>();
     services.AddScoped<IRepository<Questions>, QuestionRepository>();
-    
+
+    // Registro do serviço ForEach
+    services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
+    services.AddScoped<IForEach<Forms>, FormForEach>();
+
     //Registro de outros serviços necessarios
     services.AddScoped<IDatabaseService, DatabaseService>();
-    services.AddScoped<IForEach<FormsGroup>,ForEachCommand>();
     
     // Outros registros
     services.AddControllers();
@@ -40,8 +43,8 @@ static void ConfigureServices(IServiceCollection services)
         c.SwaggerDoc("v1", new OpenApiInfo
         {
             Version = "v1",
-            Title = "Nome da sua API",
-            Description = "Descrição da sua API"
+            Title = "Forms Builder",
+            Description = "Constructor Forms"
         });
     });
 }

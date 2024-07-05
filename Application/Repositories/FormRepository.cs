@@ -9,54 +9,42 @@ namespace MovtechForms.Application.Repositories
     public class FormRepository : IRepository<Forms>
     {
         private readonly IDatabaseService _dbService;
+        private readonly IForEach<Forms> _forEach;
 
-        public FormRepository(IDatabaseService dbService) => _dbService = dbService;
+        public FormRepository(IDatabaseService dbService, IForEach<Forms> forEach)
+        {
+            _dbService = dbService;
+            _forEach = forEach;
+        }
 
         // GET METHOD
         public async Task<DataTable> Get()
         {
-            string query = "SELECT * FROM Forms;";
+            string query = "SELECT * FROM Forms, Questions;";
             DataTable result = await _dbService.ExecuteQueryAsync(query, null!);
             return result;
 
         }
 
         // POST METHOD
-        public async Task<DataTable> Post([FromBody] Forms form)
+        public async Task<DataTable> Post([FromBody] Forms forms)
         {
-            string insertFormQuery = "INSERT INTO Forms (Title, IdGroup) OUTPUT INSERTED.Id VALUES (@Title, @IdGroup);";
-
-            if (string.IsNullOrWhiteSpace(form.Title))
+            // insert operation
+            string insertQuery = "INSERT INTO Forms (Title, IdGroup) OUTPUT INSERTED.Id VALUES (@Title, @IdGroup);";
+            SqlParameter[] insertParameters =
             {
-                throw new Exception("The value cannot be null or empty");
-            }
-
-            SqlParameter[] formParameters = {
-                new("@Title", form.Title.Trim()),
-                new("@IdGroup", form.IdGroup)
+                new("@Title", forms.Title.Trim()),
+                new("@IdGroup", forms.IdGroup)
             };
+            DataTable insertResult = await _dbService.ExecuteQueryAsync(insertQuery, insertParameters);
+            int idForm = Convert.ToInt32(insertResult.Rows[0]["Id"]);
 
-            DataTable formResult = await _dbService.ExecuteQueryAsync(insertFormQuery, formParameters);
-            int newFormId = Convert.ToInt32(formResult.Rows[0]["Id"]);
+            // insert question
+            await _forEach.ForEach(forms, idForm);
 
-            if (form.Questions != null && form.Questions.Any())
-            {
-                foreach (var question in form.Questions)
-                {
-                    string insertQuestionQuery = "INSERT INTO Questions (IdForm, Content) VALUES (@IdForm, @Content);";
-
-                    SqlParameter[] questionParameters = {
-                new("@IdForm", newFormId),
-                new("@Content", question.Content.Trim())
-            };
-
-                    await _dbService.ExecuteQueryAsync(insertQuestionQuery, questionParameters);
-                }
-            }
-
+            // select operation
             string selectQuery = "SELECT * FROM Forms WHERE Id = @Id;";
-            SqlParameter[] selectParameters = { new("@Id", newFormId) };
-
+            SqlParameter[] selectParameters = { new("@Id", idForm) };
             DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameters);
 
             return selectResult;

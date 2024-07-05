@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Repositories;
+using MovtechForms.Application.Utilities;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
@@ -12,15 +12,15 @@ namespace MovtechForms.Application.Services
 
         public QuestionService(IRepository<Questions> questionRepo) => _questionRepo = questionRepo;
 
-        public async Task<string> Get()
+        public async Task<List<Questions>> Get()
         {
             DataTable selectResult = await _questionRepo.Get();
-            string selectJson = ConvertFormat.ConvertDataTableToJson(selectResult);
+            List<Questions> selectQuestions = selectResult.ConvertDataTableToList<Questions>();
 
-            return selectJson;
+            return selectQuestions;
         }
 
-        public async Task<string> Post([FromBody] Questions questions)
+        public async Task<List<Questions>> Post([FromBody] Questions questions)
         {
             if (string.IsNullOrWhiteSpace(questions.Content))
             {
@@ -28,20 +28,20 @@ namespace MovtechForms.Application.Services
             }
 
             DataTable insertResult = await _questionRepo.Post(questions);
-            string insertJson = ConvertFormat.ConvertDataTableToJson(insertResult);
+            List<Questions> insertQuestions = insertResult.ConvertDataTableToList<Questions>();
 
-            return insertJson;
+            return insertQuestions;
         }
 
-        public async Task<string> Delete(int id)
+        public async Task<List<Questions>> Delete(int id)
         {
             DataTable deleteResult = await _questionRepo.Delete(id);    
-            string deleteJson = ConvertFormat.ConvertDataTableToJson(deleteResult);
+            List<Questions> deleteQuestions = deleteResult.ConvertDataTableToList<Questions>();
 
-            return deleteJson;
+            return deleteQuestions;
         }
 
-        public async Task<string> Update([FromBody] Questions questions, int id)
+        public async Task<List<Questions>> Update([FromBody] Questions questions, int id)
         {
             if (string.IsNullOrWhiteSpace(questions.Content))
             {
@@ -49,9 +49,9 @@ namespace MovtechForms.Application.Services
             }
 
             DataTable updateResult = await _questionRepo.Update(questions, id);
-            string updateJson = ConvertFormat.ConvertDataTableToJson(updateResult);
+            List<Questions> updateQuestions = updateResult.ConvertDataTableToList<Questions>();
 
-            return updateJson;
+            return updateQuestions;
         }
     }
 }

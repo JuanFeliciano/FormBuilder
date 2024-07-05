@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
-using MovtechForms.Infrastructure;
 using System.Data.SqlClient;
 using System.Data;
 
@@ -32,17 +31,19 @@ namespace MovtechForms.Application.Repositories
         // POST METHOD
         public async Task<DataTable> Post([FromBody] FormsGroup formsGroup)
         {
+            // insert operation
             string insertFormGroupQuery = "INSERT INTO FormsGroup (Title) OUTPUT INSERTED.Id VALUES (@Title);";
-            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
             SqlParameter[] formGroupParameters = { new("@Title", formsGroup.Title.Trim()) };
+            DataTable insertResult = await _dbService.ExecuteQueryAsync(insertFormGroupQuery, formGroupParameters);
+            int idFormGroup = Convert.ToInt32(insertResult.Rows[0]["Id"]);
 
-            DataTable result = await _dbService.ExecuteQueryAsync(insertFormGroupQuery, formGroupParameters);
-            int newId = Convert.ToInt32(result.Rows[0]["Id"]);
-            SqlParameter[] selectParameter = { new("@Id", newId) };
+            // insert forms and question operation
+            await _forEachCommand.ForEach(formsGroup, idFormGroup);
 
+            // select operation
+            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
+            SqlParameter[] selectParameter = { new("@Id", idFormGroup) };
             DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-
-            _forEachCommand.ForEach(formsGroup);
 
             return selectResult;
         }

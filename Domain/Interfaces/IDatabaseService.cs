@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace MovtechForms.Domain.Interfaces
 {
-    public interface IDatabaseService
+    public interface IDatabaseService 
     {
         Task<DataTable> ExecuteQueryAsync(string query, SqlParameter[] parameters);
     }

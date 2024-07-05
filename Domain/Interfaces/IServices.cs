@@ -5,9 +5,9 @@ namespace MovtechForms.Domain.Interfaces
 {
     public interface IServices<T> 
     {
-        Task<string> Get();
-        Task<string> Post([FromBody] T formGroup);
-        Task<string> Delete(int id);
-        Task<string> Update([FromBody] T formsGroup, int id);
+        Task<List<T>> Get();
+        Task<List<T>> Post([FromBody] T formGroup);
+        Task<List<T>> Delete(int id);
+        Task<List<T>> Update([FromBody] T formsGroup, int id);
     }
 }

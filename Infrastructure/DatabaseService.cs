@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 
 namespace MovtechForms.Infrastructure

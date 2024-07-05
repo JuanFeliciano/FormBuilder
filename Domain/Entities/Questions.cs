@@ -7,6 +7,11 @@
         public string Content { get; set; }
 
         //Relationship
-        public ICollection<Answer>? Answers { get; set; }
+        public ICollection<Answer> Answers { get; set; }
+
+        public Questions()
+        {
+            Answers = new List<Answer>();
+        }
     }
 }

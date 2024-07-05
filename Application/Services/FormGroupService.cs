@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Repositories;
+using MovtechForms.Application.Utilities;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
@@ -14,20 +14,20 @@ namespace MovtechForms.Application.Services
 
 
         // GET METHOD
-        public async Task<string> Get()
+        public async Task<List<FormsGroup>> Get()
         {
             DataTable selectResult = await _formGroupRepo.Get();
-            string selectJson = ConvertFormat.ConvertDataTableToJson(selectResult);
-            if (selectJson is "[]")
+            List<FormsGroup> selectFormsGroup = selectResult.ConvertDataTableToList<FormsGroup>();
+            if (selectFormsGroup is null)
             {
                 throw new Exception("There are no form groups");
             }
 
-            return selectJson;
+            return selectFormsGroup;
         }
 
         // POST METHOD
-        public async Task<string> Post([FromBody] FormsGroup formsGroup)
+        public async Task<List<FormsGroup>> Post([FromBody] FormsGroup formsGroup)
         {
             if (string.IsNullOrWhiteSpace(formsGroup.Title))
             {
@@ -35,39 +35,39 @@ namespace MovtechForms.Application.Services
             }
 
             DataTable insertResult = await _formGroupRepo.Post(formsGroup);
-            string insertJson = ConvertFormat.ConvertDataTableToJson(insertResult);
+            List<FormsGroup> insertFormsGroup = insertResult.ConvertDataTableToList<FormsGroup>();
 
-            return insertJson;
+            return insertFormsGroup;
         }
 
         // DELETE METHOD
 
-        public async Task<string> Delete(int id)
+        public async Task<List<FormsGroup>> Delete(int id)
         {
             DataTable deleteResult = await _formGroupRepo.Delete(id);
-            string deleteJson = ConvertFormat.ConvertDataTableToJson(deleteResult);
+            List<FormsGroup> deleteFormsGroup = deleteResult.ConvertDataTableToList<FormsGroup>();
 
-            if (deleteJson is "[]")
+            if (deleteFormsGroup is null)
             {
                 throw new Exception("ID parameter doesn't exist");
             }
 
-            return deleteJson;
+            return deleteFormsGroup;
         }
 
         // UPDATE METHOD
 
-        public async Task<string> Update([FromBody] FormsGroup formGroup, int id)
+        public async Task<List<FormsGroup>> Update([FromBody] FormsGroup formGroup, int id)
         {
             DataTable updateResult = await _formGroupRepo.Update(formGroup, id);
-            string updateJson = ConvertFormat.ConvertDataTableToJson(updateResult);
+            List<FormsGroup> updateFormsGroup = updateResult.ConvertDataTableToList<FormsGroup>();
 
             if (string.IsNullOrWhiteSpace(formGroup.Title))
             {
                 throw new Exception("The title cannot be null or empty");
             }
 
-            return updateJson;
+            return updateFormsGroup;
         }
     }
 }

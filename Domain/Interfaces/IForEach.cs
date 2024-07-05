@@ -4,6 +4,6 @@ namespace MovtechForms.Domain.Interfaces
 {
     public interface IForEach<T>
     {
-        public void ForEach([FromBody] T model);
+         Task ForEach([FromBody] T model, int id);
     }
 }

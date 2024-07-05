@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 
@@ -19,7 +18,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                string data = await _formGroupRepo.Get();
+                List<FormsGroup> data = await _formGroupRepo.Get();
 
                 return Ok(data);
             }
@@ -34,7 +33,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                string data = await _formGroupRepo.Post(formGroup);
+                List<FormsGroup> data = await _formGroupRepo.Post(formGroup);
 
                 return StatusCode(201,data);
             }
@@ -49,7 +48,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                string data = await _formGroupRepo.Delete(id);
+                List<FormsGroup> data = await _formGroupRepo.Delete(id);
 
                 return Ok($"Successfully deleted object\n {data}");
             }
@@ -64,7 +63,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                string data = await _formGroupRepo.Update(formGroup, id);
+                List<FormsGroup> data = await _formGroupRepo.Update(formGroup, id);
 
                 return Ok(data);
             }
