@@ -4,13 +4,13 @@ using MovtechForms.Domain.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MovtechForms.Application.Utilities
+namespace MovtechForms.Application.Utilities.FormUtils
 {
-    public class FormForEach : IForEach<Forms>
+    public class InsertFormForEach : IForEach<Forms>
     {
         private readonly IDatabaseService _dbService;
 
-        public FormForEach(IDatabaseService dbService) => _dbService = dbService;
+        public InsertFormForEach(IDatabaseService dbService) => _dbService = dbService;
 
         public async Task ForEach([FromBody] Forms forms, int idForm)
         {

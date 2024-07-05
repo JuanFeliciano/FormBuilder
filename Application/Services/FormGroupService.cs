@@ -13,10 +13,19 @@ namespace MovtechForms.Application.Services
         public FormGroupService(IRepository<FormsGroup> formGroupRepo) => _formGroupRepo = formGroupRepo;
 
 
-        // GET METHOD
         public async Task<List<FormsGroup>> Get()
         {
             DataTable selectResult = await _formGroupRepo.Get();
+            List<FormsGroup> selectFormsGroup = selectResult.ConvertDataTableToList<FormsGroup>();
+
+
+            return selectFormsGroup;
+        }
+
+        // GET METHOD
+        public async Task<List<FormsGroup>> GetById(int id)
+        {
+            DataTable selectResult = await _formGroupRepo.GetById(id);
             List<FormsGroup> selectFormsGroup = selectResult.ConvertDataTableToList<FormsGroup>();
             if (selectFormsGroup is null)
             {

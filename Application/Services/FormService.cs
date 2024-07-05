@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Application.Utilities;
+using MovtechForms.Application.Utilities.FormUtils;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
@@ -9,14 +10,29 @@ namespace MovtechForms.Application.Services
     public class FormService : IServices<Forms>
     {
         private readonly IRepository<Forms> _formRepo;
+        private readonly IDatabaseService _dbService;
 
-        public FormService(IRepository<Forms> formRepo) => _formRepo = formRepo;
+        public FormService(IRepository<Forms> formRepo, IDatabaseService data) 
+        {
+            _formRepo = formRepo;
+            _dbService = data;
+        }
 
         // GET METHOD
         public async Task<List<Forms>> Get()
         {
             DataTable selectResult = await _formRepo.Get();
-            //string selectJson = ConvertFormat.ConvertDataTableToJson(selectResult);
+            List<Forms> selectForms = selectResult.ConvertDataTableToList<Forms>();
+
+
+            return selectForms;
+        }
+
+
+        // GET by Id METHOD
+        public async Task<List<Forms>> GetById(int id)
+        {
+            DataTable selectResult = await _formRepo.GetById(id);
             List<Forms> selectForms = selectResult.ConvertDataTableToList<Forms>();
 
             return selectForms;

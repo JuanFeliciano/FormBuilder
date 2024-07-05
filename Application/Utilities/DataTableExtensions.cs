@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.Reflection;
 
-namespace MovtechForms.Application.Utilities
+namespace MovtechForms.Application
 {
-    public static class DataTableExtensions
+    public static  class DataTableExtensions
     {
 
         public static List<T> ConvertDataTableToList<T>(this DataTable table) where T : new()

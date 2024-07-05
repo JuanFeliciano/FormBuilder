@@ -3,6 +3,7 @@ using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 using System.Data;
+using MovtechForms.Application.Utilities;
 
 namespace MovtechForms.Application.Repositories
 {
@@ -20,11 +21,49 @@ namespace MovtechForms.Application.Repositories
         // GET METHOD
         public async Task<DataTable> Get()
         {
-            string query = "SELECT * FROM Forms, Questions;";
-            DataTable result = await _dbService.ExecuteQueryAsync(query, null!);
-            return result;
+            string query = "SELECT * FROM Forms;";
+            DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, null!);
 
+            return selectOperation;
         }
+
+
+        // GET by Id METHOD
+        public async Task<DataTable> GetById(int id)
+        {
+            // Seleciona o formulário pelo ID
+            string selectForm = "SELECT * FROM Forms WHERE Id = @Id;";
+            SqlParameter[] selectFormParameter = { new SqlParameter("@Id", id) };
+            DataTable selectResultForm = await _dbService.ExecuteQueryAsync(selectForm, selectFormParameter);
+
+            if (selectResultForm.Rows.Count == 0)
+            {
+                throw new Exception($"Formulário com ID {id} não encontrado.");
+            }
+
+            // Converte o resultado para uma lista de Forms
+            List<Forms> forms = selectResultForm.ConvertDataTableToList<Forms>();
+
+            // Encontra o formulário específico
+            Forms form = forms.Find(x => x.Id == id)!;
+
+            if (form == null)
+            {
+                throw new Exception($"Formulário com ID {id} não encontrado na lista convertida.");
+            }
+
+            // Seleciona as perguntas relacionadas ao formulário
+            string selectQuestions = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
+            SqlParameter[] selectQuestionsParameter = { new SqlParameter("@IdForm", form.Id) };
+            DataTable selectResultQuestions = await _dbService.ExecuteQueryAsync(selectQuestions, selectQuestionsParameter);
+
+            // Converte o resultado para uma lista de Questions e atribui ao formulário
+            List<Questions> questions = selectResultQuestions.ConvertDataTableToList<Questions>();
+            form.Questions = questions;
+
+            return selectResultForm;
+        }
+
 
         // POST METHOD
         public async Task<DataTable> Post([FromBody] Forms forms)

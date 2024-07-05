@@ -17,13 +17,21 @@ namespace MovtechForms.Application.Repositories
             _forEachCommand = forEachCommand;
         }
 
-
-
-        // GET METHOD
         public async Task<DataTable> Get()
         {
             string query = "SELECT * FROM FormsGroup;";
             DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, null!);
+
+            return selectOperation;
+        }
+
+
+        // GET METHOD by ID
+        public async Task<DataTable> GetById(int id)
+        {
+            string query = "SELECT * FROM FormsGroup WHERE FormsGroup.Id = @Id;";
+            SqlParameter[] parameter = { new("@Id", id) };
+            DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, parameter);
 
             return selectOperation;
         }

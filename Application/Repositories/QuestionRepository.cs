@@ -14,10 +14,19 @@ namespace MovtechForms.Application.Repositories
 
         public async Task<DataTable> Get()
         {
-            string selectQuery = "SELECT * FROM Questions;";
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, null!);
+            string query = "SELECT * FROM Questions;";
+            DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, null!);
 
-            return selectResult;
+            return selectOperation;
+        }
+
+        public async Task<DataTable> GetById(int id)
+        {
+            string query = "SELECT * FROM Questions WHERE Questions.Id = @Id;";
+            SqlParameter[] parameter = { new("@Id", id) };
+            DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, parameter);
+
+            return selectOperation;
         }
 
         public async Task<DataTable> Post([FromBody] Questions questions)

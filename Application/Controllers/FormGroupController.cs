@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 
@@ -19,6 +20,25 @@ namespace MovtechForms.Application.Controllers
             try
             {
                 List<FormsGroup> data = await _formGroupRepo.Get();
+
+                return StatusCode(200, data);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"Error when querying data: {ex.Message}");
+            }
+        }
+
+
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                List<FormsGroup> data = await _formGroupRepo.GetById(id);
 
                 return Ok(data);
             }

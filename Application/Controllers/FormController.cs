@@ -12,12 +12,32 @@ namespace MovtechForms.Application.Controllers
 
         public FormController(IServices<Forms> formService) => _formService = formService;
 
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
                 List<Forms> data = await _formService.Get();
+
+                return StatusCode(200, data);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"Error when querying data: {ex.Message}");
+            }
+        }
+
+
+
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                List<Forms> data = await _formService.GetById(id);
 
                 return StatusCode(200, data);
             }

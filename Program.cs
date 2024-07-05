@@ -2,7 +2,8 @@
 using Microsoft.OpenApi.Models;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Services;
-using MovtechForms.Application.Utilities;
+using MovtechForms.Application.Utilities.FormGroupUtils;
+using MovtechForms.Application.Utilities.FormUtils;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using MovtechForms.Infrastructure;
@@ -31,7 +32,7 @@ static void ConfigureServices(IServiceCollection services)
 
     // Registro do serviço ForEach
     services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
-    services.AddScoped<IForEach<Forms>, FormForEach>();
+    services.AddScoped<IForEach<Forms>, InsertFormForEach>();
 
     //Registro de outros serviços necessarios
     services.AddScoped<IDatabaseService, DatabaseService>();

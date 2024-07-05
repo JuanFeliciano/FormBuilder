@@ -12,9 +12,18 @@ namespace MovtechForms.Application.Services
 
         public QuestionService(IRepository<Questions> questionRepo) => _questionRepo = questionRepo;
 
+
         public async Task<List<Questions>> Get()
         {
             DataTable selectResult = await _questionRepo.Get();
+            List<Questions> selectQuestion = selectResult.ConvertDataTableToList<Questions>();
+
+            return selectQuestion;
+        }
+
+        public async Task<List<Questions>> GetById(int id)
+        {
+            DataTable selectResult = await _questionRepo.GetById(id);
             List<Questions> selectQuestions = selectResult.ConvertDataTableToList<Questions>();
 
             return selectQuestions;
