@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Utilities;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
@@ -24,43 +23,39 @@ namespace MovtechForms.Application.Services
         public async Task<Questions> GetById(int id)
         {
             Questions selectResult = await _questionRepo.GetById(id);
-            //List<Questions> selectQuestions = selectResult.ConvertDataTableToList<Questions>();
 
             return selectResult;
         }
 
-        public async Task<List<Questions>> Post([FromBody] Questions questions)
+        public async Task<Questions> Post([FromBody] Questions questions)
+        {
+            if (string.IsNullOrWhiteSpace(questions.Content.Trim()))
+            {
+                throw new Exception("The content cannot be null or empty");
+            }
+
+            Questions insertResult = await _questionRepo.Post(questions);
+
+            return insertResult;
+        }
+
+        public async Task<Questions> Delete(int id)
+        {
+            Questions deleteResult = await _questionRepo.Delete(id);    
+
+            return deleteResult;
+        }
+
+        public async Task<Questions> Update([FromBody] Questions questions, int id)
         {
             if (string.IsNullOrWhiteSpace(questions.Content))
             {
                 throw new Exception("The content cannot be null or empty");
             }
 
-            DataTable insertResult = await _questionRepo.Post(questions);
-            List<Questions> insertQuestions = insertResult.ConvertDataTableToList<Questions>();
+            Questions updateResult = await _questionRepo.Update(questions, id);
 
-            return insertQuestions;
-        }
-
-        public async Task<List<Questions>> Delete(int id)
-        {
-            DataTable deleteResult = await _questionRepo.Delete(id);    
-            List<Questions> deleteQuestions = deleteResult.ConvertDataTableToList<Questions>();
-
-            return deleteQuestions;
-        }
-
-        public async Task<List<Questions>> Update([FromBody] Questions questions, int id)
-        {
-            if (string.IsNullOrWhiteSpace(questions.Content))
-            {
-                throw new Exception("The content cannot be null or empty");
-            }
-
-            DataTable updateResult = await _questionRepo.Update(questions, id);
-            List<Questions> updateQuestions = updateResult.ConvertDataTableToList<Questions>();
-
-            return updateQuestions;
+            return updateResult;
         }
     }
 }

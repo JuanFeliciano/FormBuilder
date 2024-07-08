@@ -40,10 +40,9 @@ namespace MovtechForms.Application.Repositories
             return questions;
         }
 
-        public async Task<DataTable> Post([FromBody] Questions questions)
+        public async Task<Questions> Post([FromBody] Questions questions)
         {
             string insertQuery = "INSERT INTO Questions (IdForm, Content) OUTPUT INSERTED.Id VALUES (@IdForm, @Content)";
-            string selectQuery = "SELECT * FROM Questions WHERE Id = @Id;";
 
             SqlParameter[] insertParameters =
             {
@@ -53,32 +52,28 @@ namespace MovtechForms.Application.Repositories
 
             DataTable insertResult = await _dbService.ExecuteQueryAsync(insertQuery, insertParameters);
 
-            int insertId = Convert.ToInt32(insertResult.Rows[0]["Id"]);
-            SqlParameter[] selectParameter = { new("Id", insertId) };
+            int questionId = Convert.ToInt32(insertResult.Rows[0]["Id"]);
 
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
+            Questions selectQuestions = await GetById(questionId);
 
-            return selectResult;
+            return selectQuestions;
         }
 
-        public async Task<DataTable> Delete(int id)
+        public async Task<Questions> Delete(int id)
         {
             string deleteQuery = "DELETE FROM Questions WHERE Id = @Id;";
-            string selectQuery = "SELECT * FROM Questions WHERE Id = @Id;";
-
             SqlParameter[] deleteParameter = { new("@Id", id) };
-            SqlParameter[] selectParameter = { new("@Id", id) };
-
-            DataTable selectResult = await _dbService!.ExecuteQueryAsync(selectQuery, selectParameter);
+            
             await _dbService.ExecuteQueryAsync(deleteQuery, deleteParameter);
 
-            return selectResult;
+            Questions selectQuestions = await GetById(id);
+
+            return selectQuestions;
         }
 
-        public async Task<DataTable> Update([FromBody] Questions questions, int id)
+        public async Task<Questions> Update([FromBody] Questions questions, int id)
         {
             string updateQuery = "UPDATE Questions SET IdForm = @IdForm, Content = @Content WHERE Id = @Id;";
-            string selectQuery = "SELECT * FROM Questions WHERE Id = @Id;";
 
             SqlParameter[] updateParameters =
             {
@@ -87,13 +82,11 @@ namespace MovtechForms.Application.Repositories
                 new("@Id", id)
             };
 
-            SqlParameter[] selectParameter = { new("@Id", id) };
-
             await _dbService.ExecuteQueryAsync(updateQuery, updateParameters);
 
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
+            Questions selectQuestions = await GetById(id);
 
-            return selectResult;
+            return selectQuestions;
         }
     }
 }

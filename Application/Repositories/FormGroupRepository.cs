@@ -29,6 +29,7 @@ namespace MovtechForms.Application.Repositories
         // GET METHOD by ID
         public async Task<FormsGroup> GetById(int id)
         {
+            /// operation select FormsGroup
             string query = "SELECT * FROM FormsGroup WHERE Id = @Id;";
             SqlParameter[] parameter = { new("@Id", id) };
             DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, parameter);
@@ -36,7 +37,7 @@ namespace MovtechForms.Application.Repositories
             List<FormsGroup> formsGroupList = selectOperation.ConvertDataTableToList<FormsGroup>();
             FormsGroup formsGroup = formsGroupList.Find(x => x.Id == id)!;
 
-
+            /// operation select Forms
             string queryForms = "SELECT * FROM Forms WHERE IdGroup = @IdGroup;";
             SqlParameter[] formParameter = { new("@IdGroup", id) };
             DataTable selectFormOperation = await _dbService.ExecuteQueryAsync(queryForms, formParameter);
@@ -49,44 +50,38 @@ namespace MovtechForms.Application.Repositories
         }
 
         // POST METHOD
-        public async Task<DataTable> Post([FromBody] FormsGroup formsGroup)
+        public async Task<FormsGroup> Post([FromBody] FormsGroup formsGroup)
         {
-            // insert operation
+            /// insert operation
             string insertFormGroupQuery = "INSERT INTO FormsGroup (Title) OUTPUT INSERTED.Id VALUES (@Title);";
             SqlParameter[] formGroupParameters = { new("@Title", formsGroup.Title.Trim()) };
             DataTable insertResult = await _dbService.ExecuteQueryAsync(insertFormGroupQuery, formGroupParameters);
             int idFormGroup = Convert.ToInt32(insertResult.Rows[0]["Id"]);
 
-            // insert forms and question operation
-            await _forEachCommand.ForEach(formsGroup, idFormGroup);
+            /// insert forms and question operation
+            await _forEachCommand.SelectForEach(formsGroup, idFormGroup);
 
-            // select operation
-            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
-            SqlParameter[] selectParameter = { new("@Id", idFormGroup) };
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
+            /// select operation
+            FormsGroup selectFormsGroup = await GetById(idFormGroup);
 
-            return selectResult;
+            return selectFormsGroup;
         }
 
         // DELETE METHOD
 
-        public async Task<DataTable> Delete(int id)
+        public async Task<FormsGroup> Delete(int id)
         {
-            string deleteQuery = "DELETE FROM FormsGroup WHERE Id = @Id;";
-            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
+            FormsGroup selectFormsGroup = await GetById(id);
 
-            SqlParameter[] parameter = { new("Id", id) };
-            SqlParameter[] delParameter = { new("Id", id) };
+            await _forEachCommand.DeleteForEach(id);
 
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, parameter);
-            DataTable itemDeleted = await _dbService.ExecuteQueryAsync(deleteQuery, delParameter);
 
-            return selectResult;
+            return selectFormsGroup;
         }
 
         // UPDATE METHOD
 
-        public async Task<DataTable> Update([FromBody] FormsGroup formGroup, int id)
+        public async Task<FormsGroup> Update([FromBody] FormsGroup formGroup, int id)
         {
             string updateQuery = "UPDATE FormsGroup SET Title = @Title WHERE Id = @Id;";
 
@@ -96,14 +91,11 @@ namespace MovtechForms.Application.Repositories
                 new("@Id", id)
             };
 
-            DataTable result = await _dbService.ExecuteQueryAsync(updateQuery, updateParameter);
+            await _dbService.ExecuteQueryAsync(updateQuery, updateParameter);
 
-            string selectQuery = "SELECT * FROM FormsGroup WHERE Id = @Id;";
+            FormsGroup selectFormsGroup = await GetById(id);
 
-            SqlParameter[] selectParameter = { new("@Id", id) };
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-
-            return selectResult;
+            return selectFormsGroup;
         }
     }
 }

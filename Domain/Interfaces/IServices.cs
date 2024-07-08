@@ -6,8 +6,8 @@ namespace MovtechForms.Domain.Interfaces
     {
         Task<T> GetById(int id);
         Task<List<T>> Get();
-        Task<List<T>> Post([FromBody] T formGroup);
-        Task<List<T>> Delete(int id);
-        Task<List<T>> Update([FromBody] T formsGroup, int id);
+        Task<T> Post([FromBody] T formGroup);
+        Task<T> Delete(int id);
+        Task<T> Update([FromBody] T formsGroup, int id);
     }
 }

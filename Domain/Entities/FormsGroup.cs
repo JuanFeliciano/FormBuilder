@@ -7,7 +7,7 @@
 
         // Ralationship
 
-        public ICollection<Forms>? Forms { get; set; }
+        public ICollection<Forms> Forms { get; set; }
 
         public FormsGroup()
         {

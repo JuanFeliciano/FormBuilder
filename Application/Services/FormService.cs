@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Utilities;
-using MovtechForms.Application.Utilities.FormUtils;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
@@ -33,48 +31,44 @@ namespace MovtechForms.Application.Services
         public async Task<Forms> GetById(int id)
         {
             Forms selectResult = await _formRepo.GetById(id);
-            //List<Forms> selectForms = selectResult.ConvertDataTableToList<Forms>();
 
             return selectResult;
 
         }
 
         // POST METHOD
-        public async Task<List<Forms>> Post([FromBody] Forms forms)
+        public async Task<Forms> Post([FromBody] Forms forms)
         {
-            if (string.IsNullOrWhiteSpace(forms.Title))
+            if (string.IsNullOrWhiteSpace(forms.Title.Trim()))
             {
                 throw new Exception("The value cannot be null or empty");
             }
 
-            DataTable insertResult = await _formRepo.Post(forms);
-            List<Forms> insertForms = insertResult.ConvertDataTableToList<Forms>();
+            Forms insertResult = await _formRepo.Post(forms);
 
-            return insertForms;
+            return insertResult;
         }
 
 
         // DELETE METHOD
-        public async Task<List<Forms>> Delete(int id)
+        public async Task<Forms> Delete(int id)
         {
-            DataTable deleteResult = await _formRepo.Delete(id);
-            List<Forms> deleteForms = deleteResult.ConvertDataTableToList<Forms>();
+            Forms deleteResult = await _formRepo.Delete(id);
 
-            return deleteForms;
+            return deleteResult;
         }
 
         // PUT METHOD
-        public async Task<List<Forms>> Update([FromBody] Forms form, int id)
+        public async Task<Forms> Update([FromBody] Forms form, int id)
         {
             if (string.IsNullOrWhiteSpace(form.Title))
             {
                 throw new Exception("The title cannot be null or empty");
             }
 
-            DataTable updateResult = await _formRepo.Update(form, id);
-            List<Forms> updateForms = updateResult.ConvertDataTableToList<Forms>();
+            Forms updateResult = await _formRepo.Update(form, id);
 
-            return updateForms;
+            return updateResult;
         }
 
 

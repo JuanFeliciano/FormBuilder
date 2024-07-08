@@ -3,7 +3,6 @@ using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 using System.Data;
-using MovtechForms.Application.Utilities;
 
 namespace MovtechForms.Application.Repositories
 {
@@ -36,28 +35,14 @@ namespace MovtechForms.Application.Repositories
             SqlParameter[] selectFormParameter = { new ("@Id", id) };
             DataTable selectResultForm = await _dbService.ExecuteQueryAsync(selectForm, selectFormParameter);
 
-            if (selectResultForm.Rows.Count == 0)
-            {
-                throw new Exception($"Formulário com ID {id} não encontrado.");
-            }
-
-            // Converte o resultado para uma lista de Forms
             List<Forms> forms = selectResultForm.ConvertDataTableToList<Forms>();
 
-            // Encontra o formulário específico
             Forms form = forms.Find(x => x.Id == id)!;
 
-            if (form == null)
-            {
-                throw new Exception($"Formulário com ID {id} não encontrado na lista convertida.");
-            }
-
-            // Seleciona as perguntas relacionadas ao formulário
             string selectQuestions = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
             SqlParameter[] selectQuestionsParameter = { new SqlParameter("@IdForm", form.Id) };
             DataTable selectResultQuestions = await _dbService.ExecuteQueryAsync(selectQuestions, selectQuestionsParameter);
 
-            // Converte o resultado para uma lista de Questions e atribui ao formulário
             List<Questions> questions = selectResultQuestions.ConvertDataTableToList<Questions>();
             form.Questions = questions;
 
@@ -66,7 +51,7 @@ namespace MovtechForms.Application.Repositories
 
 
         // POST METHOD
-        public async Task<DataTable> Post([FromBody] Forms forms)
+        public async Task<Forms> Post([FromBody] Forms forms)
         {
             // insert operation
             string insertQuery = "INSERT INTO Forms (Title, IdGroup) OUTPUT INSERTED.Id VALUES (@Title, @IdGroup);";
@@ -79,40 +64,33 @@ namespace MovtechForms.Application.Repositories
             int idForm = Convert.ToInt32(insertResult.Rows[0]["Id"]);
 
             // insert question
-            await _forEach.ForEach(forms, idForm);
+            await _forEach.SelectForEach(forms, idForm);
 
-            // select operation
-            string selectQuery = "SELECT * FROM Forms WHERE Id = @Id;";
-            SqlParameter[] selectParameters = { new("@Id", idForm) };
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, selectParameters);
+            Forms selectForms = await GetById(idForm);
 
-            return selectResult;
+            return selectForms;
         }
 
 
         // DELETE METHOD
-        public async Task<DataTable> Delete(int id)
+        public async Task<Forms> Delete(int id)
         {
             string deleteQuery = "DELETE FROM Forms WHERE Id = @Id;";
-            string selectQuery = "SELECT * FROM Forms WHERE Id = @Id;";
-
-            SqlParameter[] parameter = { new("Id", id) };
             SqlParameter[] Delparameter = { new("Id", id) };
 
+            await _dbService.ExecuteQueryAsync(deleteQuery, Delparameter);
 
-            DataTable selectResult = await _dbService.ExecuteQueryAsync(selectQuery, parameter);
-            DataTable deleteResult = await _dbService.ExecuteQueryAsync(deleteQuery, Delparameter);
+            Forms selectForms = await GetById(id);
 
-            return selectResult;
+            return selectForms;
         }
 
         // PUT METHOD
-        public async Task<DataTable> Update([FromBody] Forms form, int id)
+        public async Task<Forms> Update([FromBody] Forms form, int id)
         {
             string updateQuery = "UPDATE Forms SET IdGroup = @IdGroup, Title = @Title, Questions = @Questions WHERE Id = @Id;";
-            string selectQuery = "SELECT * FROM Forms WHERE Id = @Id;";
 
-            if (string.IsNullOrWhiteSpace(form.Title))
+            if (string.IsNullOrWhiteSpace(form.Title.Trim()))
             {
                 throw new Exception("The title cannot be null or empty");
             }
@@ -125,13 +103,11 @@ namespace MovtechForms.Application.Repositories
                 new("@Id", id)
             };
 
-            SqlParameter[] selectParameter = { new("@Id", id) };
-
             await _dbService.ExecuteQueryAsync(updateQuery, updateParameters);
 
-            DataTable result = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
+            Forms selectForms = await GetById(id);
 
-            return result;
+            return selectForms;
         }
     }
 }

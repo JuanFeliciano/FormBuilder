@@ -53,7 +53,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<FormsGroup> data = await _formGroupRepo.Post(formGroup);
+                FormsGroup data = await _formGroupRepo.Post(formGroup);
 
                 return StatusCode(201,data);
             }
@@ -68,7 +68,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<FormsGroup> data = await _formGroupRepo.Delete(id);
+                FormsGroup data = await _formGroupRepo.Delete(id);
 
                 return Ok($"Successfully deleted object\n {data}");
             }
@@ -83,7 +83,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<FormsGroup> data = await _formGroupRepo.Update(formGroup, id);
+                FormsGroup data = await _formGroupRepo.Update(formGroup, id);
 
                 return Ok(data);
             }

@@ -32,7 +32,7 @@ static void ConfigureServices(IServiceCollection services)
 
     // Registro do serviço ForEach
     services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
-    services.AddScoped<IForEach<Forms>, InsertFormForEach>();
+    services.AddScoped<IForEach<Forms>, FormForEach>();
 
     //Registro de outros serviços necessarios
     services.AddScoped<IDatabaseService, DatabaseService>();

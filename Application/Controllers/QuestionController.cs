@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 
@@ -53,7 +52,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<Questions> data = await _questionService.Post(questions);
+                Questions data = await _questionService.Post(questions);
 
                 return StatusCode(201, data);
             }
@@ -68,7 +67,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<Questions> data = await _questionService.Delete(id);
+                Questions data = await _questionService.Delete(id);
 
                 return StatusCode(200, $"Successfully deleted object\n {data}");
             }
@@ -83,7 +82,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<Questions> data = await _questionService.Update(questions, id);
+                Questions data = await _questionService.Update(questions, id);
 
                 return StatusCode(201, data);
             }

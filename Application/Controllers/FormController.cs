@@ -30,8 +30,6 @@ namespace MovtechForms.Application.Controllers
         }
 
 
-
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -43,7 +41,6 @@ namespace MovtechForms.Application.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when querying data: {ex.Message}");
             }
         }
@@ -53,7 +50,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<Forms> data = await _formService.Post(forms);
+                Forms data = await _formService.Post(forms);
 
                 return StatusCode(201, data);
             }
@@ -68,7 +65,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<Forms> data = await _formService.Delete(id);
+                Forms data = await _formService.Delete(id);
 
                 return Ok($"Successfully deleted object\n {data}");
             }
@@ -83,7 +80,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<Forms> data = await _formService.Update(forms, id);
+                Forms data = await _formService.Update(forms, id);
 
                 return StatusCode(201, data);
             }
