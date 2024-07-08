@@ -44,6 +44,17 @@ namespace MovtechForms.Application.Repositories
 
             List<Forms> formsList = selectFormOperation.ConvertDataTableToList<Forms>();
 
+            foreach (Forms form in formsList)
+            {
+                string queryQuestion = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
+                SqlParameter[] questionParameter = { new("@IdForm", form.Id) };
+                DataTable selectQuestionOperation = await _dbService.ExecuteQueryAsync(queryQuestion, questionParameter);
+
+                List<Questions> questionList = selectQuestionOperation.ConvertDataTableToList<Questions>();
+
+                form.Questions = questionList;
+            }
+
             formsGroup.Forms = formsList; 
 
             return formsGroup;

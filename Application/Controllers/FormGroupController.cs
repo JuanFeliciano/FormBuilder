@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 
@@ -25,12 +24,9 @@ namespace MovtechForms.Application.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when querying data: {ex.Message}");
             }
         }
-
-
 
 
         [HttpGet("{id}")]
@@ -48,6 +44,7 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] FormsGroup formGroup)
         {
@@ -63,6 +60,7 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -70,13 +68,14 @@ namespace MovtechForms.Application.Controllers
             {
                 FormsGroup data = await _formGroupRepo.Delete(id);
 
-                return Ok($"Successfully deleted object\n {data}");
+                return StatusCode(200, data);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error when deleting object: {ex.Message}");
             }
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] FormsGroup formGroup, int id)
