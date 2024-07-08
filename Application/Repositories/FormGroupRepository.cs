@@ -27,13 +27,25 @@ namespace MovtechForms.Application.Repositories
 
 
         // GET METHOD by ID
-        public async Task<DataTable> GetById(int id)
+        public async Task<FormsGroup> GetById(int id)
         {
-            string query = "SELECT * FROM FormsGroup WHERE FormsGroup.Id = @Id;";
+            string query = "SELECT * FROM FormsGroup WHERE Id = @Id;";
             SqlParameter[] parameter = { new("@Id", id) };
             DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, parameter);
 
-            return selectOperation;
+            List<FormsGroup> formsGroupList = selectOperation.ConvertDataTableToList<FormsGroup>();
+            FormsGroup formsGroup = formsGroupList.Find(x => x.Id == id)!;
+
+
+            string queryForms = "SELECT * FROM Forms WHERE IdGroup = @IdGroup;";
+            SqlParameter[] formParameter = { new("@IdGroup", id) };
+            DataTable selectFormOperation = await _dbService.ExecuteQueryAsync(queryForms, formParameter);
+
+            List<Forms> formsList = selectFormOperation.ConvertDataTableToList<Forms>();
+
+            formsGroup.Forms = formsList; 
+
+            return formsGroup;
         }
 
         // POST METHOD

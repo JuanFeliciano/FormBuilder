@@ -20,13 +20,24 @@ namespace MovtechForms.Application.Repositories
             return selectOperation;
         }
 
-        public async Task<DataTable> GetById(int id)
+        public async Task<Questions> GetById(int id)
         {
-            string query = "SELECT * FROM Questions WHERE Questions.Id = @Id;";
+            string query = "SELECT * FROM Questions WHERE Id = @Id;";
             SqlParameter[] parameter = { new("@Id", id) };
             DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, parameter);
 
-            return selectOperation;
+            List<Questions> questionsList = selectOperation.ConvertDataTableToList<Questions>();
+            Questions questions = questionsList.Find(i => i.Id == id)!;
+
+            string queryAnswer = "SELECT * FROM Answer WHERE IdQuestion = @Id;";
+            SqlParameter[] answerParameter = { new("@IdQuestion", id) };
+            DataTable selectAnswerOperation = await _dbService.ExecuteQueryAsync(queryAnswer, answerParameter);
+            List<Answer> answerList = selectAnswerOperation.ConvertDataTableToList<Answer>();
+
+            questions.Answers = answerList;
+
+
+            return questions;
         }
 
         public async Task<DataTable> Post([FromBody] Questions questions)

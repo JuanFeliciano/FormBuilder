@@ -37,7 +37,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<Forms> data = await _formService.GetById(id);
+                Forms data = await _formService.GetById(id);
 
                 return StatusCode(200, data);
             }

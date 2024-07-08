@@ -23,16 +23,16 @@ namespace MovtechForms.Application.Services
         }
 
         // GET METHOD
-        public async Task<List<FormsGroup>> GetById(int id)
+        public async Task<FormsGroup> GetById(int id)
         {
-            DataTable selectResult = await _formGroupRepo.GetById(id);
-            List<FormsGroup> selectFormsGroup = selectResult.ConvertDataTableToList<FormsGroup>();
-            if (selectFormsGroup is null)
-            {
-                throw new Exception("There are no form groups");
-            }
+            FormsGroup selectResult = await _formGroupRepo.GetById(id);
+            //List<FormsGroup> selectFormsGroup = selectResult.ConvertDataTableToList<FormsGroup>();
+            //if (selectFormsGroup is null)
+            //{
+            //    throw new Exception("There are no form groups");
+            //}
 
-            return selectFormsGroup;
+            return selectResult;
         }
 
         // POST METHOD

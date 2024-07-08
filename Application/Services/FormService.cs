@@ -30,12 +30,12 @@ namespace MovtechForms.Application.Services
 
 
         // GET by Id METHOD
-        public async Task<List<Forms>> GetById(int id)
+        public async Task<Forms> GetById(int id)
         {
-            DataTable selectResult = await _formRepo.GetById(id);
-            List<Forms> selectForms = selectResult.ConvertDataTableToList<Forms>();
+            Forms selectResult = await _formRepo.GetById(id);
+            //List<Forms> selectForms = selectResult.ConvertDataTableToList<Forms>();
 
-            return selectForms;
+            return selectResult;
 
         }
 

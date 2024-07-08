@@ -38,7 +38,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                List<FormsGroup> data = await _formGroupRepo.GetById(id);
+                FormsGroup data = await _formGroupRepo.GetById(id);
 
                 return Ok(data);
             }

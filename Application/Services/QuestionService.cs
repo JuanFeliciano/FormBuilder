@@ -21,12 +21,12 @@ namespace MovtechForms.Application.Services
             return selectQuestion;
         }
 
-        public async Task<List<Questions>> GetById(int id)
+        public async Task<Questions> GetById(int id)
         {
-            DataTable selectResult = await _questionRepo.GetById(id);
-            List<Questions> selectQuestions = selectResult.ConvertDataTableToList<Questions>();
+            Questions selectResult = await _questionRepo.GetById(id);
+            //List<Questions> selectQuestions = selectResult.ConvertDataTableToList<Questions>();
 
-            return selectQuestions;
+            return selectResult;
         }
 
         public async Task<List<Questions>> Post([FromBody] Questions questions)

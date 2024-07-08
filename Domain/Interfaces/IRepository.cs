@@ -5,7 +5,7 @@ namespace MovtechForms.Domain.Interfaces
 {
     public interface IRepository<T>
     {
-        Task<DataTable> GetById(int id);
+        Task<T> GetById(int id);
         Task<DataTable> Get();
         Task<DataTable> Post([FromBody] T formGroup);
         Task<DataTable> Delete(int id);

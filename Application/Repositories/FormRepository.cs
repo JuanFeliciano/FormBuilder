@@ -29,11 +29,11 @@ namespace MovtechForms.Application.Repositories
 
 
         // GET by Id METHOD
-        public async Task<DataTable> GetById(int id)
+        public async Task<Forms> GetById(int id)
         {
             // Seleciona o formulário pelo ID
             string selectForm = "SELECT * FROM Forms WHERE Id = @Id;";
-            SqlParameter[] selectFormParameter = { new SqlParameter("@Id", id) };
+            SqlParameter[] selectFormParameter = { new ("@Id", id) };
             DataTable selectResultForm = await _dbService.ExecuteQueryAsync(selectForm, selectFormParameter);
 
             if (selectResultForm.Rows.Count == 0)
@@ -61,7 +61,7 @@ namespace MovtechForms.Application.Repositories
             List<Questions> questions = selectResultQuestions.ConvertDataTableToList<Questions>();
             form.Questions = questions;
 
-            return selectResultForm;
+            return form;
         }
 
 
