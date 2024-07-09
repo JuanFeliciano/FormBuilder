@@ -3,7 +3,7 @@ using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 
-namespace MovtechForms.Application.Utilities.FormUtils
+namespace MovtechForms.Application.Utilities
 {
     public class FormForEach : IForEach<Forms>
     {
@@ -27,7 +27,15 @@ namespace MovtechForms.Application.Utilities.FormUtils
 
         public async Task DeleteForEach(int idForm)
         {
+            string deleteQuestionQuery = "DELETE FROM Questions WHERE IdForm = @IdForm;";
+            SqlParameter[] deleteQuestionParameter = { new("@IdForm", idForm) };
 
+            await _dbService.ExecuteQueryAsync(deleteQuestionQuery, deleteQuestionParameter);
+
+            string deleteFormQuery = "DELETE FROM Forms WHERE Id = @Id;";
+            SqlParameter[] deleteFormParameter = { new("@Id", idForm) };
+
+            await _dbService.ExecuteQueryAsync(deleteFormQuery, deleteFormParameter);
         }
     }
 }

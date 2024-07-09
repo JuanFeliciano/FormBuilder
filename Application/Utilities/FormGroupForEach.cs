@@ -4,7 +4,7 @@ using MovtechForms.Domain.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MovtechForms.Application.Utilities.FormGroupUtils
+namespace MovtechForms.Application.Utilities
 {
     public class FormGroupForEach : IForEach<FormsGroup>
     {

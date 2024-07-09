@@ -75,10 +75,7 @@ namespace MovtechForms.Application.Repositories
         // DELETE METHOD
         public async Task<Forms> Delete(int id)
         {
-            string deleteQuery = "DELETE FROM Forms WHERE Id = @Id;";
-            SqlParameter[] Delparameter = { new("Id", id) };
-
-            await _dbService.ExecuteQueryAsync(deleteQuery, Delparameter);
+            await _forEach.DeleteForEach(id);
 
             Forms selectForms = await GetById(id);
 

@@ -1,27 +1,29 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Services;
-using MovtechForms.Application.Utilities.FormGroupUtils;
-using MovtechForms.Application.Utilities.FormUtils;
+using MovtechForms.Application.Utilities;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using MovtechForms.Infrastructure;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-ConfigureServices(builder.Services);
+ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
 Configure(app, builder.Environment);
 
-static void ConfigureServices(IServiceCollection services)
+static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
-    
     // Registro de serviços
-    services.AddScoped<IServices<FormsGroup>,FormGroupService>();
+    services.AddScoped<IServices<FormsGroup>, FormGroupService>();
     services.AddScoped<IServices<Forms>, FormService>();
     services.AddScoped<IServices<Questions>, QuestionService>();
 
@@ -36,7 +38,7 @@ static void ConfigureServices(IServiceCollection services)
 
     //Registro de outros serviços necessarios
     services.AddScoped<IDatabaseService, DatabaseService>();
-    
+
     // Outros registros
     services.AddControllers();
     services.AddSwaggerGen(c =>
@@ -47,8 +49,30 @@ static void ConfigureServices(IServiceCollection services)
             Title = "Forms Builder",
             Description = "Constructor Forms"
         });
+        
+
+    });
+    services.AddAuthentication(option =>
+    {
+        option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(option =>
+    {
+        option.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+
+            ValidIssuer = configuration["jwt:issuer"],
+            ValidAudience = configuration["jwt:audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:secretKey"]!)),
+            ClockSkew = TimeSpan.Zero
+        };
     });
 }
+
 
 static void Configure(WebApplication app, IWebHostEnvironment env)
 {
