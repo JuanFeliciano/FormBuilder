@@ -10,7 +10,6 @@ using MovtechForms.Domain.Interfaces;
 using MovtechForms.Infrastructure;
 using System.Text;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,15 +21,18 @@ Configure(app, builder.Environment);
 
 static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
+
     // Registro de serviços
     services.AddScoped<IServices<FormsGroup>, FormGroupService>();
     services.AddScoped<IServices<Forms>, FormService>();
     services.AddScoped<IServices<Questions>, QuestionService>();
+    services.AddScoped<IUserService, UserService>();
 
     // Registro de repositórios
     services.AddScoped<IRepository<FormsGroup>, FormGroupRepository>();
     services.AddScoped<IRepository<Forms>, FormRepository>();
     services.AddScoped<IRepository<Questions>, QuestionRepository>();
+    services.AddScoped<IUserRepository, UserRepository>();
 
     // Registro do serviço ForEach
     services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
@@ -49,7 +51,31 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
             Title = "Forms Builder",
             Description = "Constructor Forms"
         });
-        
+
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "Header Authorization using Bearer scheme \r\n\r\n Write 'Bearer' before put your key"
+        });
+
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+            }
+        });
 
     });
     services.AddAuthentication(option =>
@@ -58,19 +84,23 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
         option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     }).AddJwtBearer(option =>
     {
-        option.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        option.RequireHttpsMetadata = false;
+        option.SaveToken = true;
+        option.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-
-            ValidIssuer = configuration["jwt:issuer"],
-            ValidAudience = configuration["jwt:audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:secretKey"]!)),
-            ClockSkew = TimeSpan.Zero
+            ValidIssuer = configuration["Jwt:Issuer"],
+            ValidAudience = configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!))
         };
     });
+
+
+    services.AddControllers();
+    services.AddSingleton<TokenService>();
 }
 
 
@@ -92,7 +122,7 @@ static void Configure(WebApplication app, IWebHostEnvironment env)
 }
 
 // Configure the HTTP request pipeline.
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

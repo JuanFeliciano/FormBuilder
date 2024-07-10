@@ -40,3 +40,11 @@ C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Swa
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\obj\Debug\net8.0\MovtechForms.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

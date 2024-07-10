@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
+using MovtechForms.Domain.Models;
 
 namespace MovtechForms.Application.Controllers
 {
@@ -9,9 +12,13 @@ namespace MovtechForms.Application.Controllers
     public class FormGroupController : ControllerBase
     {
         private readonly IServices<FormsGroup> _formGroupRepo;
+        private readonly TokenService _tokenService;
 
-        public FormGroupController(IServices<FormsGroup> formGroupRepo) => _formGroupRepo = formGroupRepo;
-
+        public FormGroupController(IServices<FormsGroup> formGroupRepo, TokenService token)
+        {
+            _formGroupRepo = formGroupRepo;
+            _tokenService = token;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -28,7 +35,6 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -44,7 +50,7 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] FormsGroup formGroup)
         {
@@ -52,7 +58,7 @@ namespace MovtechForms.Application.Controllers
             {
                 FormsGroup data = await _formGroupRepo.Post(formGroup);
 
-                return StatusCode(201,data);
+                return StatusCode(201, data);
             }
             catch (Exception ex)
             {
@@ -60,7 +66,7 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -76,7 +82,7 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] FormsGroup formGroup, int id)
         {
