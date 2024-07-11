@@ -16,21 +16,22 @@ namespace MovtechForms.Application.Services
             _userRepository = userRepo;
         }
 
-        public async Task<Users> CreateUser([FromBody] Users user)
+        public async Task<List<Users>> CreateUser([FromBody] Users user)
         {
             if (string.IsNullOrWhiteSpace(user.Name) || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Role))
             {
                 throw new Exception("The value cannot be null or empty");
             }
 
-            Users users = await _userRepository.CreateUser(user);
+            DataTable users = await _userRepository.CreateUser(user);
+            List<Users> usersList = users.ConvertDataTableToList<Users>();
 
-            return users;
+            return usersList;
         }
 
-        public async Task<List<Users>> GetByUsername([FromBody] Users user)
+        public async Task<List<Users>> GetByUsername()
         {
-            DataTable userDataTable = await _userRepository.GetByUsername(user);
+            DataTable userDataTable = await _userRepository.GetByUsername();
             List<Users> users = userDataTable.ConvertDataTableToList<Users>();
 
             return users;

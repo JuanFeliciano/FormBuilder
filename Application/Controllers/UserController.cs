@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
+using System.Data;
 
 namespace MovtechForms.Application.Controllers
 {
@@ -17,23 +18,22 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                Users user = await _userService.CreateUser(users);
+                List<Users> user = await _userService.CreateUser(users);
 
                 return Ok(user);
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when creating object: {ex.Message}");
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetByUsername([FromBody] Users users)
+        [HttpGet]
+        public async Task<IActionResult> GetByUsername()
         {
             try
             {
-                List<Users> listUsers = await _userService.GetByUsername(users);
+                List<Users> listUsers = await _userService.GetByUsername();
 
                 return Ok(listUsers);
             }

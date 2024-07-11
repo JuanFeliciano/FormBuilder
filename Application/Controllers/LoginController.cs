@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application.Services;
-using MovtechForms.Domain.Entities;
+using MovtechForms.Domain.Interfaces;
 using MovtechForms.Domain.Models;
 
 namespace MovtechForms.Application.Controllers
@@ -9,29 +8,16 @@ namespace MovtechForms.Application.Controllers
     [Route("[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly TokenService _tokenService;
+        private readonly ILoginService _lgService;
 
-        public LoginController(TokenService tkService) => _tokenService = tkService;
+        public LoginController(ILoginService lg) => _lgService = lg;
 
         [HttpPost]
-        public IActionResult Login([FromBody] LoginModel login)
+        public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
-            if (login.Username == "admin" && login.Password == "password")
-            {
-                var user = new Users { Name = login.Username, Role = "Admin" };
-                var token = _tokenService.GenerateToken(user);
+            string token = await _lgService.ValidationLogin(login);
 
-                return Ok(token);
-            }
-            else if (login.Username == "user" && login.Password == "password")
-            {
-                var user = new Users { Name = login.Username, Role = "User" };
-                var token = _tokenService.GenerateToken(user);
-
-                return Ok(token);
-            }
-
-            return Unauthorized();
+            return Ok(token);
         }
     }
 }

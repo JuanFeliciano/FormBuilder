@@ -12,7 +12,7 @@ namespace MovtechForms.Application.Repositories
 
         public UserRepository(IDatabaseService db) => _dbService = db;
 
-        public async Task<Users> CreateUser([FromBody] Users userBody)
+        public async Task<DataTable> CreateUser([FromBody] Users userBody)
         {
             string query = "INSERT INTO Users (Name, Password, Role) OUTPUT INSERTED.Id VALUES (@Name, @Password, @Role);";
             SqlParameter[] userParameters =
@@ -23,24 +23,22 @@ namespace MovtechForms.Application.Repositories
             };
 
             DataTable userCreated = await _dbService.ExecuteQueryAsync(query, userParameters);
-
             int idUser = Convert.ToInt32(userCreated.Rows[0]["Id"]);
-            List<Users> listUsers = userCreated.ConvertDataTableToList<Users>();
 
-            Users user = listUsers.Find(i => i.Id == idUser)!;
+            string selectQuery = "SELECT * FROM Users WHERE Id = @Id;";
+            SqlParameter[] selectParameter = { new("@Id", idUser) };
 
-            return user;
+            DataTable selectUser = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
+
+
+            return selectUser;
         }
 
-        public async Task<DataTable> GetByUsername([FromBody] Users users)
+        public async Task<DataTable> GetByUsername()
         {
-            string query = "SELECT * FROM Users WHERE Name = @Name;";
-            SqlParameter[] userParameter =
-            {
-                new ("@Name", users.Name)
-            };
+            string query = "SELECT * FROM Users;";
 
-            DataTable selectUsers = await _dbService.ExecuteQueryAsync(query, userParameter);
+            DataTable selectUsers = await _dbService.ExecuteQueryAsync(query, null!);
 
             return selectUsers;
         }

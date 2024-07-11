@@ -27,12 +27,14 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IServices<Forms>, FormService>();
     services.AddScoped<IServices<Questions>, QuestionService>();
     services.AddScoped<IUserService, UserService>();
+    services.AddScoped<ILoginService, LoginService>();
 
     // Registro de repositórios
     services.AddScoped<IRepository<FormsGroup>, FormGroupRepository>();
     services.AddScoped<IRepository<Forms>, FormRepository>();
     services.AddScoped<IRepository<Questions>, QuestionRepository>();
     services.AddScoped<IUserRepository, UserRepository>();
+    services.AddScoped<ILoginRepository, LoginRepository>();
 
     // Registro do serviço ForEach
     services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
@@ -110,21 +112,19 @@ static void Configure(WebApplication app, IWebHostEnvironment env)
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Nome da sua API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Forms Builder API v1");
         c.RoutePrefix = string.Empty; // Define a UI do Swagger na raiz do aplicativo
     });
 
     // Outros middlewares
     app.UseHttpsRedirection();
+
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();
 }
 
 // Configure the HTTP request pipeline.
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();

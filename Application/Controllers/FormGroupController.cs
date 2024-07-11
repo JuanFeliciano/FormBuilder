@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
-using MovtechForms.Domain.Models;
 
 namespace MovtechForms.Application.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class FormGroupController : ControllerBase
@@ -35,6 +35,7 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
