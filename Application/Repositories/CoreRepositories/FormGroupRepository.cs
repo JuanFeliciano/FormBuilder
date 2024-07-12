@@ -4,7 +4,7 @@ using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace MovtechForms.Application.Repositories
+namespace MovtechForms.Application.Repositories.MainRepositories
 {
     public class FormGroupRepository : IRepository<FormsGroup>
     {
@@ -20,9 +20,8 @@ namespace MovtechForms.Application.Repositories
         public async Task<DataTable> Get()
         {
             string query = "SELECT * FROM FormsGroup;";
-            DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, null!);
 
-            return selectOperation;
+            return await _dbService.ExecuteQueryAsync(query, null!);
         }
 
 
@@ -35,6 +34,12 @@ namespace MovtechForms.Application.Repositories
             DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, parameter);
 
             List<FormsGroup> formsGroupList = selectOperation.ConvertDataTableToList<FormsGroup>();
+
+            if (formsGroupList is null || formsGroupList.Count is 0)
+            {
+                throw new Exception("Predicate is invalid");
+            }
+
             FormsGroup formsGroup = formsGroupList.Find(x => x.Id == id)!;
 
             /// operation select Forms
@@ -55,7 +60,7 @@ namespace MovtechForms.Application.Repositories
                 form.Questions = questionList;
             }
 
-            formsGroup.Forms = formsList; 
+            formsGroup.Forms = formsList;
 
             return formsGroup;
         }
@@ -63,19 +68,23 @@ namespace MovtechForms.Application.Repositories
         // POST METHOD
         public async Task<FormsGroup> Post([FromBody] FormsGroup formsGroup)
         {
+            if (formsGroup.Forms is null || formsGroup.Forms.Count is 0)
+            {
+                throw new ArgumentException("The value Forms cannot be null or empty");
+            }
+
             /// insert operation
             string insertFormGroupQuery = "INSERT INTO FormsGroup (Title) OUTPUT INSERTED.Id VALUES (@Title);";
             SqlParameter[] formGroupParameters = { new("@Title", formsGroup.Title.Trim()) };
+
             DataTable insertResult = await _dbService.ExecuteQueryAsync(insertFormGroupQuery, formGroupParameters);
             int idFormGroup = Convert.ToInt32(insertResult.Rows[0]["Id"]);
 
             /// insert forms and question operation
-            await _forEachCommand.SelectForEach(formsGroup, idFormGroup);
+            await _forEachCommand.InsertForEach(formsGroup, idFormGroup);
 
             /// select operation
-            FormsGroup selectFormsGroup = await GetById(idFormGroup);
-
-            return selectFormsGroup;
+            return await GetById(idFormGroup);
         }
 
         // DELETE METHOD
@@ -84,7 +93,23 @@ namespace MovtechForms.Application.Repositories
         {
             FormsGroup selectFormsGroup = await GetById(id);
 
+
+            string selectForm = "SELECT * FROM FormsGroup WHERE Id = @Id;";
+            SqlParameter[] selectFormGroupParameter = { new("@Id", id) };
+
+            DataTable formGroupSelect = await _dbService.ExecuteQueryAsync(selectForm, selectFormGroupParameter);
+            List<FormsGroup> formGroupList = formGroupSelect.ConvertDataTableToList<FormsGroup>();
+
             await _forEachCommand.DeleteForEach(id);
+
+            foreach (FormsGroup formsGroup in formGroupList)
+            {
+                string queryFormGroup = "DELETE FROM FormsGroup WHERE Id = @Id;";
+                SqlParameter[] formGroupParameter = { new("@Id", id) };
+
+                await _dbService.ExecuteQueryAsync(queryFormGroup, formGroupParameter);
+            }
+
 
 
             return selectFormsGroup;
@@ -104,9 +129,7 @@ namespace MovtechForms.Application.Repositories
 
             await _dbService.ExecuteQueryAsync(updateQuery, updateParameter);
 
-            FormsGroup selectFormsGroup = await GetById(id);
-
-            return selectFormsGroup;
+            return await GetById(id);
         }
     }
 }

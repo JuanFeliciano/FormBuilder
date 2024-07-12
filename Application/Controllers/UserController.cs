@@ -13,14 +13,13 @@ namespace MovtechForms.Application.Controllers
 
         public UserController(IUserService uService) => _userService = uService;
 
+
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] Users users)
         {
             try
             {
-                List<Users> user = await _userService.CreateUser(users);
-
-                return Ok(user);
+                return Ok(await _userService.CreateUser(users));
             }
             catch (Exception ex)
             {
@@ -28,18 +27,16 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
         [HttpGet]
         public async Task<IActionResult> GetByUsername()
         {
             try
             {
-                List<Users> listUsers = await _userService.GetByUsername();
-
-                return Ok(listUsers);
+                return Ok(await _userService.GetUser());
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when searching object: {ex.Message}");
             }
         }

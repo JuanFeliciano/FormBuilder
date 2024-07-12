@@ -28,19 +28,14 @@ namespace MovtechForms.Application.Repositories
             string selectQuery = "SELECT * FROM Users WHERE Id = @Id;";
             SqlParameter[] selectParameter = { new("@Id", idUser) };
 
-            DataTable selectUser = await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
-
-
-            return selectUser;
+            return await _dbService.ExecuteQueryAsync(selectQuery, selectParameter);
         }
 
-        public async Task<DataTable> GetByUsername()
+        public async Task<DataTable> GetUser()
         {
             string query = "SELECT * FROM Users;";
 
-            DataTable selectUsers = await _dbService.ExecuteQueryAsync(query, null!);
-
-            return selectUsers;
+            return await _dbService.ExecuteQueryAsync(query, null!);
         }
     }
 }

@@ -3,7 +3,7 @@ using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
 
-namespace MovtechForms.Application.Services
+namespace MovtechForms.Application.Services.MainServices
 {
     public class QuestionService : IServices<Questions>
     {
@@ -15,16 +15,13 @@ namespace MovtechForms.Application.Services
         public async Task<List<Questions>> Get()
         {
             DataTable selectResult = await _questionRepo.Get();
-            List<Questions> selectQuestion = selectResult.ConvertDataTableToList<Questions>();
 
-            return selectQuestion;
+            return selectResult.ConvertDataTableToList<Questions>();
         }
 
         public async Task<Questions> GetById(int id)
         {
-            Questions selectResult = await _questionRepo.GetById(id);
-
-            return selectResult;
+            return await _questionRepo.GetById(id);
         }
 
         public async Task<Questions> Post([FromBody] Questions questions)
@@ -34,16 +31,12 @@ namespace MovtechForms.Application.Services
                 throw new Exception("The content cannot be null or empty");
             }
 
-            Questions insertResult = await _questionRepo.Post(questions);
-
-            return insertResult;
+            return await _questionRepo.Post(questions);
         }
 
         public async Task<Questions> Delete(int id)
         {
-            Questions deleteResult = await _questionRepo.Delete(id);    
-
-            return deleteResult;
+            return await _questionRepo.Delete(id);
         }
 
         public async Task<Questions> Update([FromBody] Questions questions, int id)
@@ -53,9 +46,7 @@ namespace MovtechForms.Application.Services
                 throw new Exception("The content cannot be null or empty");
             }
 
-            Questions updateResult = await _questionRepo.Update(questions, id);
-
-            return updateResult;
+            return await _questionRepo.Update(questions, id);
         }
     }
 }

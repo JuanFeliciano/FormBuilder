@@ -3,9 +3,9 @@ using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
 
-namespace MovtechForms.Application.Services
+namespace MovtechForms.Application.Services.MainServices
 {
-    public class FormGroupService : IServices<FormsGroup> 
+    public class FormGroupService : IServices<FormsGroup>
     {
         private readonly IRepository<FormsGroup> _formGroupRepo;
 
@@ -15,18 +15,14 @@ namespace MovtechForms.Application.Services
         public async Task<List<FormsGroup>> Get()
         {
             DataTable selectResult = await _formGroupRepo.Get();
-            List<FormsGroup> selectFormsGroup = selectResult.ConvertDataTableToList<FormsGroup>();
 
-
-            return selectFormsGroup;
+            return selectResult.ConvertDataTableToList<FormsGroup>();
         }
 
-        // GET METHOD
-        public async Task<FormsGroup> GetById(int id)
+            // GET METHOD
+            public async Task<FormsGroup> GetById(int id)
         {
-            FormsGroup selectResult = await _formGroupRepo.GetById(id);
-
-            return selectResult;
+            return await _formGroupRepo.GetById(id);
         }
 
         // POST METHOD
@@ -37,32 +33,26 @@ namespace MovtechForms.Application.Services
                 throw new Exception("The value cannot be null or empty");
             }
 
-            FormsGroup insertResult = await _formGroupRepo.Post(formsGroup);
-
-            return insertResult;
+            return await _formGroupRepo.Post(formsGroup);
         }
 
         // DELETE METHOD
 
         public async Task<FormsGroup> Delete(int id)
         {
-            FormsGroup deleteResult = await _formGroupRepo.Delete(id);
-
-            return deleteResult;
+            return await _formGroupRepo.Delete(id);
         }
 
         // UPDATE METHOD
 
         public async Task<FormsGroup> Update([FromBody] FormsGroup formGroup, int id)
         {
-            FormsGroup updateResult = await _formGroupRepo.Update(formGroup, id);
-
             if (string.IsNullOrWhiteSpace(formGroup.Title))
             {
                 throw new Exception("The title cannot be null or empty");
             }
 
-            return updateResult;
+            return await _formGroupRepo.Update(formGroup, id);
         }
     }
 }

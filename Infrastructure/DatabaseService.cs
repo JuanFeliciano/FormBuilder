@@ -27,8 +27,10 @@ namespace MovtechForms.Infrastructure
                     using (SqlDataAdapter adapter = new(command))
                     {
                         DataTable dataTable = new();
+
                         await connection.OpenAsync();
                         adapter.Fill(dataTable);
+
                         return dataTable;
                     }
                 }

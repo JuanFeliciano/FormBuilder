@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovtechForms.Application.Repositories;
+using MovtechForms.Application.Repositories.MainRepositories;
 using MovtechForms.Application.Services;
+using MovtechForms.Application.Services.MainServices;
 using MovtechForms.Application.Utilities;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
@@ -38,6 +40,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     // Registro do serviço ForEach
     services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
     services.AddScoped<IForEach<Forms>, FormForEach>();
+    services.AddScoped<IForEach<Questions>, QuestionForEach>();
 
     //Registro de outros serviços necessarios
     services.AddScoped<IDatabaseService, DatabaseService>();

@@ -15,9 +15,7 @@ namespace MovtechForms.Application.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
-            string token = await _lgService.ValidationLogin(login);
-
-            return Ok(token);
+            return Ok(await _lgService.ValidationLogin(login));
         }
     }
 }

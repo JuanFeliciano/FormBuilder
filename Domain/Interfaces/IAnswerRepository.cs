@@ -4,9 +4,9 @@ using System.Data;
 
 namespace MovtechForms.Domain.Interfaces
 {
-    public interface IUserRepository
+    public interface IAnswerRepository
     {
-        Task<DataTable> CreateUser([FromBody] Users users);
-        Task<DataTable> GetUser();
+        Task<DataTable> PostAnswer([FromBody] Answer answer);
+        Task<DataTable> GetAnswer();
     }
 }

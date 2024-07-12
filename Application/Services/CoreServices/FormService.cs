@@ -3,14 +3,14 @@ using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data;
 
-namespace MovtechForms.Application.Services
+namespace MovtechForms.Application.Services.MainServices
 {
     public class FormService : IServices<Forms>
     {
         private readonly IRepository<Forms> _formRepo;
         private readonly IDatabaseService _dbService;
 
-        public FormService(IRepository<Forms> formRepo, IDatabaseService data) 
+        public FormService(IRepository<Forms> formRepo, IDatabaseService data)
         {
             _formRepo = formRepo;
             _dbService = data;
@@ -20,20 +20,15 @@ namespace MovtechForms.Application.Services
         public async Task<List<Forms>> Get()
         {
             DataTable selectResult = await _formRepo.Get();
-            List<Forms> selectForms = selectResult.ConvertDataTableToList<Forms>();
 
-
-            return selectForms;
+            return selectResult.ConvertDataTableToList<Forms>();
         }
 
 
         // GET by Id METHOD
         public async Task<Forms> GetById(int id)
         {
-            Forms selectResult = await _formRepo.GetById(id);
-
-            return selectResult;
-
+            return await _formRepo.GetById(id);
         }
 
         // POST METHOD
@@ -44,18 +39,14 @@ namespace MovtechForms.Application.Services
                 throw new Exception("The value cannot be null or empty");
             }
 
-            Forms insertResult = await _formRepo.Post(forms);
-
-            return insertResult;
+            return await _formRepo.Post(forms);
         }
 
 
         // DELETE METHOD
         public async Task<Forms> Delete(int id)
         {
-            Forms deleteResult = await _formRepo.Delete(id);
-
-            return deleteResult;
+            return await _formRepo.Delete(id);
         }
 
         // PUT METHOD
@@ -66,9 +57,7 @@ namespace MovtechForms.Application.Services
                 throw new Exception("The title cannot be null or empty");
             }
 
-            Forms updateResult = await _formRepo.Update(form, id);
-
-            return updateResult;
+            return await _formRepo.Update(form, id);
         }
 
 

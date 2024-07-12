@@ -4,7 +4,7 @@ using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace MovtechForms.Application.Repositories
+namespace MovtechForms.Application.Repositories.MainRepositories
 {
     public class FormRepository : IRepository<Forms>
     {
@@ -21,9 +21,8 @@ namespace MovtechForms.Application.Repositories
         public async Task<DataTable> Get()
         {
             string query = "SELECT * FROM Forms;";
-            DataTable selectOperation = await _dbService.ExecuteQueryAsync(query, null!);
-
-            return selectOperation;
+            
+            return await _dbService.ExecuteQueryAsync(query, null!);
         }
 
 
@@ -32,7 +31,7 @@ namespace MovtechForms.Application.Repositories
         {
             // Seleciona o formulário pelo ID
             string selectForm = "SELECT * FROM Forms WHERE Id = @Id;";
-            SqlParameter[] selectFormParameter = { new ("@Id", id) };
+            SqlParameter[] selectFormParameter = { new("@Id", id) };
             DataTable selectResultForm = await _dbService.ExecuteQueryAsync(selectForm, selectFormParameter);
 
             List<Forms> forms = selectResultForm.ConvertDataTableToList<Forms>();
@@ -64,20 +63,17 @@ namespace MovtechForms.Application.Repositories
             int idForm = Convert.ToInt32(insertResult.Rows[0]["Id"]);
 
             // insert question
-            await _forEach.SelectForEach(forms, idForm);
+            await _forEach.InsertForEach(forms, idForm);
 
-            Forms selectForms = await GetById(idForm);
-
-            return selectForms;
+            return await GetById(idForm);
         }
 
 
         // DELETE METHOD
         public async Task<Forms> Delete(int id)
         {
-            await _forEach.DeleteForEach(id);
-
             Forms selectForms = await GetById(id);
+            await _forEach.DeleteForEach(id);
 
             return selectForms;
         }
@@ -102,9 +98,7 @@ namespace MovtechForms.Application.Repositories
 
             await _dbService.ExecuteQueryAsync(updateQuery, updateParameters);
 
-            Forms selectForms = await GetById(id);
-
-            return selectForms;
+            return await GetById(id);
         }
     }
 }

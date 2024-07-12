@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 
-namespace MovtechForms.Application.Controllers
+namespace MovtechForms.Application.Controllers.CoreControllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -13,31 +14,28 @@ namespace MovtechForms.Application.Controllers
         public FormController(IServices<Forms> formService) => _formService = formService;
 
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
-                List<Forms> data = await _formService.Get();
-
-                return StatusCode(200, data);
+                return StatusCode(200, await _formService.Get());
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when querying data: {ex.Message}");
             }
         }
 
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                Forms data = await _formService.GetById(id);
-
-                return StatusCode(200, data);
+                return StatusCode(200, await _formService.GetById(id));
             }
             catch (Exception ex)
             {
@@ -45,14 +43,14 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Forms forms)
         {
             try
             {
-                Forms data = await _formService.Post(forms);
-
-                return StatusCode(201, data);
+                return StatusCode(201, await _formService.Post(forms));
             }
             catch (Exception ex)
             {
@@ -60,14 +58,16 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                Forms data = await _formService.Delete(id);
+                await _formService.Delete(id);
 
-                return Ok($"Successfully deleted object\n {data}");
+                return StatusCode(200, "Successfully deleted object");
             }
             catch (Exception ex)
             {
@@ -75,14 +75,14 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] Forms forms, int id)
         {
             try
             {
-                Forms data = await _formService.Update(forms, id);
-
-                return StatusCode(201, data);
+                return StatusCode(201, await _formService.Update(forms, id));
             }
             catch (Exception ex)
             {

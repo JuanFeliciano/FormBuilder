@@ -11,7 +11,7 @@ namespace MovtechForms.Application.Utilities
 
         public FormForEach(IDatabaseService dbService) => _dbService = dbService;
 
-        public async Task SelectForEach([FromBody] Forms forms, int idForm)
+        public async Task InsertForEach([FromBody] Forms forms, int idForm)
         {
             foreach (Questions questions in forms.Questions)
             {
@@ -21,6 +21,7 @@ namespace MovtechForms.Application.Utilities
                     new("@IdForm", idForm),
                     new("@Content", questions.Content.Trim())
                 };
+
                 await _dbService.ExecuteQueryAsync(insertQuestionsQuery, questionParameters);
             }
         }

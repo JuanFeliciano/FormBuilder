@@ -23,14 +23,13 @@ namespace MovtechForms.Application.Services
             if (result)
             {
                 var admin = new Users { Name = login.Username, Role = "Admin" };
-                var tokenAdmin = _tokenService.GenerateToken(admin);
-                return tokenAdmin;
+                
+                return _tokenService.GenerateToken(admin);
             }
 
             var common = new Users { Name = login.Username, Role = "Common" };
-            var token = _tokenService.GenerateToken(common);
-
-            return token;
+            
+            return _tokenService.GenerateToken(common);
         }
 
     }

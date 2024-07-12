@@ -24,17 +24,15 @@ namespace MovtechForms.Application.Services
             }
 
             DataTable users = await _userRepository.CreateUser(user);
-            List<Users> usersList = users.ConvertDataTableToList<Users>();
-
-            return usersList;
+            
+            return users.ConvertDataTableToList<Users>();
         }
 
-        public async Task<List<Users>> GetByUsername()
+        public async Task<List<Users>> GetUser()
         {
-            DataTable userDataTable = await _userRepository.GetByUsername();
-            List<Users> users = userDataTable.ConvertDataTableToList<Users>();
+            DataTable userDataTable = await _userRepository.GetUser();
 
-            return users;
+            return userDataTable.ConvertDataTableToList<Users>();
         }
     }
 }

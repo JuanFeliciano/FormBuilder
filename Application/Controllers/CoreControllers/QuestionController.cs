@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 
-namespace MovtechForms.Application.Controllers
+namespace MovtechForms.Application.Controllers.CoreControllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -14,32 +15,28 @@ namespace MovtechForms.Application.Controllers
 
 
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
-                List<Questions> data = await _questionService.Get();
-
-                return StatusCode(200, data);
+                return StatusCode(200, await _questionService.Get());
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, $"Error when querying data: {ex.Message}");
             }
         }
 
 
-
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                Questions data = await _questionService.GetById(id);
-
-                return StatusCode(200, data);
+                return StatusCode(200, await _questionService.GetById(id));
             }
             catch (Exception ex)
             {
@@ -47,14 +44,14 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Questions questions)
         {
             try
             {
-                Questions data = await _questionService.Post(questions);
-
-                return StatusCode(201, data);
+                return StatusCode(201, await _questionService.Post(questions));
             }
             catch (Exception ex)
             {
@@ -62,14 +59,16 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                Questions data = await _questionService.Delete(id);
+                await _questionService.Delete(id);
 
-                return StatusCode(200, $"Successfully deleted object\n {data}");
+                return StatusCode(200, "Successfully deleted object");
             }
             catch (Exception ex)
             {
@@ -77,14 +76,14 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] Questions questions, int id)
         {
             try
             {
-                Questions data = await _questionService.Update(questions, id);
-
-                return StatusCode(201, data);
+                return StatusCode(201, await _questionService.Update(questions, id));
             }
             catch (Exception ex)
             {

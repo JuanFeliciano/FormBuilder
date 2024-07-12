@@ -4,7 +4,7 @@ using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 
-namespace MovtechForms.Application.Controllers
+namespace MovtechForms.Application.Controllers.CoreControllers
 {
     [Authorize]
     [ApiController]
@@ -20,14 +20,14 @@ namespace MovtechForms.Application.Controllers
             _tokenService = token;
         }
 
+
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
-                List<FormsGroup> data = await _formGroupRepo.Get();
-
-                return StatusCode(200, data);
+                return StatusCode(200, await _formGroupRepo.Get());
             }
             catch (Exception ex)
             {
@@ -35,21 +35,21 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                FormsGroup data = await _formGroupRepo.GetById(id);
-
-                return Ok(data);
+                return Ok(await _formGroupRepo.GetById(id));
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error when querying data: {ex.Message}");
             }
         }
+
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -57,9 +57,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                FormsGroup data = await _formGroupRepo.Post(formGroup);
-
-                return StatusCode(201, data);
+                return StatusCode(201, await _formGroupRepo.Post(formGroup));
             }
             catch (Exception ex)
             {
@@ -67,15 +65,16 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                FormsGroup data = await _formGroupRepo.Delete(id);
+                await _formGroupRepo.Delete(id);
 
-                return StatusCode(200, data);
+                return StatusCode(200, "Successfully deleted object");
             }
             catch (Exception ex)
             {
@@ -83,15 +82,14 @@ namespace MovtechForms.Application.Controllers
             }
         }
 
+
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] FormsGroup formGroup, int id)
         {
             try
             {
-                FormsGroup data = await _formGroupRepo.Update(formGroup, id);
-
-                return Ok(data);
+                return Ok(await _formGroupRepo.Update(formGroup, id));
             }
             catch (Exception ex)
             {
