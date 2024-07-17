@@ -3,11 +3,14 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Repositories.MainRepositories;
+using MovtechForms.Application.Repositories.UseCases;
 using MovtechForms.Application.Services;
+using MovtechForms.Application.Services.CoreServices;
 using MovtechForms.Application.Services.MainServices;
-using MovtechForms.Application.Utilities;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
+using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
+using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 using MovtechForms.Infrastructure;
 using System.Text;
 
@@ -29,6 +32,8 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IServices<Questions>, QuestionService>();
     services.AddScoped<IUserService, UserService>();
     services.AddScoped<ILoginService, LoginService>();
+    services.AddScoped<IAnswerService, AnswerService>();
+    services.AddScoped<TokenService>();
 
     // Registro de repositórios
     services.AddScoped<IRepository<FormsGroup>, FormGroupRepository>();
@@ -36,6 +41,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IRepository<Questions>, QuestionRepository>();
     services.AddScoped<IUserRepository, UserRepository>();
     services.AddScoped<ILoginRepository, LoginRepository>();
+    services.AddScoped<IAnswerRepository, AnswerRepository>();
 
     // Registro do serviço ForEach
     services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
