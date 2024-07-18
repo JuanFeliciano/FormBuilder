@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces;
-using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 
 namespace MovtechForms.Application.Controllers.CoreControllers
@@ -11,14 +10,9 @@ namespace MovtechForms.Application.Controllers.CoreControllers
     [Route("[controller]")]
     public class FormGroupController : ControllerBase
     {
-        private readonly IFormGroupService _formGroupRepo;
-        private readonly TokenService _tokenService;
+        private readonly IFormGroupService _formGroupService;
 
-        public FormGroupController(IFormGroupService formGroupRepo, TokenService token)
-        {
-            _formGroupRepo = formGroupRepo;
-            _tokenService = token;
-        }
+        public FormGroupController(IFormGroupService formGroupRepo) => _formGroupService = formGroupRepo;
 
 
         [Authorize]
@@ -27,7 +21,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-                return StatusCode(200, await _formGroupRepo.Get());
+                return StatusCode(200, await _formGroupService.Get());
             }
             catch (Exception ex)
             {
@@ -42,7 +36,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-                return Ok(await _formGroupRepo.GetById(id));
+                return Ok(await _formGroupService.GetById(id));
             }
             catch (Exception ex)
             {
@@ -57,7 +51,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-                return StatusCode(201, await _formGroupRepo.Post(formGroup));
+                return StatusCode(201, await _formGroupService.Post(formGroup));
             }
             catch (Exception ex)
             {
@@ -72,7 +66,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-                await _formGroupRepo.Delete(id);
+                await _formGroupService.Delete(id);
 
                 return StatusCode(200, "Successfully deleted object");
             }
@@ -89,7 +83,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-                return Ok(await _formGroupRepo.Update(formGroup, id));
+                return Ok(await _formGroupService.Update(formGroup, id));
             }
             catch (Exception ex)
             {

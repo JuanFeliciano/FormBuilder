@@ -18,12 +18,12 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         }
 
         // GET METHOD
-        public async Task<Forms> Get()
+        public async Task<List<Forms>> Get()
         {
-            Forms selectResult = await _formRepo.Get();
+            List<Forms> selectResult = await _formRepo.Get();
 
 
-            if (selectResult is null)
+            if (selectResult.Count is 0)
                 throw new Exception("There are no forms");
 
 

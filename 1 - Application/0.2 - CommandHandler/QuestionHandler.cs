@@ -12,11 +12,11 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         public QuestionHandler(IQuestionRepository questionRepo) => _questionRepo = questionRepo;
 
 
-        public async Task<Questions> Get()
+        public async Task<List<Questions>> Get()
         {
-            Questions selectResult = await _questionRepo.Get();
+            List<Questions> selectResult = await _questionRepo.Get();
 
-            if (selectResult is null)
+            if (selectResult.Count is 0)
                 throw new Exception("There are no question");
 
             return selectResult;

@@ -12,7 +12,7 @@ namespace MovtechForms.Application.Services.MainServices
         public FormService(IFormHandler formHandler) => _formHandler = formHandler;
 
         // GET METHOD
-        public async Task<Forms> Get()
+        public async Task<List<Forms>> Get()
         {
             return await _formHandler.Get();
         }

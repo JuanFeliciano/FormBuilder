@@ -12,11 +12,11 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         public FormGroupHandler(IFormGroupRepository formGroupRepo) => _formGroupRepo = formGroupRepo;
 
 
-        public async Task<FormsGroup> Get()
+        public async Task<List<FormsGroup>> Get()
         {
-            FormsGroup selectResult = await _formGroupRepo.Get();
+            List<FormsGroup> selectResult = await _formGroupRepo.Get();
 
-            if (selectResult is null)
+            if (selectResult.Count is 0)
                 throw new Exception("There are no Forms Group");
 
             return selectResult;

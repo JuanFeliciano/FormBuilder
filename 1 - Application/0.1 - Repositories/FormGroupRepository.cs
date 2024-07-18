@@ -19,18 +19,15 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             _forEachCommand = forEachCommand;
         }
 
-        public async Task<FormsGroup> Get()
+        public async Task<List<FormsGroup>> Get()
         {
             string query = "SELECT * FROM FormsGroup;";
 
             DataTable formGroupDataTable = await _dbService.ExecuteQuery(query, null!);
-            int id = Convert.ToInt32(formGroupDataTable.Rows[0]["Id"]);
 
             List<FormsGroup> formGroups = formGroupDataTable.ConvertDataTableToList<FormsGroup>();
 
-            FormsGroup formGroup = formGroups.Find(i => i.Id == id)!;
-
-            return formGroup;
+            return formGroups;
         }
 
 

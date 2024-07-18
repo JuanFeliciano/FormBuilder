@@ -12,7 +12,7 @@ namespace MovtechForms.Application.Services.MainServices
         public QuestionService(IQuestionHandler questionHandler) => _questionHandler = questionHandler;
 
 
-        public async Task<Questions> Get()
+        public async Task<List<Questions>> Get()
         {
             return await _questionHandler.Get();
         }

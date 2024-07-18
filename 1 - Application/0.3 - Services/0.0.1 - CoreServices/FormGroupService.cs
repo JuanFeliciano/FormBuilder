@@ -12,7 +12,7 @@ namespace MovtechForms.Application.Services.MainServices
         public FormGroupService(IFormGroupHandler formGroupHandler) => _formGroupHandler = formGroupHandler;
 
 
-        public async Task<FormsGroup> Get()
+        public async Task<List<FormsGroup>> Get()
         {
             return await _formGroupHandler.Get();
         }

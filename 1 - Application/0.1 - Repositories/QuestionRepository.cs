@@ -20,18 +20,15 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             _forEach = each;
         }
 
-        public async Task<Questions> Get()
+        public async Task<List<Questions>> Get()
         {
             string query = "SELECT * FROM Questions;";
 
             DataTable questionDataTable = await _dbService.ExecuteQuery(query, null!);
-            int id = Convert.ToInt32(questionDataTable.Rows[0]["Id"]);
 
             List<Questions> questions = questionDataTable.ConvertDataTableToList<Questions>();
 
-            Questions question = questions.Find(i => i.Id == id)!;
-
-            return question;
+            return questions;
         }
 
         public async Task<Questions> GetById(int id)

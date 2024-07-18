@@ -19,7 +19,7 @@ namespace MovtechForms.Infrastructure
             {
                 using (SqlCommand command = new(query, connection))
                 {
-                    if (parameters != null)
+                    if (parameters is not null)
                     {
                         command.Parameters.AddRange(parameters);
                     }

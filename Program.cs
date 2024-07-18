@@ -63,41 +63,20 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 
     // Outros registros
     services.AddControllers();
+    services.AddSingleton<TokenService>();
+
+
     services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new OpenApiInfo
+        c.SwaggerDoc("FormBuilder v1", new OpenApiInfo
         {
             Version = "v1",
             Title = "Forms Builder",
             Description = "Constructor Forms"
         });
-
-        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-        {
-            Name = "Authorization",
-            Type = SecuritySchemeType.ApiKey,
-            Scheme = "Bearer",
-            BearerFormat = "JWT",
-            In = ParameterLocation.Header,
-            Description = "Header Authorization using Bearer scheme \r\n\r\n Write 'Bearer' before put your key"
-        });
-
-        c.AddSecurityRequirement(new OpenApiSecurityRequirement
-        {
-            {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-            }
-        });
-
     });
+
+
     services.AddAuthentication(option =>
     {
         option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -117,10 +96,6 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!))
         };
     });
-
-
-    services.AddControllers();
-    services.AddSingleton<TokenService>();
 }
 
 
