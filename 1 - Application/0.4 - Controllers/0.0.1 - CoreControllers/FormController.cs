@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces;
 using MovtechForms.Domain.Entities;
-using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 
 namespace MovtechForms.Application.Controllers.CoreControllers
 {
@@ -9,9 +9,9 @@ namespace MovtechForms.Application.Controllers.CoreControllers
     [Route("[controller]")]
     public class FormController : ControllerBase
     {
-        private readonly IServices<Forms> _formService;
+        private readonly IFormService _formService;
 
-        public FormController(IServices<Forms> formService) => _formService = formService;
+        public FormController(IFormService formService) => _formService = formService;
 
 
         [Authorize]

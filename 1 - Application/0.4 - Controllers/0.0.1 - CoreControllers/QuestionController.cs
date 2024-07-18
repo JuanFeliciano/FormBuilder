@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces;
 using MovtechForms.Domain.Entities;
-using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 
 namespace MovtechForms.Application.Controllers.CoreControllers
 {
@@ -9,9 +9,9 @@ namespace MovtechForms.Application.Controllers.CoreControllers
     [Route("[controller]")]
     public class QuestionController : Controller
     {
-        private readonly IServices<Questions> _questionService;
+        private readonly IQuestionService _questionService;
 
-        public QuestionController(IServices<Questions> qtService) => _questionService = qtService;
+        public QuestionController(IQuestionService qtService) => _questionService = qtService;
 
 
 

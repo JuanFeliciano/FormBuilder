@@ -5,10 +5,11 @@ using System.Data.SqlClient;
 using System.Data;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 
 namespace MovtechForms.Application.Repositories.MainRepositories
 {
-    public class QuestionRepository : IRepository<Questions>
+    public class QuestionRepository : IQuestionRepository
     {
         private readonly IDatabaseService _dbService;
         private readonly IForEach<Questions> _forEach;
@@ -19,17 +20,25 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             _forEach = each;
         }
 
-        public async Task<DataTable> Get()
+        public async Task<Questions> Get()
         {
             string query = "SELECT * FROM Questions;";
 
-            return await _dbService.ExecuteQuery(query, null!);
+            DataTable questionDataTable = await _dbService.ExecuteQuery(query, null!);
+            int id = Convert.ToInt32(questionDataTable.Rows[0]["Id"]);
+
+            List<Questions> questions = questionDataTable.ConvertDataTableToList<Questions>();
+
+            Questions question = questions.Find(i => i.Id == id)!;
+
+            return question;
         }
 
         public async Task<Questions> GetById(int id)
         {
             string query = "SELECT * FROM Questions WHERE Id = @Id;";
             SqlParameter[] parameter = { new("@Id", id) };
+
             DataTable selectOperation = await _dbService.ExecuteQuery(query, parameter);
 
             List<Questions> questionsList = selectOperation.ConvertDataTableToList<Questions>();
@@ -37,7 +46,9 @@ namespace MovtechForms.Application.Repositories.MainRepositories
 
             string queryAnswer = "SELECT * FROM Answer WHERE IdQuestion = @IdQuestion;";
             SqlParameter[] answerParameter = { new("@IdQuestion", id) };
+
             DataTable selectAnswerOperation = await _dbService.ExecuteQuery(queryAnswer, answerParameter);
+
             List<Answer> answerList = selectAnswerOperation.ConvertDataTableToList<Answer>();
 
             questions.Answers = answerList;

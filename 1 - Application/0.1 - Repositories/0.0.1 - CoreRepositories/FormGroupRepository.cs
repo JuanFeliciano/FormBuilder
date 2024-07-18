@@ -3,12 +3,12 @@ using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 using System.Data;
-using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 
 namespace MovtechForms.Application.Repositories.MainRepositories
 {
-    public class FormGroupRepository : IRepository<FormsGroup>
+    public class FormGroupRepository : IFormGroupRepository
     {
         private readonly IDatabaseService _dbService;
         private readonly IForEach<FormsGroup> _forEachCommand;
@@ -19,11 +19,18 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             _forEachCommand = forEachCommand;
         }
 
-        public async Task<DataTable> Get()
+        public async Task<FormsGroup> Get()
         {
             string query = "SELECT * FROM FormsGroup;";
 
-            return await _dbService.ExecuteQuery(query, null!);
+            DataTable formGroupDataTable = await _dbService.ExecuteQuery(query, null!);
+            int id = Convert.ToInt32(formGroupDataTable.Rows[0]["Id"]);
+
+            List<FormsGroup> formGroups = formGroupDataTable.ConvertDataTableToList<FormsGroup>();
+
+            FormsGroup formGroup = formGroups.Find(i => i.Id == id)!;
+
+            return formGroup;
         }
 
 

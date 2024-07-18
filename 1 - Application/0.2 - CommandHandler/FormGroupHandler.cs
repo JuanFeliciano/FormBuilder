@@ -1,27 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovtechForms.Application;
-using MovtechForms.Application.Services.MainServices;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces;
 using MovtechForms.Domain.Entities;
-using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
-using System.Data;
 
 namespace MovtechForms._1___Application._0._2___CommandHandler
 {
-    public class FormGroupHandler
+    public class FormGroupHandler : IFormGroupHandler
     {
-        private readonly IRepository<FormsGroup> _formGroupRepo;
+        private readonly IFormGroupRepository _formGroupRepo;
 
-        public FormGroupHandler(IRepository<FormsGroup> formGroupRepo) => _formGroupRepo = formGroupRepo;
+        public FormGroupHandler(IFormGroupRepository formGroupRepo) => _formGroupRepo = formGroupRepo;
 
 
-        public async Task<List<FormsGroup>> Get()
+        public async Task<FormsGroup> Get()
         {
-            DataTable selectResult = await _formGroupRepo.Get();
+            FormsGroup selectResult = await _formGroupRepo.Get();
 
-            if (selectResult.Rows.Count is 0)
+            if (selectResult is null)
                 throw new Exception("There are no Forms Group");
 
-            return selectResult.ConvertDataTableToList<FormsGroup>();
+            return selectResult;
         }
 
         // GET METHOD

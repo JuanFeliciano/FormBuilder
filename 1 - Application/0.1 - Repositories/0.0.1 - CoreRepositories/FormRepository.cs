@@ -6,10 +6,11 @@ using System.Data;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 using System.Formats.Asn1;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 
 namespace MovtechForms.Application.Repositories.MainRepositories
 {
-    public class FormRepository : IRepository<Forms>
+    public class FormRepository : IFormRepository
     {
         private readonly IDatabaseService _dbService;
         private readonly IForEach<Forms> _forEach;
@@ -21,11 +22,18 @@ namespace MovtechForms.Application.Repositories.MainRepositories
         }
 
         // GET METHOD
-        public async Task<DataTable> Get()
+        public async Task<Forms> Get()
         {
             string query = "SELECT * FROM Forms;";
 
-            return await _dbService.ExecuteQuery(query, null!);
+            DataTable formDataTable = await _dbService.ExecuteQuery(query, null!);
+            int id = Convert.ToInt32(formDataTable.Rows[0]["Id"]);
+
+            List<Forms> forms = formDataTable.ConvertDataTableToList<Forms>();
+
+            Forms form = forms.Find(i => i.Id == id)!;
+
+            return form;
         }
 
 

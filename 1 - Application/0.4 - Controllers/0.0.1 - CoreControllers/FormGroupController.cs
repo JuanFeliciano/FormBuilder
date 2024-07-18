@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces;
 using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
-using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 
 namespace MovtechForms.Application.Controllers.CoreControllers
 {
@@ -11,10 +11,10 @@ namespace MovtechForms.Application.Controllers.CoreControllers
     [Route("[controller]")]
     public class FormGroupController : ControllerBase
     {
-        private readonly IServices<FormsGroup> _formGroupRepo;
+        private readonly IFormGroupService _formGroupRepo;
         private readonly TokenService _tokenService;
 
-        public FormGroupController(IServices<FormsGroup> formGroupRepo, TokenService token)
+        public FormGroupController(IFormGroupService formGroupRepo, TokenService token)
         {
             _formGroupRepo = formGroupRepo;
             _tokenService = token;

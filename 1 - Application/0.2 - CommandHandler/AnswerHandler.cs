@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces;
 using MovtechForms.Application;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
@@ -6,7 +7,7 @@ using System.Data;
 
 namespace MovtechForms._1___Application._0._2___CommandHandler
 {
-    public class AnswerHandler
+    public class AnswerHandler : IAnswerHandler
     {
         private readonly IAnswerRepository _answerRepo;
 
@@ -15,7 +16,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             _answerRepo = answerRepo;
         }
 
-        public async Task<List<Answer>> Get()
+        public async Task<List<Answer>> GetAnswer()
         {
             DataTable answerData = await _answerRepo.GetAnswer();
 
@@ -27,7 +28,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return answerData.ConvertDataTableToList<Answer>();
         }
 
-        public async Task<List<Answer>> Post([FromBody] Answer answer)
+        public async Task<List<Answer>> PostAnswer([FromBody] Answer answer)
         {
             if (answer.Grade < 0 || answer.Grade > 10)
                 throw new Exception("The grade is invalid, it cannot be greater than 10 or less than 0");
