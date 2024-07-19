@@ -75,9 +75,6 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             if (string.IsNullOrWhiteSpace(form.Title.Trim()))
                 throw new Exception("The title cannot be null or empty");
 
-            if (form.Questions.Count is 0)
-                throw new Exception("Questions is an mandatory parameter");
-
             Forms forms = await _formRepo.Update(form, id);
 
             if (forms is null)

@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovtechForms._1___Application._0._2___CommandHandler;
+using MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces._0._0._0._1___SecundaryInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Repositories.MainRepositories;
@@ -25,7 +27,7 @@ ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
-Configure(app, builder.Environment);
+Configure(app);
 
 static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
@@ -37,13 +39,15 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IAnswerService, AnswerService>();
     services.AddScoped<IUserService, UserService>();
     services.AddScoped<ILoginService, LoginService>();
-    services.AddScoped<TokenService>();
+    services.AddSingleton<TokenService>();
 
     // Registro de handlers
     services.AddScoped<IFormGroupHandler, FormGroupHandler>();
     services.AddScoped<IFormHandler, FormHandler>();
     services.AddScoped<IQuestionHandler, QuestionHandler>();
     services.AddScoped<IAnswerHandler, AnswerHandler>();
+    services.AddScoped<ILoginHandler, LoginHandler>();
+    services.AddScoped<IUserHandler, UserHandler>();
 
     // Registro de repositórios
     services.AddScoped<IFormGroupRepository, FormGroupRepository>();
@@ -51,7 +55,6 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IQuestionRepository, QuestionRepository>();
     services.AddScoped<IAnswerRepository, AnswerRepository>();
     services.AddScoped<IUserRepository, UserRepository>();
-    services.AddScoped<ILoginRepository, LoginRepository>();
 
     // Registro do serviço ForEach
     services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
@@ -63,18 +66,9 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 
     // Outros registros
     services.AddControllers();
-    services.AddSingleton<TokenService>();
 
 
-    services.AddSwaggerGen(c =>
-    {
-        c.SwaggerDoc("FormBuilder v1", new OpenApiInfo
-        {
-            Version = "v1",
-            Title = "Forms Builder",
-            Description = "Constructor Forms"
-        });
-    });
+    services.AddSwaggerGen();
 
 
     services.AddAuthentication(option =>
@@ -99,14 +93,14 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 }
 
 
-static void Configure(WebApplication app, IWebHostEnvironment env)
+static void Configure(WebApplication app)
 {
     // Ative o Swagger e a UI do Swagger em todos os ambientes
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
+    app.UseSwaggerUI(option =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Forms Builder API v1");
-        c.RoutePrefix = string.Empty; // Define a UI do Swagger na raiz do aplicativo
+        option.SwaggerEndpoint("/swagger/v1/swagger.json", "Forms Builder API v1");
+        option.RoutePrefix = string.Empty; // Define a UI do Swagger na raiz do aplicativo
     });
 
     // Outros middlewares

@@ -105,13 +105,12 @@ namespace MovtechForms.Application.Repositories.MainRepositories
         // PUT METHOD
         public async Task<Forms> Update([FromBody] Forms form, int id)
         {
-            string updateQuery = "UPDATE Forms SET IdGroup = @IdGroup, Title = @Title, Questions = @Questions WHERE Id = @Id;";
+            string updateQuery = "UPDATE Forms SET IdGroup = @IdGroup, Title = @Title WHERE Id = @Id;";
 
             SqlParameter[] updateParameters =
             {
                 new("@IdGroup", form.IdGroup),
                 new("@Title", form.Title.Trim()),
-                new("@Question", form.Questions),
                 new("@Id", id)
             };
 

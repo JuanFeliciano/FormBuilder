@@ -3,7 +3,6 @@ using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 using System.Data;
-using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 
@@ -75,6 +74,8 @@ namespace MovtechForms.Application.Repositories.MainRepositories
 
         public async Task<Questions> Delete(int id)
         {
+            Questions questionSelect = await GetById(id);
+
             await _forEach.DeleteForEach(id);
 
             string deleteQuery = "DELETE FROM Questions WHERE Id = @Id;";
@@ -82,7 +83,7 @@ namespace MovtechForms.Application.Repositories.MainRepositories
 
             await _dbService.ExecuteQuery(deleteQuery, deleteParameter);
 
-            return await GetById(id);
+            return questionSelect;
         }
 
         public async Task<Questions> Update([FromBody] Questions questions, int id)

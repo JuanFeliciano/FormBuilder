@@ -10,7 +10,7 @@ namespace MovtechForms.Application.Controllers
     {
         private readonly ILoginService _lgService;
 
-        public LoginController(ILoginService lg) => _lgService = lg;
+        public LoginController(ILoginService login) => _lgService = login;
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel login)

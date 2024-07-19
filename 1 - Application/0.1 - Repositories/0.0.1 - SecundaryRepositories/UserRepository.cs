@@ -17,11 +17,6 @@ namespace MovtechForms.Application.Repositories
         {
             string query = "INSERT INTO Users (Name, Password, Role) OUTPUT INSERTED.Id VALUES (@Name, @Password, @Role);";
 
-            if (userBody.Role is not "Admin")
-            {
-                userBody.Role = "Common";
-            }
-
 
             SqlParameter[] userParameters =
             {

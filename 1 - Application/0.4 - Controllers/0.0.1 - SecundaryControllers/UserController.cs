@@ -14,7 +14,7 @@ namespace MovtechForms.Application.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] Users users)
+        public async Task<IActionResult> Post([FromBody] Users users)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace MovtechForms.Application.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetByUsername()
+        public async Task<IActionResult> Get()
         {
             try
             {
