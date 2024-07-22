@@ -1,19 +1,18 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using MovtechForms._1___Application._0._2___CommandHandler;
 using MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces._0._0._0._1___SecundaryInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfaces;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Repositories.MainRepositories;
 using MovtechForms.Application.Repositories.UseCases;
 using MovtechForms.Application.Services;
 using MovtechForms.Application.Services.CoreServices;
 using MovtechForms.Application.Services.MainServices;
-using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
@@ -39,7 +38,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IAnswerService, AnswerService>();
     services.AddScoped<IUserService, UserService>();
     services.AddScoped<ILoginService, LoginService>();
-    services.AddSingleton<TokenService>();
+    services.AddSingleton<MovtechForms.Application.Services.TokenHandler>();
 
     // Registro de handlers
     services.AddScoped<IFormGroupHandler, FormGroupHandler>();
@@ -57,9 +56,9 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IUserRepository, UserRepository>();
 
     // Registro do serviço ForEach
-    services.AddScoped<IForEach<FormsGroup>, FormGroupForEach>();
-    services.AddScoped<IForEach<Forms>, FormForEach>();
-    services.AddScoped<IForEach<Questions>, QuestionForEach>();
+    services.AddScoped<IFormGroupForEach, FormGroupForEach>();
+    services.AddScoped<IFormForEach, FormForEach>();
+    services.AddScoped<IQuestionForEach, QuestionForEach>();
 
     //Registro de outros serviços necessarios
     services.AddScoped<IDatabaseService, DatabaseService>();

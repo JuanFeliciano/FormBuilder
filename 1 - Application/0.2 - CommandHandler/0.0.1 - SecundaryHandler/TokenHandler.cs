@@ -6,11 +6,11 @@ using System.Text;
 
 namespace MovtechForms.Application.Services
 {
-    public class TokenService
+    public class TokenHandler
     {
         private readonly IConfiguration _configuration;
 
-        public TokenService(IConfiguration configuration)
+        public TokenHandler(IConfiguration configuration)
         {
             _configuration = configuration;
         }

@@ -1,17 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfaces;
 using MovtechForms.Domain.Entities;
-using MovtechForms.Domain.Interfaces;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace MovtechForms.Application.Repositories.UseCases
 {
-    public class QuestionForEach : IForEach<Questions>
+    public class QuestionForEach : IQuestionForEach
     {
         private readonly IDatabaseService _dbService;
 
         public QuestionForEach(IDatabaseService dbService) => _dbService = dbService;
+
+
+        public async Task<List<Answer>> SelectForEach(int id)
+        {
+            string queryAnswer = "SELECT * FROM Answer WHERE IdQuestion = @IdQuestion;";
+            SqlParameter[] answerParameter = { new("@IdQuestion", id) };
+
+            DataTable selectAnswerOperation = await _dbService.ExecuteQuery(queryAnswer, answerParameter);
+
+            List<Answer> answerList = selectAnswerOperation.ConvertDataTableToList<Answer>();
+
+            return answerList;
+        }
+
 
         public async Task InsertForEach([FromBody] Questions question, int id)
         {

@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Domain.Entities;
-using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 using System.Data;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfaces;
 
 namespace MovtechForms.Application.Repositories.MainRepositories
 {
     public class FormRepository : IFormRepository
     {
         private readonly IDatabaseService _dbService;
-        private readonly IForEach<Forms> _forEach;
+        private readonly IFormForEach _forEach;
 
-        public FormRepository(IDatabaseService dbService, IForEach<Forms> forEach)
+        public FormRepository(IDatabaseService dbService, IFormForEach forEach)
         {
             _dbService = dbService;
             _forEach = forEach;
@@ -44,30 +44,10 @@ namespace MovtechForms.Application.Repositories.MainRepositories
 
             Forms form = forms.Find(x => x.Id == id)!;
 
-
-            string selectQuestions = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
-            SqlParameter[] selectQuestionsParameter = { new SqlParameter("@IdForm", id) };
-            DataTable selectResultQuestions = await _dbService.ExecuteQuery(selectQuestions, selectQuestionsParameter);
+            List<Questions> questionList = await _forEach.SelectForEach(id);
 
 
-            List<Questions> questions = selectResultQuestions.ConvertDataTableToList<Questions>();
-
-
-            foreach (Questions question in questions)
-            {
-                string selectAnswers = "SELECT * FROM Answer WHERE IdQuestion = @IdQuestion;";
-                SqlParameter[] selectAnswerParameter = { new("@IdQuestion", question.Id) };
-
-                DataTable selectResultAnswer = await _dbService.ExecuteQuery(selectAnswers, selectAnswerParameter);
-
-
-                List<Answer> answers = selectResultAnswer.ConvertDataTableToList<Answer>();
-
-                question.Answers = answers;
-            }
-
-
-            form.Questions = questions;
+            form.Questions = questionList;
 
             return form;
         }
@@ -97,7 +77,14 @@ namespace MovtechForms.Application.Repositories.MainRepositories
         public async Task<Forms> Delete(int id)
         {
             Forms selectForms = await GetById(id);
+
+
             await _forEach.DeleteForEach(id);
+
+            string deleteFormQuery = "DELETE FROM Forms WHERE Id = @Id;";
+            SqlParameter[] deleteFormParameter = { new("@Id", id) };
+
+            await _dbService.ExecuteQuery(deleteFormQuery, deleteFormParameter);
 
             return selectForms;
         }

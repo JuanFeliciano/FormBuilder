@@ -7,11 +7,46 @@ using System.Data.SqlClient;
 
 namespace MovtechForms.Application.Repositories.UseCases
 {
-    public class FormGroupForEach : IForEach<FormsGroup>
+    public class FormGroupForEach : IFormGroupForEach
     {
         private readonly IDatabaseService _dbService;
 
         public FormGroupForEach(IDatabaseService databaseService) => _dbService = databaseService;
+
+
+        public async Task<List<Forms>> SelectForEach(int id)
+        {
+            string queryForms = "SELECT * FROM Forms WHERE IdGroup = @IdGroup;";
+            SqlParameter[] formParameter = { new("@IdGroup", id) };
+            DataTable selectFormOperation = await _dbService.ExecuteQuery(queryForms, formParameter);
+
+            List<Forms> formsList = selectFormOperation.ConvertDataTableToList<Forms>();
+
+            foreach (Forms form in formsList)
+            {
+                string queryQuestion = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
+                SqlParameter[] questionParameter = { new("@IdForm", form.Id) };
+                DataTable selectQuestionOperation = await _dbService.ExecuteQuery(queryQuestion, questionParameter);
+
+                List<Questions> questionList = selectQuestionOperation.ConvertDataTableToList<Questions>();
+
+                foreach (Questions question in questionList)
+                {
+                    string queryAnswer = "SELECT * FROM Answer WHERE IdQuestion = @IdQuestion;";
+                    SqlParameter[] answerParameter = { new("@IdQuestion", question.Id) };
+                    DataTable selectAnswerOperation = await _dbService.ExecuteQuery(queryAnswer, answerParameter);
+
+                    List<Answer> answerList = selectAnswerOperation.ConvertDataTableToList<Answer>();
+
+                    question.Answers = answerList;
+                }
+
+                form.Questions = questionList;
+            }
+
+            return formsList;
+        }
+
 
         public async Task InsertForEach([FromBody] FormsGroup formsGroup, int idFormGroup)
         {
@@ -31,7 +66,7 @@ namespace MovtechForms.Application.Repositories.UseCases
 
                 if (forms.Questions == null || forms.Questions.Count == 0)
                 {
-                    throw new ArgumentException("The value Question cannot be null or empty");
+                    throw new Exception("The value Question cannot be null or empty");
                 }
 
                 foreach (Questions questions in forms.Questions)
@@ -50,7 +85,6 @@ namespace MovtechForms.Application.Repositories.UseCases
 
         public async Task DeleteForEach(int idFormGroup)
         {
-            // Seleciona os formulários associados ao grupo
             string selectForm = "SELECT * FROM Forms WHERE IdGroup = @IdGroup;";
             SqlParameter[] selectFormParameter = { new("@IdGroup", idFormGroup) };
 
@@ -59,19 +93,17 @@ namespace MovtechForms.Application.Repositories.UseCases
 
             foreach (Forms form in formList)
             {
-                // Deleta perguntas associadas ao formulário
                 string queryQuestion = "DELETE FROM Questions WHERE IdForm = @IdForm;";
                 SqlParameter[] questionParameter = { new("@IdForm", form.Id) };
 
                 await _dbService.ExecuteQuery(queryQuestion, questionParameter);
 
-                string queryForms = "DELETE FROM Forms WHERE IdGroup = @IdGroup;";
-                SqlParameter[] formParameter = { new("@IdGroup", idFormGroup) };
-
-                await _dbService.ExecuteQuery(queryForms, formParameter);
             }
 
-            // Deleta formulários associados ao grupo
+            string queryForms = "DELETE FROM Forms WHERE IdGroup = @IdGroup;";
+            SqlParameter[] formParameter = { new("@IdGroup", idFormGroup) };
+
+            await _dbService.ExecuteQuery(queryForms, formParameter);
         }
     }
 }

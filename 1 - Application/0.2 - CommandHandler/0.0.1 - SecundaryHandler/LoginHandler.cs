@@ -12,9 +12,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
     public class LoginHandler : ILoginHandler
     {
         private readonly IUserRepository _userRepository;
-        private readonly TokenService _tokenService;
+        private readonly TokenHandler _tokenService;
 
-        public LoginHandler(IUserRepository userRepo, TokenService tokenService)
+        public LoginHandler(IUserRepository userRepo, TokenHandler tokenService)
         {
             _userRepository = userRepo;
             _tokenService = tokenService;

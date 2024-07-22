@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms.Domain.Entities;
-using MovtechForms.Domain.Interfaces;
 using System.Data.SqlClient;
 using System.Data;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfaces;
 
 namespace MovtechForms.Application.Repositories.MainRepositories
 {
     public class QuestionRepository : IQuestionRepository
     {
         private readonly IDatabaseService _dbService;
-        private readonly IForEach<Questions> _forEach;
+        private readonly IQuestionForEach _forEach;
 
-        public QuestionRepository(IDatabaseService dbService, IForEach<Questions> each)
+        public QuestionRepository(IDatabaseService dbService, IQuestionForEach each)
         {
             _dbService = dbService;
             _forEach = each;
@@ -40,12 +40,7 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             List<Questions> questionsList = selectOperation.ConvertDataTableToList<Questions>();
             Questions questions = questionsList.Find(i => i.Id == id)!;
 
-            string queryAnswer = "SELECT * FROM Answer WHERE IdQuestion = @IdQuestion;";
-            SqlParameter[] answerParameter = { new("@IdQuestion", id) };
-
-            DataTable selectAnswerOperation = await _dbService.ExecuteQuery(queryAnswer, answerParameter);
-
-            List<Answer> answerList = selectAnswerOperation.ConvertDataTableToList<Answer>();
+            List<Answer> answerList = await _forEach.SelectForEach(id);
 
             questions.Answers = answerList;
 
