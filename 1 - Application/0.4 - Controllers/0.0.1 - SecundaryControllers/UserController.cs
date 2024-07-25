@@ -18,7 +18,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                return Ok(await _userService.CreateUser(users));
+                return StatusCode(201, await _userService.CreateUser(users));
             }
             catch (Exception ex)
             {
@@ -32,7 +32,7 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                return Ok(await _userService.GetUser());
+                return StatusCode(200, await _userService.GetUser());
             }
             catch (Exception ex)
             {

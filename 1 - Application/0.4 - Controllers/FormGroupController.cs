@@ -36,7 +36,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-                return Ok(await _formGroupService.GetById(id));
+                return StatusCode(200,await _formGroupService.GetById(id));
             }
             catch (Exception ex)
             {
@@ -83,7 +83,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-                return Ok(await _formGroupService.Update(formGroup, id));
+                return StatusCode(201,await _formGroupService.Update(formGroup, id));
             }
             catch (Exception ex)
             {

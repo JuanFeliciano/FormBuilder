@@ -20,7 +20,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-            return Ok(await _answerService.Get());
+            return StatusCode(200,await _answerService.Get());
             }
             catch (Exception ex)
             {
@@ -33,7 +33,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-                return Ok(await _answerService.Post(answer));
+                return StatusCode(201, await _answerService.Post(answer));
             }
             catch (Exception ex)
             {

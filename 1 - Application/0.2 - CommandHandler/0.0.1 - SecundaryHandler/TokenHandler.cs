@@ -4,17 +4,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace MovtechForms.Application.Services
+namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler
 {
     public class TokenHandler
     {
         private readonly IConfiguration _configuration;
 
-        public TokenHandler(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
+        public TokenHandler(IConfiguration configuration) => _configuration = configuration;
         public string GenerateToken(Users user)
         {
             var secretKey = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!);

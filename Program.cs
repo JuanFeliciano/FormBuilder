@@ -38,7 +38,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IAnswerService, AnswerService>();
     services.AddScoped<IUserService, UserService>();
     services.AddScoped<ILoginService, LoginService>();
-    services.AddSingleton<MovtechForms.Application.Services.TokenHandler>();
+    services.AddSingleton<MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler.TokenHandler>();
 
     // Registro de handlers
     services.AddScoped<IFormGroupHandler, FormGroupHandler>();

@@ -32,7 +32,6 @@ namespace MovtechForms.Application.Repositories.MainRepositories
         // GET METHOD by ID
         public async Task<FormsGroup> GetById(int id)
         {
-            /// operation select FormsGroup
             string query = "SELECT * FROM FormsGroup WHERE Id = @Id;";
             SqlParameter[] parameter = { new("@Id", id) };
             DataTable selectOperation = await _dbService.ExecuteQuery(query, parameter);

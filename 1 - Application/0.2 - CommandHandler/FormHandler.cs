@@ -36,7 +36,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         {
             Forms forms = await _formRepo.GetById(id);
 
-            if (forms is null)
+            if (forms is null) 
                 throw new Exception("Invalid id or no forms");
 
             return forms;
