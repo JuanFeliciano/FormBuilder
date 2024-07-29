@@ -93,10 +93,24 @@ namespace MovtechForms.Application.Repositories.UseCases
 
             foreach (Forms form in formList)
             {
-                string queryQuestion = "DELETE FROM Questions WHERE IdForm = @IdForm;";
+                string selectQuestion = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
                 SqlParameter[] questionParameter = { new("@IdForm", form.Id) };
 
-                await _dbService.ExecuteQuery(queryQuestion, questionParameter);
+
+                DataTable questionSelect = await _dbService.ExecuteQuery(selectQuestion, questionParameter);
+                List<Questions> questionList = questionSelect.ConvertDataTableToList<Questions>();
+
+                foreach (Questions question in questionList)
+                {
+                    string queryAnswer = "DELETE FROM Answer WHERE IdQuestion = @IdQuestion;";
+                    SqlParameter[] answerParameter = { new("@IdQuestion", question.Id) };
+                    await _dbService.ExecuteQuery(queryAnswer, answerParameter);
+                }
+
+                string queryDeleteQuestion = "DELETE FROM Questions WHERE IdForm = @IdForm;";
+                SqlParameter[] questionDeleteParameter = { new("@IdForm", form.Id) };
+
+                await _dbService.ExecuteQuery(queryDeleteQuestion, questionDeleteParameter);
 
             }
 

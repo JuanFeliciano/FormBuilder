@@ -14,7 +14,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
 
         public AnswerController(IAnswerService answerService) => _answerService = answerService;
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {

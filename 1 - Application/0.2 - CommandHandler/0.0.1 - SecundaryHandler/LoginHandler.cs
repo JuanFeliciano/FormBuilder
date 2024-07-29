@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces._0._0._0._1___SecundaryInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
 using MovtechForms.Application;
-using MovtechForms.Application.Services;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
 using MovtechForms.Domain.Models;
@@ -12,9 +12,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
     public class LoginHandler : ILoginHandler
     {
         private readonly IUserRepository _userRepository;
-        private readonly TokenHandler _tokenService;
+        private readonly ITokenRevocation _tokenService;
 
-        public LoginHandler(IUserRepository userRepo, TokenHandler tokenService)
+        public LoginHandler(IUserRepository userRepo, ITokenRevocation tokenService)
         {
             _userRepository = userRepo;
             _tokenService = tokenService;

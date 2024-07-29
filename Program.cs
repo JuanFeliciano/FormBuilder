@@ -2,11 +2,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MovtechForms._1___Application._0._2___CommandHandler;
 using MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler;
+using MovtechForms._1___Application._0._3___Services._0._0._1___SecundaryServices;
+using MovtechForms._1___Application._0._6___Middlewares;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces._0._0._0._1___SecundaryInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces._0._0._0._1___SecundaryInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Repositories.MainRepositories;
 using MovtechForms.Application.Repositories.UseCases;
@@ -38,7 +42,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IAnswerService, AnswerService>();
     services.AddScoped<IUserService, UserService>();
     services.AddScoped<ILoginService, LoginService>();
-    services.AddSingleton<MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler.TokenHandler>();
+    services.AddScoped<ILogoutService, LogoutService>();
 
     // Registro de handlers
     services.AddScoped<IFormGroupHandler, FormGroupHandler>();
@@ -46,6 +50,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IQuestionHandler, QuestionHandler>();
     services.AddScoped<IAnswerHandler, AnswerHandler>();
     services.AddScoped<ILoginHandler, LoginHandler>();
+    services.AddScoped<ILogoutHandler, LogoutHandler>();
     services.AddScoped<IUserHandler, UserHandler>();
 
     // Registro de repositórios
@@ -61,9 +66,11 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IQuestionForEach, QuestionForEach>();
 
     //Registro de outros serviços necessarios
+    services.AddScoped<ITokenRevocation, MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler.TokenHandler>();
     services.AddScoped<IDatabaseService, DatabaseService>();
 
     // Outros registros
+    services.AddSingleton<HashSet<string>>();
     services.AddControllers();
 
 
@@ -104,6 +111,7 @@ static void Configure(WebApplication app)
 
     // Outros middlewares
     app.UseHttpsRedirection();
+    app.UseMiddleware<JwtMiddleware>();
 
     app.UseAuthentication();
     app.UseAuthorization();
