@@ -28,12 +28,15 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return answerData.ConvertDataTableToList<Answer>();
         }
 
-        public async Task<List<Answer>> PostAnswer([FromBody] Answer answer)
+        public async Task<List<Answer>> PostAnswer([FromBody] Answer[] answerList)
         {
-            if (answer.Grade < 0 || answer.Grade > 10)
-                throw new Exception("The grade is invalid, it cannot be greater than 10 or less than 0");
+            foreach (Answer answer in answerList)
+            {
+                if (answer.Grade < 0 || answer.Grade > 10)
+                    throw new Exception("The grade is invalid, it cannot be greater than 10 or less than 0");
+            }
 
-            DataTable answerDataTable = await _answerRepo.PostAnswer(answer);
+            DataTable answerDataTable = await _answerRepo.PostAnswer(answerList);
 
             return answerDataTable.ConvertDataTableToList<Answer>();
 

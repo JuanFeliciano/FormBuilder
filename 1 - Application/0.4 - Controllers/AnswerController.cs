@@ -29,7 +29,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Answer answer)
+        public async Task<IActionResult> Post([FromBody] Answer[] answer)
         {
             try
             {

@@ -9,8 +9,10 @@ using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces._0._0._0._1___SecundaryInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces._0._0._0._1___SecundaryInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._4___DatabaseInterface;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
+using MovtechForms._3___Infrastructure;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Repositories.MainRepositories;
 using MovtechForms.Application.Repositories.UseCases;
@@ -68,6 +70,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     //Registro de outros serviços necessarios
     services.AddScoped<ITokenRevocation, MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler.TokenHandler>();
     services.AddScoped<IDatabaseService, DatabaseService>();
+    services.AddScoped<IBulkService, BulkService>();
 
     // Outros registros
     services.AddSingleton<HashSet<string>>();

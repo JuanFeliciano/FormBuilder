@@ -19,7 +19,7 @@ namespace MovtechForms.Application.Services.CoreServices
             return await _answerHandler.GetAnswer();
         }
 
-        public async Task<List<Answer>> Post([FromBody] Answer answer)
+        public async Task<List<Answer>> Post([FromBody] Answer[] answer)
         {
             return await _answerHandler.PostAnswer(answer);
         }

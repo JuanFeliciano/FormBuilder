@@ -6,7 +6,7 @@ namespace MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfac
 {
     public interface IAnswerHandler
     {
-        Task<List<Answer>> PostAnswer([FromBody] Answer answer);
+        Task<List<Answer>> PostAnswer([FromBody] Answer[] answer);
         Task<List<Answer>> GetAnswer();
     }
 }

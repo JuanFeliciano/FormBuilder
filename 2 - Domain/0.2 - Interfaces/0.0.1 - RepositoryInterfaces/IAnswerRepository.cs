@@ -6,7 +6,7 @@ namespace MovtechForms.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IAnswerRepository
     {
-        Task<DataTable> PostAnswer([FromBody] Answer answer);
+        Task<DataTable> PostAnswer([FromBody] Answer[] answer);
         Task<DataTable> GetAnswer();
     }
 }
