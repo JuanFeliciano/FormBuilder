@@ -14,13 +14,13 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
         private readonly IUserRepository _userRepository;
         private readonly ITokenRevocation _tokenService;
 
-        public LoginHandler(IUserRepository userRepo, ITokenRevocation tokenService)
+        public LoginHandler(IUserRepository userRepo, ITokenRevocation tokenRevocation)
         {
             _userRepository = userRepo;
-            _tokenService = tokenService;
+            _tokenService = tokenRevocation;
         }
 
-        public async Task<bool> GetLogin([FromBody] LoginModel login)
+        public async Task<bool> Login([FromBody] LoginModel login)
         {
             DataTable userDataTable = await _userRepository.GetUser();
             List<Users> users = userDataTable.ConvertDataTableToList<Users>();
@@ -38,7 +38,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 
         public async Task<string> ValidationLogin([FromBody] LoginModel login)
         {
-            bool result = await GetLogin(login);
+            bool result = await Login(login);
 
             if (result)
             {

@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.IdentityModel.Tokens;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
 using MovtechForms.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,18 +8,23 @@ using System.Text;
 
 namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler
 {
-    public class TokenHandler : ITokenRevocation
+    public class TokenRevocation : ITokenRevocation
     {
         private readonly IConfiguration _configuration;
         private HashSet<string> _tokenRevoked;
+        private List<string> _tokenValid;
 
-        public TokenHandler(IConfiguration configuration, HashSet<string> token)
+        public TokenRevocation(IConfiguration configuration, HashSet<string> tokenRevoked, List<string> tokenValid)
         {
             _configuration = configuration;
-            _tokenRevoked = token;
+            _tokenRevoked = tokenRevoked;
+            _tokenValid = tokenValid;
         }
         public string GenerateToken(Users user)
         {
+            if (_tokenValid.Count != 0)
+                throw new Exception("You are already logged in");
+
             var secretKey = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!);
 
             var key = new SymmetricSecurityKey(secretKey);
@@ -29,7 +35,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var token = new JwtSecurityToken(
+            JwtSecurityToken tokenJwt = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
@@ -37,12 +43,22 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
                 signingCredentials: creds
                 );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            string token = new JwtSecurityTokenHandler().WriteToken(tokenJwt);
+
+
+            _tokenValid?.Add(token);
+            Console.WriteLine(_tokenValid);
+
+            return token;
         }
 
         public void RevokeToken(string token)
         {
             _tokenRevoked.Add(token);
+            if(_tokenValid is not null)
+                _tokenValid.Clear();
+
+            Console.WriteLine(_tokenValid);
         }
 
         public bool IsTokenRevoked(string token)

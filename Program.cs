@@ -54,6 +54,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<ILoginHandler, LoginHandler>();
     services.AddScoped<ILogoutHandler, LogoutHandler>();
     services.AddScoped<IUserHandler, UserHandler>();
+    services.AddScoped<ITokenRevocation, TokenRevocation>();
 
     // Registro de repositórios
     services.AddScoped<IFormGroupRepository, FormGroupRepository>();
@@ -68,12 +69,12 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IQuestionForEach, QuestionForEach>();
 
     //Registro de outros serviços necessarios
-    services.AddScoped<ITokenRevocation, MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler.TokenHandler>();
     services.AddScoped<IDatabaseService, DatabaseService>();
     services.AddScoped<IBulkService, BulkService>();
 
     // Outros registros
     services.AddSingleton<HashSet<string>>();
+    services.AddSingleton(new List<string>());
     services.AddControllers();
 
 

@@ -17,12 +17,13 @@ namespace MovtechForms._3___Infrastructure
             DataTable answerTable = new();
 
             answerTable.Columns.Add("IdQuestion", typeof(int));
+            answerTable.Columns.Add("IdUser", typeof(int));
             answerTable.Columns.Add("Grade", typeof(string));
             answerTable.Columns.Add("Description", typeof(string));
 
             foreach (Answer answer in answerBody)
             {
-                answerTable.Rows.Add(answer.IdQuestion, answer.Grade, answer.Description);
+                answerTable.Rows.Add(answer.IdQuestion, answer.IdUser, answer.Grade, answer.Description);
             }
 
             using (SqlConnection connection = new(_configuration.GetConnectionString("DefaultConnection")))
@@ -34,6 +35,7 @@ namespace MovtechForms._3___Infrastructure
                     bulkCopy.DestinationTableName = "Answer";
 
                     bulkCopy.ColumnMappings.Add("IdQuestion", "IdQuestion");
+                    bulkCopy.ColumnMappings.Add("IdUser", "IdUser");
                     bulkCopy.ColumnMappings.Add("Grade", "Grade");
                     bulkCopy.ColumnMappings.Add("Description", "Description");
 

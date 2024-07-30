@@ -15,7 +15,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 
         public async Task Logout(HttpContext context)
         {
-            var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            string token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last()!;
 
             if (token is null)
             {
