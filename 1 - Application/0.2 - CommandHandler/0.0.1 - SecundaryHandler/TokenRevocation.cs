@@ -32,7 +32,8 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             JwtSecurityToken tokenJwt = new JwtSecurityToken(

@@ -3,17 +3,26 @@ using MovtechForms._2___Domain._0._2___Interfaces._0._0._4___DatabaseInterface;
 using MovtechForms.Domain.Entities;
 using System.Data;
 using System.Data.SqlClient;
+using System.Security.Claims;
 
 namespace MovtechForms._3___Infrastructure
 {
     public class BulkService : IBulkService
     {
         private IConfiguration _configuration;
+        private readonly IHttpContextAccessor _context;
 
-        public BulkService(IConfiguration configuration) => _configuration = configuration;
+        public BulkService(IConfiguration configuration, IHttpContextAccessor context)
+        {
+            _configuration = configuration;
+            _context = context;
+        }
 
         public async Task BulkInsert([FromBody] Answer[] answerBody)
         {
+            string idString = _context.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+            int id = Convert.ToInt32(idString);
+
             DataTable answerTable = new();
 
             answerTable.Columns.Add("IdQuestion", typeof(int));
@@ -23,7 +32,7 @@ namespace MovtechForms._3___Infrastructure
 
             foreach (Answer answer in answerBody)
             {
-                answerTable.Rows.Add(answer.IdQuestion, answer.IdUser, answer.Grade, answer.Description);
+                answerTable.Rows.Add(answer.IdQuestion, id, answer.Grade, answer.Description);
             }
 
             using (SqlConnection connection = new(_configuration.GetConnectionString("DefaultConnection")))
@@ -35,7 +44,7 @@ namespace MovtechForms._3___Infrastructure
                     bulkCopy.DestinationTableName = "Answer";
 
                     bulkCopy.ColumnMappings.Add("IdQuestion", "IdQuestion");
-                    bulkCopy.ColumnMappings.Add("IdUser", "IdUser");
+                    bulkCopy.ColumnMappings.Add("IdUser", id);
                     bulkCopy.ColumnMappings.Add("Grade", "Grade");
                     bulkCopy.ColumnMappings.Add("Description", "Description");
 

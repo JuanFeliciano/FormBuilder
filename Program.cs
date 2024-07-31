@@ -75,6 +75,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     // Outros registros
     services.AddSingleton<HashSet<string>>();
     services.AddSingleton(new List<string>());
+    services.AddHttpContextAccessor();
     services.AddControllers();
 
 
