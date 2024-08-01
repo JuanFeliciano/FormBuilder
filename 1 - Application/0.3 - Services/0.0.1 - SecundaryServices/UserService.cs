@@ -24,7 +24,7 @@ namespace MovtechForms.Application.Services
             return await _userhandler.GetUser();
         }
 
-        public async Task<(string, DateTime)> GetUserByRefreshToken(string refresh)
+        public async Task<(string, string, DateTime)> GetUserByRefreshToken(string refresh)
         {
             return await _userhandler.GetUserByRefreshToken(refresh);
         }

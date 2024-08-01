@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces._0._0._0._1___SecundaryInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
-using MovtechForms._2___Domain._0._3___Models;
 using MovtechForms.Application;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
@@ -13,11 +12,13 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
     {
         private readonly IUserRepository _userRepository;
         private readonly ITokenConfigure _tokenConfigure;
+        private readonly IHttpContextAccessor _context;
 
-        public UserHandler(IUserRepository userRepo, ITokenConfigure tokenConfigure)
+        public UserHandler(IUserRepository userRepo, ITokenConfigure tokenConfigure, IHttpContextAccessor context)
         {
             _userRepository = userRepo;
             _tokenConfigure = tokenConfigure;
+            _context = context;
         }
 
         public async Task<Users> CreateUser([FromBody] Users userBody)
@@ -54,8 +55,10 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
             return userDataTable.ConvertDataTableToList<Users>();
         }
 
-        public async Task<(string, DateTime)> GetUserByRefreshToken(string refresh)
+        public async Task<(string, string, DateTime)> GetUserByRefreshToken(string refresh)
         {
+            var token = _context.HttpContext!.Request.Headers["Authorization"].FirstOrDefault()!.Split(" ").Last();
+
             if (refresh is null || string.IsNullOrEmpty(refresh))
                 throw new Exception("Invalid client request");
 
@@ -76,8 +79,12 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
                 throw new Exception("Invalid refresh token");
 
 
-            var newAcessToken = _tokenConfigure.GenerateToken(user);
-            var newRefreshToken = _tokenConfigure.GenerateRefreshToken();
+            var tokenGenerator = _tokenConfigure.GenerateToken(user);
+
+            _tokenConfigure.RevokeToken(token);
+
+            string newAcessToken = tokenGenerator.Result.Item1;
+            var newRefreshToken = tokenGenerator.Result.Item2;
 
 
             user.RefreshToken = newRefreshToken;
@@ -86,7 +93,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 
             await _userRepository.UpdateUser(user);
 
-            return (user.RefreshToken, user.RefreshTokenExpiryTime);
+            return (user.RefreshToken, newAcessToken, user.RefreshTokenExpiryTime);
         }
     }
 }

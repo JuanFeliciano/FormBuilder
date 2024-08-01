@@ -12,9 +12,9 @@ namespace MovtechForms._1___Application._0._3___Services._0._0._1___SecundarySer
             _logoutHandler = logoutHandler;
         }
 
-        public async Task Logout(HttpContext context)
+        public void Logout(HttpContext context)
         {
-            await _logoutHandler.Logout(context);
+            _logoutHandler.Logout(context);
         }
     }
 }

@@ -24,13 +24,14 @@ namespace MovtechForms._1___Application._0._4___Controllers._0._0._1___Secundary
         {
             try
             {
-                (string, DateTime) tokenRefresh = await _userService.GetUserByRefreshToken(refresh.RefreshToken);
+                (string, string, DateTime) tokenRefresh = await _userService.GetUserByRefreshToken(refresh.RefreshToken);
 
                 Console.WriteLine($"RefreshToken recebido: {refresh.RefreshToken}");
                 return StatusCode(200, new
                 {
-                    StringToken = tokenRefresh.Item1,
-                    DateToken = tokenRefresh.Item2
+                    AcessToken = tokenRefresh.Item2,
+                    RefreshToken = tokenRefresh.Item1,
+                    DateToken = tokenRefresh.Item3
 
                 });
             }

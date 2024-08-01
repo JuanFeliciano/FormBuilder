@@ -25,21 +25,19 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
         }
         public async Task<(string, string)> GenerateToken(Users user)
         {
-            if (_tokenValid.Count != 0)
-                throw new Exception("You are already logged in");
 
-            var secretKey = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!);
+            byte[] secretKey = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!);
 
-            var key = new SymmetricSecurityKey(secretKey);
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var claims = new[]
-            {
+            SymmetricSecurityKey key = new SymmetricSecurityKey(secretKey);
+            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            Claim[] claims =
+            [
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Role, user.Role),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
+            ];
 
-            JwtSecurityToken tokenJwt = new JwtSecurityToken(
+            JwtSecurityToken tokenJwt = new (
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
@@ -66,7 +64,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
         {
             byte[] random = new byte[32];
 
-            using (var randomNumber = RandomNumberGenerator.Create())
+            using (RandomNumberGenerator randomNumber = RandomNumberGenerator.Create())
             {
                 randomNumber.GetBytes(random);
 
@@ -78,13 +76,19 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
         public void RevokeToken(string token)
         {
             _tokenRevoked.Add(token);
-            if(_tokenValid is not null)
-                _tokenValid.Clear();
+            _tokenValid.Remove(token);
         }
 
         public bool IsTokenRevoked(string token)
         {
             return _tokenRevoked.Contains(token);
         }
+
+
+        public bool TokenIntoList()
+        {
+            return _tokenValid.Count > 0;
+        }
     }
+
 }

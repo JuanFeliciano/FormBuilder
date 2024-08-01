@@ -22,6 +22,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 
         public async Task<(string, string)> Login([FromBody] LoginModel login)
         {
+            if (_tokenService.TokenIntoList())
+                throw new Exception("You are already logged in");
+
             DataTable userDataTable = await _userRepository.GetUser();
             List<Users> users = userDataTable.ConvertDataTableToList<Users>();
 

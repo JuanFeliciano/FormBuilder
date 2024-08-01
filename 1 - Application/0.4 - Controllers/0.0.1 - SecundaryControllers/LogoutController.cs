@@ -12,13 +12,13 @@ namespace MovtechForms._1___Application._0._4___Controllers._0._0._1___Secundary
         public LogoutController(ILogoutService logout) => _logout = logout;
 
         [HttpPost]
-        public async Task<IActionResult> LogOut()
+        public IActionResult LogOut()
         {
             var context = HttpContext;
 
             try
             {
-                await _logout.Logout(context);
+                _logout.Logout(context);
 
                 return Ok("LogOut completed");
             }

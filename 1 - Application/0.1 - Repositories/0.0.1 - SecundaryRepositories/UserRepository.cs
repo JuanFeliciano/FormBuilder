@@ -19,7 +19,7 @@ namespace MovtechForms.Application.Repositories
         public async Task<DataTable> CreateUser([FromBody] Users userBody)
         {
 
-            string query = "INSERT INTO Users (Name, Password, Role, RefreshToken, RefreshTokenExpiryTime) OUTPUT INSERTED.Id VALUES (@Name, @Password, @Role, @RefreshToken, @RefreshTokenExpiryTime);";
+            string query = "INSERT INTO Users (Name, Password, Role) OUTPUT INSERTED.Id VALUES (@Name, @Password, @Role);";
 
 
             SqlParameter[] userParameters =

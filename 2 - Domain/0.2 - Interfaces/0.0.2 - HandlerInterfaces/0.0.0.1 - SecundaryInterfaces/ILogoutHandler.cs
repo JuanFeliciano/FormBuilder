@@ -2,6 +2,6 @@
 {
     public interface ILogoutHandler
     {
-        Task Logout(HttpContext context);
+        void Logout(HttpContext context);
     }
 }
