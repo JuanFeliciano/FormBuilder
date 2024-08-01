@@ -1,26 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
 using MovtechForms.Domain.Entities;
+using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler
 {
-    public class TokenRevocation : ITokenRevocation
+    public class TokenConfigure : ITokenConfigure
     {
+        private IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
         private HashSet<string> _tokenRevoked;
         private List<string> _tokenValid;
 
-        public TokenRevocation(IConfiguration configuration, HashSet<string> tokenRevoked, List<string> tokenValid)
+        public TokenConfigure(IConfiguration configuration, HashSet<string> tokenRevoked, List<string> tokenValid, IUserRepository userRepo)
         {
             _configuration = configuration;
             _tokenRevoked = tokenRevoked;
             _tokenValid = tokenValid;
+            _userRepository = userRepo;
         }
-        public string GenerateToken(Users user)
+        public async Task<(string, string)> GenerateToken(Users user)
         {
             if (_tokenValid.Count != 0)
                 throw new Exception("You are already logged in");
@@ -45,21 +48,38 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
                 );
 
             string token = new JwtSecurityTokenHandler().WriteToken(tokenJwt);
+            string refreshToken = GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddHours(5);
+
+            await _userRepository.UpdateUser(user);
 
 
             _tokenValid?.Add(token);
-            Console.WriteLine(_tokenValid);
 
-            return token;
+            return (token, refreshToken);
         }
+
+
+        public string GenerateRefreshToken()
+        {
+            byte[] random = new byte[32];
+
+            using (var randomNumber = RandomNumberGenerator.Create())
+            {
+                randomNumber.GetBytes(random);
+
+                return Convert.ToBase64String(random);
+            }
+        }
+
 
         public void RevokeToken(string token)
         {
             _tokenRevoked.Add(token);
             if(_tokenValid is not null)
                 _tokenValid.Clear();
-
-            Console.WriteLine(_tokenValid);
         }
 
         public bool IsTokenRevoked(string token)

@@ -12,15 +12,15 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
     public class LoginHandler : ILoginHandler
     {
         private readonly IUserRepository _userRepository;
-        private readonly ITokenRevocation _tokenService;
+        private readonly ITokenConfigure _tokenService;
 
-        public LoginHandler(IUserRepository userRepo, ITokenRevocation tokenRevocation)
+        public LoginHandler(IUserRepository userRepo, ITokenConfigure tokenRevocation)
         {
             _userRepository = userRepo;
             _tokenService = tokenRevocation;
         }
 
-        public async Task<bool> Login([FromBody] LoginModel login)
+        public async Task<(string, string)> Login([FromBody] LoginModel login)
         {
             DataTable userDataTable = await _userRepository.GetUser();
             List<Users> users = userDataTable.ConvertDataTableToList<Users>();
@@ -31,25 +31,15 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
                 throw new Exception("No user was found with these predicates");
 
             if (matchingUser.Role == "Admin")
-                return true;
-
-            return false;
-        }
-
-        public async Task<string> ValidationLogin([FromBody] LoginModel login)
-        {
-            bool result = await Login(login);
-
-            if (result)
             {
-                var admin = new Users { Name = login.Username, Role = "Admin" };
-
-                return _tokenService.GenerateToken(admin);
+                var admin = new Users { Name = login.Username, Role = "Admin", Id = matchingUser.Id };
+                return await _tokenService.GenerateToken(admin);
             }
 
-            var common = new Users { Name = login.Username, Role = "Common" };
+            var common = new Users { Name = login.Username, Role = "Common", Id = matchingUser.Id };
 
-            return _tokenService.GenerateToken(common);
+            return await _tokenService.GenerateToken(common);
+
         }
     }
 }

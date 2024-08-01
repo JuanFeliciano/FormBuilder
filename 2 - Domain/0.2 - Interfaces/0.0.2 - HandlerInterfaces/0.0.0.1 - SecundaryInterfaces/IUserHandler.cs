@@ -7,6 +7,8 @@ namespace MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfac
     {
         Task<Users> CreateUser([FromBody] Users user);
         Task<List<Users>> GetUser();
+        Task<(string, DateTime)> GetUserByRefreshToken(string refresh);
+
 
     }
 }

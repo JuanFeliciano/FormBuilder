@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces._0._0._0._1___SecundaryInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
+using MovtechForms._2___Domain._0._3___Models;
 using MovtechForms.Application;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
@@ -10,10 +12,12 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
     public class UserHandler : IUserHandler
     {
         private readonly IUserRepository _userRepository;
+        private readonly ITokenConfigure _tokenConfigure;
 
-        public UserHandler(IUserRepository userRepo)
+        public UserHandler(IUserRepository userRepo, ITokenConfigure tokenConfigure)
         {
             _userRepository = userRepo;
+            _tokenConfigure = tokenConfigure;
         }
 
         public async Task<Users> CreateUser([FromBody] Users userBody)
@@ -48,6 +52,41 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 
 
             return userDataTable.ConvertDataTableToList<Users>();
+        }
+
+        public async Task<(string, DateTime)> GetUserByRefreshToken(string refresh)
+        {
+            if (refresh is null || string.IsNullOrEmpty(refresh))
+                throw new Exception("Invalid client request");
+
+
+            DataTable userdataTable = await _userRepository.GetUser();
+
+            if (userdataTable is null || userdataTable.Rows.Count <= 0)
+                throw new Exception("No users found");
+
+
+            List<Users> userList = userdataTable.ConvertDataTableToList<Users>();
+
+
+            Users user = userList.Find(i => i.RefreshToken == refresh)!;
+
+
+            if (user is null || user.RefreshTokenExpiryTime <= DateTime.Now)
+                throw new Exception("Invalid refresh token");
+
+
+            var newAcessToken = _tokenConfigure.GenerateToken(user);
+            var newRefreshToken = _tokenConfigure.GenerateRefreshToken();
+
+
+            user.RefreshToken = newRefreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddHours(5);
+
+
+            await _userRepository.UpdateUser(user);
+
+            return (user.RefreshToken, user.RefreshTokenExpiryTime);
         }
     }
 }

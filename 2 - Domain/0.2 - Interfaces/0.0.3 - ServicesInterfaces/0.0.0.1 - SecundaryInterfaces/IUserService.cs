@@ -7,5 +7,6 @@ namespace MovtechForms.Domain.Interfaces.ServicesInterfaces
     {
         Task<Users> CreateUser([FromBody] Users users);
         Task<List<Users>> GetUser();
+        Task<(string, DateTime)> GetUserByRefreshToken(string request);
     }
 }

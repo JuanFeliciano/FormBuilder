@@ -9,13 +9,17 @@ namespace MovtechForms.Application.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private IDatabaseService _dbService;
+        private readonly IDatabaseService _dbService;
 
-        public UserRepository(IDatabaseService db) => _dbService = db;
+        public UserRepository(IDatabaseService db)
+        {
+            _dbService = db;
+        }
 
         public async Task<DataTable> CreateUser([FromBody] Users userBody)
         {
-            string query = "INSERT INTO Users (Name, Password, Role) OUTPUT INSERTED.Id VALUES (@Name, @Password, @Role);";
+
+            string query = "INSERT INTO Users (Name, Password, Role, RefreshToken, RefreshTokenExpiryTime) OUTPUT INSERTED.Id VALUES (@Name, @Password, @Role, @RefreshToken, @RefreshTokenExpiryTime);";
 
 
             SqlParameter[] userParameters =
@@ -39,6 +43,19 @@ namespace MovtechForms.Application.Repositories
             string query = "SELECT * FROM Users;";
 
             return await _dbService.ExecuteQuery(query, null!);
+        }
+
+        public async Task UpdateUser(Users user)
+        {
+            string command = "UPDATE Users SET RefreshToken = @RefreshToken, RefreshTokenExpiryTime = @RefreshTokenExpiryTime WHERE Id = @Id;";
+            SqlParameter[] parameters =
+            {
+                new ("@RefreshToken", user.RefreshToken),
+                new ("@RefreshTokenExpiryTime", user.RefreshTokenExpiryTime),
+                new ("@Id", user.Id)
+            };
+
+            await _dbService.ExecuteQuery(command, parameters);
         }
     }
 }

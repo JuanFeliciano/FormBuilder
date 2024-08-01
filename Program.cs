@@ -12,6 +12,7 @@ using MovtechForms._2___Domain._0._2___Interfaces._0._0._3___ServicesInterfaces.
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._4___DatabaseInterface;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
+using MovtechForms._2___Domain._0._3___Models;
 using MovtechForms._3___Infrastructure;
 using MovtechForms.Application.Repositories;
 using MovtechForms.Application.Repositories.MainRepositories;
@@ -54,7 +55,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<ILoginHandler, LoginHandler>();
     services.AddScoped<ILogoutHandler, LogoutHandler>();
     services.AddScoped<IUserHandler, UserHandler>();
-    services.AddScoped<ITokenRevocation, TokenRevocation>();
+    services.AddScoped<ITokenConfigure, TokenConfigure>();
 
     // Registro de repositórios
     services.AddScoped<IFormGroupRepository, FormGroupRepository>();
@@ -75,6 +76,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     // Outros registros
     services.AddSingleton<HashSet<string>>();
     services.AddSingleton(new List<string>());
+    services.AddSingleton<RefreshTokenRequest>();
     services.AddHttpContextAccessor();
     services.AddControllers();
 

@@ -5,9 +5,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 {
     public class LogoutHandler : ILogoutHandler
     {
-        private ITokenRevocation _tokenRevoke;
+        private ITokenConfigure _tokenRevoke;
 
-        public LogoutHandler(ITokenRevocation tokenRevoke)
+        public LogoutHandler(ITokenConfigure tokenRevoke)
         {
             _tokenRevoke = tokenRevoke;
         }
@@ -16,13 +16,6 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
         public async Task Logout(HttpContext context)
         {
             string token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last()!;
-
-            if (token is null)
-            {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                await context.Response.WriteAsync("You need to be logged in to log out");
-                return;
-            }
 
             _tokenRevoke.RevokeToken(token);
         }

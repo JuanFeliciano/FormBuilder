@@ -20,7 +20,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         {
             try
             {
-            return StatusCode(200,await _answerService.Get());
+                return StatusCode(200, await _answerService.Get());
             }
             catch (Exception ex)
             {

@@ -17,11 +17,9 @@ namespace MovtechForms._1___Application._0._6___Middlewares
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, ITokenRevocation tokenRevocation)
+        public async Task InvokeAsync(HttpContext context, ITokenConfigure tokenRevocation)
         {
             var path = context.Request.Path.Value!.ToLower();
-
-            Console.WriteLine($"Request Path {path}");
 
             if (_publicRoutes.Contains(path))
             {
@@ -32,7 +30,7 @@ namespace MovtechForms._1___Application._0._6___Middlewares
 
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-            if (token is not null && tokenRevocation.IsTokenRevoked(token))
+            if (token is null || tokenRevocation.IsTokenRevoked(token))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsync("Please log in to access this route");

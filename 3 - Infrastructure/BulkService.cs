@@ -44,7 +44,7 @@ namespace MovtechForms._3___Infrastructure
                     bulkCopy.DestinationTableName = "Answer";
 
                     bulkCopy.ColumnMappings.Add("IdQuestion", "IdQuestion");
-                    bulkCopy.ColumnMappings.Add("IdUser", id);
+                    bulkCopy.ColumnMappings.Add("IdUser", "IdUser");
                     bulkCopy.ColumnMappings.Add("Grade", "Grade");
                     bulkCopy.ColumnMappings.Add("Description", "Description");
 

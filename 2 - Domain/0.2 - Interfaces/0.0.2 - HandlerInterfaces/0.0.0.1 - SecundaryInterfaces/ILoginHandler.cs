@@ -5,7 +5,7 @@ namespace MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfac
 {
     public interface ILoginHandler
     {
-        Task<bool> Login([FromBody] LoginModel login);
-        Task<string> ValidationLogin([FromBody] LoginModel login);
+        Task<(string, string)> Login([FromBody] LoginModel login);
+        //Task<(string, string)> ValidationLogin([FromBody] LoginModel login);
     }
 }

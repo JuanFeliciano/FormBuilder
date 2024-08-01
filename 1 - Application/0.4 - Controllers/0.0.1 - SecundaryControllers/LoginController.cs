@@ -17,7 +17,12 @@ namespace MovtechForms.Application.Controllers
         {
             try
             {
-                return StatusCode(201, await _lgService.ValidationLogin(login));
+                (string, string) tokens = await _lgService.ValidationLogin(login);
+
+                return StatusCode(201, new {
+                    AccessToken = tokens.Item1,
+                    RefreshToken = tokens.Item2
+                });
             }
             catch (Exception ex)
             {
