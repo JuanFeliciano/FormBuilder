@@ -1,17 +1,17 @@
 ﻿namespace MovtechForms.Domain.Entities
 {
-    public class FormsGroup
+    public class FormGroup
     {
         public int Id { get; private set; }
         public string Title { get; set; }
 
         // Ralationship
 
-        public ICollection<Forms> Forms { get; set; }
+        public ICollection<Form> Forms { get; set; }
 
-        public FormsGroup()
+        public FormGroup()
         {
-            Forms = new List<Forms>();
+            Forms = new List<Form>();
         }
     }
 }

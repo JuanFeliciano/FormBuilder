@@ -5,8 +5,8 @@ namespace MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfa
 {
     public interface IFormForEach
     {
-        Task<List<Questions>> SelectForEach(int id);
-        Task InsertForEach([FromBody] Forms model, int id);
+        Task<List<Question>> SelectForEach(int id);
+        Task InsertForEach([FromBody] Form model, int id);
         Task DeleteForEach(int id);
     }
 }

@@ -12,9 +12,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         public QuestionHandler(IQuestionRepository questionRepo) => _questionRepo = questionRepo;
 
 
-        public async Task<List<Questions>> Get()
+        public async Task<List<Question>> Get()
         {
-            List<Questions> selectResult = await _questionRepo.Get();
+            List<Question> selectResult = await _questionRepo.Get();
 
             if (selectResult.Count is 0)
                 throw new Exception("There are no question");
@@ -22,9 +22,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return selectResult;
         }
 
-        public async Task<Questions> GetById(int id)
+        public async Task<Question> GetById(int id)
         {
-            Questions question = await _questionRepo.GetById(id);
+            Question question = await _questionRepo.GetById(id);
 
             if (question is null)
                 throw new Exception("Invalid id or no question");
@@ -33,7 +33,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return question;
         }
 
-        public async Task<Questions> Post([FromBody] Questions questions)
+        public async Task<Question> Post([FromBody] Question questions)
         {
             if (string.IsNullOrWhiteSpace(questions.Content.Trim()))
                 throw new Exception("The content cannot be null or empty");
@@ -41,9 +41,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return await _questionRepo.Post(questions);
         }
 
-        public async Task<Questions> Delete(int id)
+        public async Task<Question> Delete(int id)
         {
-            Questions questionDelete = await _questionRepo.Delete(id);
+            Question questionDelete = await _questionRepo.Delete(id);
 
             if (questionDelete is null)
                 throw new Exception("Invalid id or no questions");
@@ -51,7 +51,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return questionDelete;
         }
 
-        public async Task<Questions> Update([FromBody] Questions questions, int id)
+        public async Task<Question> Update([FromBody] Question questions, int id)
         {
             if (string.IsNullOrWhiteSpace(questions.Content))
             {

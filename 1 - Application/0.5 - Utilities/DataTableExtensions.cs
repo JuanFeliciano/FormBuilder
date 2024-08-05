@@ -12,7 +12,7 @@ namespace MovtechForms.Application
 
             foreach (DataRow row in table.Rows)
             {
-                T item = new T();
+                T item = new();
                 foreach (DataColumn column in table.Columns)
                 {
                     PropertyInfo prop = item.GetType().GetProperty(column.ColumnName)!;

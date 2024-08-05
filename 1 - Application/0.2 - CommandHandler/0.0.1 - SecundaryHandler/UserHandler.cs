@@ -21,7 +21,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
             _context = context;
         }
 
-        public async Task<Users> CreateUser([FromBody] Users userBody)
+        public async Task<User> CreateUser([FromBody] User userBody)
         {
             if (string.IsNullOrWhiteSpace(userBody.Name) || string.IsNullOrWhiteSpace(userBody.Password) || string.IsNullOrWhiteSpace(userBody.Role))
             {
@@ -34,15 +34,18 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
             }
 
             DataTable users = await _userRepository.CreateUser(userBody);
-            List<Users> userList = users.ConvertDataTableToList<Users>();
 
-            Users user = userList.Find(i => i.Id == userBody.Id)!;
+            int idUser = Convert.ToInt32(users.Rows[0]["Id"]);
+
+            List<User> userList = users.ConvertDataTableToList<User>();
+
+            User user = userList.Find(i => i.Id == idUser)!;
 
 
             return user;
         }
 
-        public async Task<List<Users>> GetUser()
+        public async Task<List<User>> GetUser()
         {
             DataTable userDataTable = await _userRepository.GetUser();
 
@@ -52,7 +55,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
             }
 
 
-            return userDataTable.ConvertDataTableToList<Users>();
+            return userDataTable.ConvertDataTableToList<User>();
         }
 
         public async Task<(string, string, DateTime)> GetUserByRefreshToken(string refresh)
@@ -69,10 +72,10 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
                 throw new Exception("No users found");
 
 
-            List<Users> userList = userdataTable.ConvertDataTableToList<Users>();
+            List<User> userList = userdataTable.ConvertDataTableToList<User>();
 
 
-            Users user = userList.Find(i => i.RefreshToken == refresh)!;
+            User user = userList.Find(i => i.RefreshToken == refresh)!;
 
 
             if (user is null || user.RefreshTokenExpiryTime <= DateTime.Now)

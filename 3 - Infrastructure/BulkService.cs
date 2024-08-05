@@ -9,7 +9,7 @@ namespace MovtechForms._3___Infrastructure
 {
     public class BulkService : IBulkService
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _context;
 
         public BulkService(IConfiguration configuration, IHttpContextAccessor context)
@@ -47,6 +47,7 @@ namespace MovtechForms._3___Infrastructure
                     bulkCopy.ColumnMappings.Add("IdUser", "IdUser");
                     bulkCopy.ColumnMappings.Add("Grade", "Grade");
                     bulkCopy.ColumnMappings.Add("Description", "Description");
+
 
                     await bulkCopy.WriteToServerAsync(answerTable);
                 }

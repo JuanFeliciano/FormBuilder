@@ -12,33 +12,33 @@ namespace MovtechForms.Application.Services.MainServices
         public FormGroupService(IFormGroupHandler formGroupHandler) => _formGroupHandler = formGroupHandler;
 
 
-        public async Task<List<FormsGroup>> Get()
+        public async Task<List<FormGroup>> Get()
         {
             return await _formGroupHandler.Get();
         }
 
             // GET METHOD
-            public async Task<FormsGroup> GetById(int id)
+            public async Task<FormGroup> GetById(int id)
         {
             return await _formGroupHandler.GetById(id);
         }
 
         // POST METHOD
-        public async Task<FormsGroup> Post([FromBody] FormsGroup formsGroup)
+        public async Task<FormGroup> Post([FromBody] FormGroup formsGroup)
         {
             return await _formGroupHandler.Post(formsGroup);
         }
 
         // DELETE METHOD
 
-        public async Task<FormsGroup> Delete(int id)
+        public async Task<FormGroup> Delete(int id)
         {
             return await _formGroupHandler.Delete(id);
         }
 
         // UPDATE METHOD
 
-        public async Task<FormsGroup> Update([FromBody] FormsGroup formGroup, int id)
+        public async Task<FormGroup> Update([FromBody] FormGroup formGroup, int id)
         {
             return await _formGroupHandler.Update(formGroup, id);
         }

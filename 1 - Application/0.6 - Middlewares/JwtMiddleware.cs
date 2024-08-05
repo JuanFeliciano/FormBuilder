@@ -12,14 +12,11 @@ namespace MovtechForms._1___Application._0._6___Middlewares
 
         };
 
-        public JwtMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
+        public JwtMiddleware(RequestDelegate next) => _next = next;
 
         public async Task InvokeAsync(HttpContext context, ITokenConfigure tokenRevocation)
         {
-            var path = context.Request.Path.Value!.ToLower();
+            string path = context.Request.Path.Value!.ToLower();
 
             if (_publicRoutes.Contains(path))
             {

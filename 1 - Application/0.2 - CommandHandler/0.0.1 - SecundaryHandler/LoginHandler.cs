@@ -22,24 +22,24 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 
         public async Task<(string, string)> Login([FromBody] LoginModel login)
         {
-            if (_tokenService.TokenIntoList())
+            if (_tokenService.CountTokenValidList())
                 throw new Exception("You are already logged in");
 
             DataTable userDataTable = await _userRepository.GetUser();
-            List<Users> users = userDataTable.ConvertDataTableToList<Users>();
+            List<User> users = userDataTable.ConvertDataTableToList<User>();
 
-            Users matchingUser = users.Find(i => i.Name == login.Username && i.Password == login.Password)!;
+            User matchingUser = users.Find(i => i.Name == login.Username && i.Password == login.Password)!;
 
             if (matchingUser is null)
                 throw new Exception("No user was found with these predicates");
 
             if (matchingUser.Role == "Admin")
             {
-                var admin = new Users { Name = login.Username, Role = "Admin", Id = matchingUser.Id };
+                User admin = new User { Name = login.Username, Role = "Admin", Id = matchingUser.Id };
                 return await _tokenService.GenerateToken(admin);
             }
 
-            var common = new Users { Name = login.Username, Role = "Common", Id = matchingUser.Id };
+            User common = new User { Name = login.Username, Role = "Common", Id = matchingUser.Id };
 
             return await _tokenService.GenerateToken(common);
 

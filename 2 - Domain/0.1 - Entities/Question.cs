@@ -1,6 +1,6 @@
 ﻿namespace MovtechForms.Domain.Entities
 {
-    public class Questions
+    public class Question
     {
         public int Id { get; private set; }
         public int IdForm { get; set; }
@@ -9,7 +9,7 @@
         //Relationship
         public ICollection<Answer> Answers { get; set; }
 
-        public Questions()
+        public Question()
         {
             Answers = new List<Answer>();
         }

@@ -18,9 +18,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         }
 
         // GET METHOD
-        public async Task<List<Forms>> Get()
+        public async Task<List<Form>> Get()
         {
-            List<Forms> selectResult = await _formRepo.Get();
+            List<Form> selectResult = await _formRepo.Get();
 
 
             if (selectResult.Count is 0)
@@ -32,9 +32,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
 
 
         // GET by Id METHOD
-        public async Task<Forms> GetById(int id)
+        public async Task<Form> GetById(int id)
         {
-            Forms forms = await _formRepo.GetById(id);
+            Form forms = await _formRepo.GetById(id);
 
             if (forms is null) 
                 throw new Exception("Invalid id or no forms");
@@ -43,12 +43,12 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         }
 
         // POST METHOD
-        public async Task<Forms> Post([FromBody] Forms forms)
+        public async Task<Form> Post([FromBody] Form forms)
         {
             if (string.IsNullOrWhiteSpace(forms.Title.Trim()))
                 throw new Exception("The value cannot be null or empty");
 
-            Forms form = await _formRepo.Post(forms);
+            Form form = await _formRepo.Post(forms);
 
             if (form is null)
                 throw new Exception("Invalid id or no forms");
@@ -58,9 +58,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
 
 
         // DELETE METHOD
-        public async Task<Forms> Delete(int id)
+        public async Task<Form> Delete(int id)
         {
-            Forms form = await _formRepo.Delete(id);
+            Form form = await _formRepo.Delete(id);
 
             if (form is null) 
                 throw new Exception("Invalid id");
@@ -70,12 +70,12 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         }
 
         // PUT METHOD
-        public async Task<Forms> Update([FromBody] Forms form, int id)
+        public async Task<Form> Update([FromBody] Form form, int id)
         {
             if (string.IsNullOrWhiteSpace(form.Title.Trim()))
                 throw new Exception("The title cannot be null or empty");
 
-            Forms forms = await _formRepo.Update(form, id);
+            Form forms = await _formRepo.Update(form, id);
 
             if (forms is null)
                 throw new Exception("Invalid id or no forms");

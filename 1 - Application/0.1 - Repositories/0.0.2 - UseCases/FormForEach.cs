@@ -13,17 +13,17 @@ namespace MovtechForms.Application.Repositories.UseCases
 
         public FormForEach(IDatabaseService dbService) => _dbService = dbService;
 
-        public async Task<List<Questions>> SelectForEach(int id)
+        public async Task<List<Question>> SelectForEach(int id)
         {
             string selectQuestions = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
             SqlParameter[] selectQuestionsParameter = { new SqlParameter("@IdForm", id) };
             DataTable selectResultQuestions = await _dbService.ExecuteQuery(selectQuestions, selectQuestionsParameter);
 
 
-            List<Questions> questionList = selectResultQuestions.ConvertDataTableToList<Questions>();
+            List<Question> questionList = selectResultQuestions.ConvertDataTableToList<Question>();
 
 
-            foreach (Questions question in questionList)
+            foreach (Question question in questionList)
             {
                 string selectAnswers = "SELECT * FROM Answer WHERE IdQuestion = @IdQuestion;";
                 SqlParameter[] selectAnswerParameter = { new("@IdQuestion", question.Id) };
@@ -40,9 +40,9 @@ namespace MovtechForms.Application.Repositories.UseCases
         }
 
 
-        public async Task InsertForEach([FromBody] Forms forms, int idForm)
+        public async Task InsertForEach([FromBody] Form forms, int idForm)
         {
-            foreach (Questions questions in forms.Questions)
+            foreach (Question questions in forms.Questions)
             {
                 string insertQuestionsQuery = "INSERT INTO Questions (IdForm, Content) OUTPUT INSERTED.Id VALUES (@IdForm, @Content);";
                 SqlParameter[] questionParameters =

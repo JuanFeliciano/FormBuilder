@@ -47,7 +47,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Questions questions)
+        public async Task<IActionResult> Post([FromBody] Question questions)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromBody] Questions questions, int id)
+        public async Task<IActionResult> Update([FromBody] Question questions, int id)
         {
             try
             {

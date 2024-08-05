@@ -11,12 +11,9 @@ namespace MovtechForms.Application.Repositories
     {
         private readonly IDatabaseService _dbService;
 
-        public UserRepository(IDatabaseService db)
-        {
-            _dbService = db;
-        }
+        public UserRepository(IDatabaseService db) => _dbService = db;
 
-        public async Task<DataTable> CreateUser([FromBody] Users userBody)
+        public async Task<DataTable> CreateUser([FromBody] User userBody)
         {
 
             string query = "INSERT INTO Users (Name, Password, Role) OUTPUT INSERTED.Id VALUES (@Name, @Password, @Role);";
@@ -45,7 +42,7 @@ namespace MovtechForms.Application.Repositories
             return await _dbService.ExecuteQuery(query, null!);
         }
 
-        public async Task UpdateUser(Users user)
+        public async Task UpdateUser(User user)
         {
             string command = "UPDATE Users SET RefreshToken = @RefreshToken, RefreshTokenExpiryTime = @RefreshTokenExpiryTime WHERE Id = @Id;";
             SqlParameter[] parameters =

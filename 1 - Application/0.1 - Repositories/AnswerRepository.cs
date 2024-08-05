@@ -23,7 +23,11 @@ namespace MovtechForms.Application.Repositories.MainRepositories
         {
             await _bulkService.BulkInsert(answer);
 
-            return await GetAnswer();
+            string query = $"SELECT TOP {answer.Count()} * FROM Answer ORDER BY id DESC;";
+
+            DataTable select = await _dbService.ExecuteQuery(query, null!);
+
+            return select;
         }
 
         public async Task<DataTable> GetAnswer()

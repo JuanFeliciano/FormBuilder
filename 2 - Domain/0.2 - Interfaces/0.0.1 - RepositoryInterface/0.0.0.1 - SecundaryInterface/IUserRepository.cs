@@ -6,8 +6,8 @@ namespace MovtechForms.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IUserRepository
     {
-        Task<DataTable> CreateUser([FromBody] Users users);
+        Task<DataTable> CreateUser([FromBody] User users);
         Task<DataTable> GetUser();
-        Task UpdateUser(Users users);
+        Task UpdateUser(User users);
     }
 }
