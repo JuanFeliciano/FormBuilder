@@ -8,8 +8,14 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
     public class QuestionHandler : IQuestionHandler
     {
         private readonly IQuestionRepository _questionRepo;
+        private readonly IFormRepository _formRepo;
 
-        public QuestionHandler(IQuestionRepository questionRepo) => _questionRepo = questionRepo;
+
+        public QuestionHandler(IQuestionRepository questionRepo, IFormRepository formRepo)
+        {
+            _questionRepo = questionRepo;
+            _formRepo = formRepo;
+        }
 
 
         public async Task<List<Question>> Get()
@@ -51,14 +57,22 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return questionDelete;
         }
 
-        public async Task<Question> Update([FromBody] Question questions, int id)
+        public async Task<Question> Update([FromBody] Question question, int id)
         {
-            if (string.IsNullOrWhiteSpace(questions.Content))
+            List<Form> listQuestions = await _formRepo.Get();
+
+            IEnumerable<Form> matchingQuestion = listQuestions.Where(i => i.Id == question.IdForm);
+
+            if (!matchingQuestion.Any())
+                throw new Exception($"The value IdForm: {question.IdForm} is invalid");
+
+
+            if (string.IsNullOrWhiteSpace(question.Content))
             {
                 throw new Exception("The content cannot be null or empty");
             }
 
-            return await _questionRepo.Update(questions, id);
+            return await _questionRepo.Update(question, id);
         }
     }
 }

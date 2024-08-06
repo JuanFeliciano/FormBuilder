@@ -9,12 +9,14 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
     public class FormHandler : IFormHandler
     {
         private readonly IFormRepository _formRepo;
+        private readonly IFormGroupRepository _formGroupRepo;
         private readonly IDatabaseService _dbService;
 
-        public FormHandler(IFormRepository formRepo, IDatabaseService data)
+        public FormHandler(IFormRepository formRepo, IDatabaseService data, IFormGroupRepository formGroupRepo)
         {
             _formRepo = formRepo;
             _dbService = data;
+            _formGroupRepo = formGroupRepo;
         }
 
         // GET METHOD
@@ -72,6 +74,14 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         // PUT METHOD
         public async Task<Form> Update([FromBody] Form form, int id)
         {
+            List<FormGroup> listFormGroup = await _formGroupRepo.Get();
+
+            IEnumerable<FormGroup> matchingForms = listFormGroup.Where(i => i.Id == form.IdGroup);
+
+            if (!matchingForms.Any())
+                throw new Exception($"The value IdGroup: {form.IdGroup} is invalid");
+
+
             if (string.IsNullOrWhiteSpace(form.Title.Trim()))
                 throw new Exception("The title cannot be null or empty");
 

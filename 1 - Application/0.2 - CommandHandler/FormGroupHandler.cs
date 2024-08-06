@@ -83,6 +83,13 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
 
         public async Task<FormGroup> Update([FromBody] FormGroup formGroup, int id)
         {
+            List<FormGroup> listFormsGroup = await _formGroupRepo.Get();
+
+            IEnumerable<FormGroup> matchingFormGroup = listFormsGroup.Where(i => i.Id == id);
+
+            if (!matchingFormGroup.Any())
+                throw new Exception($"The Id parameter is invalid - {id}");
+
             if (string.IsNullOrWhiteSpace(formGroup.Title))
             {
                 throw new Exception("The title cannot be null or empty");
@@ -90,9 +97,6 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
 
 
             FormGroup formsGroup = await _formGroupRepo.Update(formGroup, id);
-
-            if (formsGroup is null)
-                throw new Exception("Id invalid");
 
 
             return formsGroup;
