@@ -12,27 +12,27 @@ namespace MovtechForms.Application.Services.MainServices
         public QuestionService(IQuestionHandler questionHandler) => _questionHandler = questionHandler;
 
 
-        public async Task<List<Questions>> Get()
+        public async Task<List<Question>> Get()
         {
             return await _questionHandler.Get();
         }
 
-        public async Task<Questions> GetById(int id)
+        public async Task<Question> GetById(int id)
         {
             return await _questionHandler.GetById(id);
         }
 
-        public async Task<Questions> Post([FromBody] Questions questions)
+        public async Task<Question> Post([FromBody] Question questions)
         {
             return await _questionHandler.Post(questions);
         }
 
-        public async Task<Questions> Delete(int id)
+        public async Task<Question> Delete(int id)
         {
             return await _questionHandler.Delete(id);
         }
 
-        public async Task<Questions> Update([FromBody] Questions questions, int id)
+        public async Task<Question> Update([FromBody] Question questions, int id)
         {
             return await _questionHandler.Update(questions, id);
         }

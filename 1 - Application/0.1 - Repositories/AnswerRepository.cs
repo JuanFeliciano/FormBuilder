@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._4___DatabaseInterface;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
@@ -10,25 +11,23 @@ namespace MovtechForms.Application.Repositories.MainRepositories
     public class AnswerRepository : IAnswerRepository
     {
         private readonly IDatabaseService _dbService;
+        private readonly IBulkService _bulkService;
 
-        public AnswerRepository(IDatabaseService db) => _dbService = db;
-
-        public async Task<DataTable> PostAnswer([FromBody] Answer answer)
+        public AnswerRepository(IDatabaseService db, IBulkService bulk)
         {
-            string query = "INSERT INTO Answer (IdQuestion, Grade, Description) OUTPUT INSERTED.Id VALUES (@IdQuestion, @Grade, @Description);";
-            SqlParameter[] parameters =
-            {
-                new("@IdQuestion", answer.IdQuestion),
-                new("@Grade", answer.Grade),
-                new("@Description", answer.Description)
-            };
+            _dbService = db;
+            _bulkService = bulk;
+        }
 
+        public async Task<DataTable> PostAnswer([FromBody] Answer[] answer)
+        {
+            await _bulkService.BulkInsert(answer);
 
-            DataTable answerCreated = await _dbService.ExecuteQuery(query, parameters);
+            string query = $"SELECT TOP {answer.Count()} * FROM Answer ORDER BY id DESC;";
 
-            int idAnswer = Convert.ToInt32(answerCreated.Rows[0]["Id"]);
+            DataTable select = await _dbService.ExecuteQuery(query, null!);
 
-            return await GetSingleAnswer(idAnswer);
+            return select;
         }
 
         public async Task<DataTable> GetAnswer()

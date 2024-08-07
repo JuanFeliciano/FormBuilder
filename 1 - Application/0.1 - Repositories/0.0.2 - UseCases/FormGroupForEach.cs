@@ -14,23 +14,23 @@ namespace MovtechForms.Application.Repositories.UseCases
         public FormGroupForEach(IDatabaseService databaseService) => _dbService = databaseService;
 
 
-        public async Task<List<Forms>> SelectForEach(int id)
+        public async Task<List<Form>> SelectForEach(int id)
         {
             string queryForms = "SELECT * FROM Forms WHERE IdGroup = @IdGroup;";
             SqlParameter[] formParameter = { new("@IdGroup", id) };
             DataTable selectFormOperation = await _dbService.ExecuteQuery(queryForms, formParameter);
 
-            List<Forms> formsList = selectFormOperation.ConvertDataTableToList<Forms>();
+            List<Form> formsList = selectFormOperation.ConvertDataTableToList<Form>();
 
-            foreach (Forms form in formsList)
+            foreach (Form form in formsList)
             {
                 string queryQuestion = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
                 SqlParameter[] questionParameter = { new("@IdForm", form.Id) };
                 DataTable selectQuestionOperation = await _dbService.ExecuteQuery(queryQuestion, questionParameter);
 
-                List<Questions> questionList = selectQuestionOperation.ConvertDataTableToList<Questions>();
+                List<Question> questionList = selectQuestionOperation.ConvertDataTableToList<Question>();
 
-                foreach (Questions question in questionList)
+                foreach (Question question in questionList)
                 {
                     string queryAnswer = "SELECT * FROM Answer WHERE IdQuestion = @IdQuestion;";
                     SqlParameter[] answerParameter = { new("@IdQuestion", question.Id) };
@@ -48,9 +48,9 @@ namespace MovtechForms.Application.Repositories.UseCases
         }
 
 
-        public async Task InsertForEach([FromBody] FormsGroup formsGroup, int idFormGroup)
+        public async Task InsertForEach([FromBody] FormGroup formsGroup, int idFormGroup)
         {
-            foreach (Forms forms in formsGroup.Forms!)
+            foreach (Form forms in formsGroup.Forms!)
             {
                 string insertFormQuery = "INSERT INTO Forms (IdGroup, Title) OUTPUT INSERTED.Id VALUES (@IdGroup, @Title);";
                 SqlParameter[] formParameters =
@@ -69,7 +69,7 @@ namespace MovtechForms.Application.Repositories.UseCases
                     throw new Exception("The value Question cannot be null or empty");
                 }
 
-                foreach (Questions questions in forms.Questions)
+                foreach (Question questions in forms.Questions)
                 {
                     string insertQuestionsQuery = "INSERT INTO Questions (IdForm, Content) VALUES (@IdForm, @Content);";
                     SqlParameter[] questionParameters =
@@ -89,14 +89,28 @@ namespace MovtechForms.Application.Repositories.UseCases
             SqlParameter[] selectFormParameter = { new("@IdGroup", idFormGroup) };
 
             DataTable formSelect = await _dbService.ExecuteQuery(selectForm, selectFormParameter);
-            List<Forms> formList = formSelect.ConvertDataTableToList<Forms>();
+            List<Form> formList = formSelect.ConvertDataTableToList<Form>();
 
-            foreach (Forms form in formList)
+            foreach (Form form in formList)
             {
-                string queryQuestion = "DELETE FROM Questions WHERE IdForm = @IdForm;";
+                string selectQuestion = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
                 SqlParameter[] questionParameter = { new("@IdForm", form.Id) };
 
-                await _dbService.ExecuteQuery(queryQuestion, questionParameter);
+
+                DataTable questionSelect = await _dbService.ExecuteQuery(selectQuestion, questionParameter);
+                List<Question> questionList = questionSelect.ConvertDataTableToList<Question>();
+
+                foreach (Question question in questionList)
+                {
+                    string queryAnswer = "DELETE FROM Answer WHERE IdQuestion = @IdQuestion;";
+                    SqlParameter[] answerParameter = { new("@IdQuestion", question.Id) };
+                    await _dbService.ExecuteQuery(queryAnswer, answerParameter);
+                }
+
+                string queryDeleteQuestion = "DELETE FROM Questions WHERE IdForm = @IdForm;";
+                SqlParameter[] questionDeleteParameter = { new("@IdForm", form.Id) };
+
+                await _dbService.ExecuteQuery(queryDeleteQuestion, questionDeleteParameter);
 
             }
 

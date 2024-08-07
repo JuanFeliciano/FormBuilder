@@ -46,7 +46,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Forms forms)
+        public async Task<IActionResult> Post([FromBody] Form forms)
         {
             try
             {
@@ -78,11 +78,11 @@ namespace MovtechForms.Application.Controllers.CoreControllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put([FromBody] Forms forms, int id)
+        public async Task<IActionResult> Put([FromBody] Form forms, int id)
         {
             try
             {
-                return StatusCode(201, await _formService.Update(forms, id));
+                return StatusCode(200, await _formService.Update(forms, id));
             }
             catch (Exception ex)
             {

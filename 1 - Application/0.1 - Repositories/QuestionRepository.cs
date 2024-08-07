@@ -19,26 +19,26 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             _forEach = each;
         }
 
-        public async Task<List<Questions>> Get()
+        public async Task<List<Question>> Get()
         {
             string query = "SELECT * FROM Questions;";
 
             DataTable questionDataTable = await _dbService.ExecuteQuery(query, null!);
 
-            List<Questions> questions = questionDataTable.ConvertDataTableToList<Questions>();
+            List<Question> questions = questionDataTable.ConvertDataTableToList<Question>();
 
             return questions;
         }
 
-        public async Task<Questions> GetById(int id)
+        public async Task<Question> GetById(int id)
         {
             string query = "SELECT * FROM Questions WHERE Id = @Id;";
             SqlParameter[] parameter = { new("@Id", id) };
 
             DataTable selectOperation = await _dbService.ExecuteQuery(query, parameter);
 
-            List<Questions> questionsList = selectOperation.ConvertDataTableToList<Questions>();
-            Questions questions = questionsList.Find(i => i.Id == id)!;
+            List<Question> questionsList = selectOperation.ConvertDataTableToList<Question>();
+            Question questions = questionsList.Find(i => i.Id == id)!;
 
             List<Answer> answerList = await _forEach.SelectForEach(id);
 
@@ -48,7 +48,7 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             return questions;
         }
 
-        public async Task<Questions> Post([FromBody] Questions questions)
+        public async Task<Question> Post([FromBody] Question questions)
         {
             string insertQuery = "INSERT INTO Questions (IdForm, Content) OUTPUT INSERTED.Id VALUES (@IdForm, @Content)";
 
@@ -67,9 +67,9 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             return await GetById(questionId);
         }
 
-        public async Task<Questions> Delete(int id)
+        public async Task<Question> Delete(int id)
         {
-            Questions questionSelect = await GetById(id);
+            Question questionSelect = await GetById(id);
 
             await _forEach.DeleteForEach(id);
 
@@ -81,7 +81,7 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             return questionSelect;
         }
 
-        public async Task<Questions> Update([FromBody] Questions questions, int id)
+        public async Task<Question> Update([FromBody] Question questions, int id)
         {
             string updateQuery = "UPDATE Questions SET IdForm = @IdForm, Content = @Content WHERE Id = @Id;";
 

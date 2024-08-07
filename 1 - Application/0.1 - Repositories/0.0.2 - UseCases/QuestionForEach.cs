@@ -27,7 +27,7 @@ namespace MovtechForms.Application.Repositories.UseCases
         }
 
 
-        public async Task InsertForEach([FromBody] Questions question, int id)
+        public async Task InsertForEach([FromBody] Question question, int id)
         {
 
             foreach (Answer answer in question.Answers)

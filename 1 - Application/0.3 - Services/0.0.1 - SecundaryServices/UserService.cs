@@ -14,14 +14,19 @@ namespace MovtechForms.Application.Services
             _userhandler = userRepo;
         }
 
-        public async Task<Users> CreateUser([FromBody] Users user)
+        public async Task<User> CreateUser([FromBody] User user)
         {
             return await _userhandler.CreateUser(user);
         }
 
-        public async Task<List<Users>> GetUser()
+        public async Task<List<User>> GetUser()
         {
             return await _userhandler.GetUser();
+        }
+
+        public async Task<(string, string, DateTime)> GetUserByRefreshToken(string refresh)
+        {
+            return await _userhandler.GetUserByRefreshToken(refresh);
         }
     }
 }

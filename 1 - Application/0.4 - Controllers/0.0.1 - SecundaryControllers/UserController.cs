@@ -14,7 +14,7 @@ namespace MovtechForms.Application.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Users users)
+        public async Task<IActionResult> Post([FromBody] User users)
         {
             try
             {

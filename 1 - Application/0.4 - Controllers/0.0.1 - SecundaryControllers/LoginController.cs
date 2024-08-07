@@ -15,7 +15,19 @@ namespace MovtechForms.Application.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
-            return StatusCode(201, await _lgService.ValidationLogin(login));
+            try
+            {
+                (string, string) tokens = await _lgService.ValidationLogin(login);
+
+                return StatusCode(201, new {
+                    AccessToken = tokens.Item1,
+                    RefreshToken = tokens.Item2
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

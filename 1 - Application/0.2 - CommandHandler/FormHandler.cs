@@ -9,18 +9,20 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
     public class FormHandler : IFormHandler
     {
         private readonly IFormRepository _formRepo;
+        private readonly IFormGroupRepository _formGroupRepo;
         private readonly IDatabaseService _dbService;
 
-        public FormHandler(IFormRepository formRepo, IDatabaseService data)
+        public FormHandler(IFormRepository formRepo, IDatabaseService data, IFormGroupRepository formGroupRepo)
         {
             _formRepo = formRepo;
             _dbService = data;
+            _formGroupRepo = formGroupRepo;
         }
 
         // GET METHOD
-        public async Task<List<Forms>> Get()
+        public async Task<List<Form>> Get()
         {
-            List<Forms> selectResult = await _formRepo.Get();
+            List<Form> selectResult = await _formRepo.Get();
 
 
             if (selectResult.Count is 0)
@@ -32,53 +34,81 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
 
 
         // GET by Id METHOD
-        public async Task<Forms> GetById(int id)
+        public async Task<Form> GetById(int id)
         {
-            Forms forms = await _formRepo.GetById(id);
+            List<Form> formList = await _formRepo.Get();
 
-            if (forms is null) 
-                throw new Exception("Invalid id or no forms");
+            bool matchingForm = formList.Exists(i => i.Id == id);
+
+            if (matchingForm is false) 
+                throw new Exception($"Parameter Id: {id} is invalid");
+
+            Form forms = await _formRepo.GetById(id);
 
             return forms;
         }
 
         // POST METHOD
-        public async Task<Forms> Post([FromBody] Forms forms)
+        public async Task<Form> Post([FromBody] Form forms)
         {
+            List<FormGroup> formGroupList = await _formGroupRepo.Get();
+
+            bool matchingFormGroup = formGroupList.Exists(i => i.Id == forms.IdGroup);
+
+            if (matchingFormGroup is false)
+                throw new Exception($"The IdGroup value: {forms.IdGroup} is invalid");
+
+
             if (string.IsNullOrWhiteSpace(forms.Title.Trim()))
                 throw new Exception("The value cannot be null or empty");
 
-            Forms form = await _formRepo.Post(forms);
-
-            if (form is null)
-                throw new Exception("Invalid id or no forms");
+            Form form = await _formRepo.Post(forms);
 
             return form;
         }
 
 
         // DELETE METHOD
-        public async Task<Forms> Delete(int id)
+        public async Task<Form> Delete(int id)
         {
-            Forms form = await _formRepo.Delete(id);
+            List<Form> formList = await _formRepo.Get();
 
-            if (form is null) 
-                throw new Exception("Invalid id");
+            bool matchingForm = formList.Exists(i => i.Id == id);
+
+            if (matchingForm is false) 
+                throw new Exception("Parameter Id is invalid");
+
+
+            Form form = await _formRepo.Delete(id);
+
 
 
             return form;
         }
 
         // PUT METHOD
-        public async Task<Forms> Update([FromBody] Forms form, int id)
+        public async Task<Form> Update([FromBody] Form form, int id)
         {
+            List<FormGroup> listFormGroup = await _formGroupRepo.Get();
+            List<Form> listForm = await _formRepo.Get();
+
+
+            bool matchingForm = listForm.Exists(i => i.Id == id);
+            bool matchingFormGroup = listFormGroup.Exists(i => i.Id == form.IdGroup);
+
+            
+            if (matchingForm is false)
+                throw new Exception($"The Id parameter: {id} is invalid");
+
+
+            if (matchingFormGroup is false)
+                throw new Exception($"The value IdGroup: {form.IdGroup} is invalid");
+
+
             if (string.IsNullOrWhiteSpace(form.Title.Trim()))
                 throw new Exception("The title cannot be null or empty");
 
-            Forms forms = await _formRepo.Update(form, id);
-
-            if (forms is null)
-                throw new Exception("Invalid id or no forms");
+            Form forms = await _formRepo.Update(form, id);
 
             return forms;
         }

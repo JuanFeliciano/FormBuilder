@@ -19,29 +19,29 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             _forEach = forEachCommand;
         }
 
-        public async Task<List<FormsGroup>> Get()
+        public async Task<List<FormGroup>> Get()
         {
             string query = "SELECT * FROM FormsGroup;";
 
             DataTable formGroupDataTable = await _dbService.ExecuteQuery(query, null!);
 
-            return formGroupDataTable.ConvertDataTableToList<FormsGroup>();
+            return formGroupDataTable.ConvertDataTableToList<FormGroup>();
         }
 
 
         // GET METHOD by ID
-        public async Task<FormsGroup> GetById(int id)
+        public async Task<FormGroup> GetById(int id)
         {
             string query = "SELECT * FROM FormsGroup WHERE Id = @Id;";
             SqlParameter[] parameter = { new("@Id", id) };
             DataTable selectOperation = await _dbService.ExecuteQuery(query, parameter);
 
-            List<FormsGroup> formsGroupList = selectOperation.ConvertDataTableToList<FormsGroup>();
+            List<FormGroup> formsGroupList = selectOperation.ConvertDataTableToList<FormGroup>();
 
 
-            FormsGroup formsGroup = formsGroupList.Find(x => x.Id == id)!;
+            FormGroup formsGroup = formsGroupList.Find(x => x.Id == id)!;
 
-            List<Forms> formsList = await _forEach.SelectForEach(id);
+            List<Form> formsList = await _forEach.SelectForEach(id);
 
 
             formsGroup.Forms = formsList;
@@ -50,7 +50,7 @@ namespace MovtechForms.Application.Repositories.MainRepositories
         }
 
         // POST METHOD
-        public async Task<FormsGroup> Post([FromBody] FormsGroup formsGroup)
+        public async Task<FormGroup> Post([FromBody] FormGroup formsGroup)
         {
             /// insert operation
             string insertFormGroupQuery = "INSERT INTO FormsGroup (Title) OUTPUT INSERTED.Id VALUES (@Title);";
@@ -68,9 +68,9 @@ namespace MovtechForms.Application.Repositories.MainRepositories
 
         // DELETE METHOD
 
-        public async Task<FormsGroup> Delete(int id)
+        public async Task<FormGroup> Delete(int id)
         {
-            FormsGroup selectFormsGroup = await GetById(id);
+            FormGroup selectFormsGroup = await GetById(id);
 
 
             await _forEach.DeleteForEach(id);
@@ -86,7 +86,7 @@ namespace MovtechForms.Application.Repositories.MainRepositories
 
     // UPDATE METHOD
 
-    public async Task<FormsGroup> Update([FromBody] FormsGroup formGroup, int id)
+    public async Task<FormGroup> Update([FromBody] FormGroup formGroup, int id)
     {
         string updateQuery = "UPDATE FormsGroup SET Title = @Title WHERE Id = @Id;";
 

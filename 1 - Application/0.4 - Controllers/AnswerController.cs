@@ -14,13 +14,13 @@ namespace MovtechForms.Application.Controllers.CoreControllers
 
         public AnswerController(IAnswerService answerService) => _answerService = answerService;
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
-            return StatusCode(200,await _answerService.Get());
+                return StatusCode(200, await _answerService.Get());
             }
             catch (Exception ex)
             {
@@ -29,7 +29,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Answer answer)
+        public async Task<IActionResult> Post([FromBody] Answer[] answer)
         {
             try
             {

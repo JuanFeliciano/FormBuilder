@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces._0._0._0._1___SecundaryInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._6___TokenInterfaces;
 using MovtechForms.Application;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
@@ -11,44 +12,37 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
     public class LoginHandler : ILoginHandler
     {
         private readonly IUserRepository _userRepository;
-        private readonly TokenHandler _tokenService;
+        private readonly ITokenConfigure _tokenService;
 
-        public LoginHandler(IUserRepository userRepo, TokenHandler tokenService)
+        public LoginHandler(IUserRepository userRepo, ITokenConfigure tokenRevocation)
         {
             _userRepository = userRepo;
-            _tokenService = tokenService;
+            _tokenService = tokenRevocation;
         }
 
-        public async Task<bool> GetLogin([FromBody] LoginModel login)
+        public async Task<(string, string)> Login([FromBody] LoginModel login)
         {
-            DataTable userDataTable = await _userRepository.GetUser();
-            List<Users> users = userDataTable.ConvertDataTableToList<Users>();
+            if (_tokenService.CountTokenValidList())
+                throw new Exception("You are already logged in");
 
-            Users matchingUser = users.Find(i => i.Name == login.Username && i.Password == login.Password)!;
+            DataTable userDataTable = await _userRepository.GetUser();
+            List<User> users = userDataTable.ConvertDataTableToList<User>();
+
+            User matchingUser = users.Find(i => i.Name == login.Username && i.Password == login.Password)!;
 
             if (matchingUser is null)
                 throw new Exception("No user was found with these predicates");
 
             if (matchingUser.Role == "Admin")
-                return true;
-
-            return false;
-        }
-
-        public async Task<string> ValidationLogin([FromBody] LoginModel login)
-        {
-            bool result = await GetLogin(login);
-
-            if (result)
             {
-                var admin = new Users { Name = login.Username, Role = "Admin" };
-
-                return _tokenService.GenerateToken(admin);
+                User admin = new User { Name = login.Username, Role = "Admin", Id = matchingUser.Id };
+                return await _tokenService.GenerateToken(admin);
             }
 
-            var common = new Users { Name = login.Username, Role = "Common" };
+            User common = new User { Name = login.Username, Role = "Common", Id = matchingUser.Id };
 
-            return _tokenService.GenerateToken(common);
+            return await _tokenService.GenerateToken(common);
+
         }
     }
 }
