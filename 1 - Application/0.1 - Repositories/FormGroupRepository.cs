@@ -38,7 +38,6 @@ namespace MovtechForms.Application.Repositories.MainRepositories
 
             List<FormGroup> formsGroupList = selectOperation.ConvertDataTableToList<FormGroup>();
 
-
             FormGroup formsGroup = formsGroupList.Find(x => x.Id == id)!;
 
             List<Form> formsList = await _forEach.SelectForEach(id);

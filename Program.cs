@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.IdentityModel.Tokens;
 using MovtechForms._1___Application._0._2___CommandHandler;
 using MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler;
@@ -33,7 +34,9 @@ ConfigureServices(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
-Configure(app);
+var env = app.Services.GetRequiredService<IWebHostEnvironment>();
+
+Configure(app, env);
 
 static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
@@ -106,24 +109,45 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
 }
 
 
-static void Configure(WebApplication app)
+static void Configure(WebApplication app, IWebHostEnvironment env)
 {
-    // Ative o Swagger e a UI do Swagger em todos os ambientes
-    app.UseSwagger();
-    app.UseSwaggerUI(option =>
+    if (env.IsDevelopment())
     {
-        option.SwaggerEndpoint("/swagger/v1/swagger.json", "Forms Builder API v1");
-        option.RoutePrefix = string.Empty; // Define a UI do Swagger na raiz do aplicativo
-    });
+        app.UseDeveloperExceptionPage();
+        app.UseCors(i => i.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    }
+    else
+    {
+        app.UseExceptionHandler("/Error");
+        app.UseHsts();
+    }
 
     // Outros middlewares
     app.UseHttpsRedirection();
+    app.UseStaticFiles();
+    app.UseSpaStaticFiles();
     app.UseMiddleware<JwtMiddleware>();
+
+    app.UseRouting();
 
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.MapControllers();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+
+    app.UseSpa(spa =>
+    {
+        spa.Options.SourcePath = "ClientApp";
+
+        if (env.IsDevelopment())
+        {
+            spa.UseAngularCliServer(npmScript: "start");
+        }
+    });
+
 }
 
 // Configure the HTTP request pipeline.
