@@ -47,3 +47,10 @@ C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Mic
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\angular.json
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\package-lock.json
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\package.json
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\tsconfig.app.json
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\tsconfig.json
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\tsconfig.spec.json
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.AspNetCore.SpaServices.Extensions.dll
