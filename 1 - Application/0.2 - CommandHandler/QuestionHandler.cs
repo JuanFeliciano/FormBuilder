@@ -30,40 +30,64 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
 
         public async Task<Question> GetById(int id)
         {
-            Question question = await _questionRepo.GetById(id);
+            List<Question> questionList = await _questionRepo.Get();
 
-            if (question is null)
+            bool matchingQuestion = questionList.Exists(i => i.Id == id);
+
+            if (matchingQuestion is false)
                 throw new Exception("Invalid id or no question");
+
+
+            Question question = await _questionRepo.GetById(id);
 
 
             return question;
         }
 
-        public async Task<Question> Post([FromBody] Question questions)
+        public async Task<Question> Post([FromBody] Question question)
         {
-            if (string.IsNullOrWhiteSpace(questions.Content.Trim()))
+            List<Form> formList = await _formRepo.Get();
+
+            bool matchingQuestion = formList.Exists(i => i.Id == question.IdForm);
+
+            if (matchingQuestion is false)
+                throw new Exception($"The value IdForm: {question.IdForm} is invalid");
+            
+            if (string.IsNullOrWhiteSpace(question.Content.Trim()))
                 throw new Exception("The content cannot be null or empty");
 
-            return await _questionRepo.Post(questions);
+            return await _questionRepo.Post(question);
         }
 
         public async Task<Question> Delete(int id)
         {
+            List<Question> questionList = await _questionRepo.Get();
+
+            bool matchingQuestion = questionList.Exists(i => i.Id == id);
+
+            if (matchingQuestion is false)
+                throw new Exception($"The parameter Id: {id} is invalid");
+
+
             Question questionDelete = await _questionRepo.Delete(id);
 
-            if (questionDelete is null)
-                throw new Exception("Invalid id or no questions");
 
             return questionDelete;
         }
 
         public async Task<Question> Update([FromBody] Question question, int id)
         {
-            List<Form> listQuestions = await _formRepo.Get();
+            List<Question> questionList = await _questionRepo.Get();
+            List<Form> formList = await _formRepo.Get();
 
-            IEnumerable<Form> matchingQuestion = listQuestions.Where(i => i.Id == question.IdForm);
+            bool matchingQuestion = questionList.Exists(i => i.Id == id);
+            bool matchingForm = formList.Exists(i => i.Id == question.IdForm);
 
-            if (!matchingQuestion.Any())
+            if (matchingQuestion is false)
+                throw new Exception($"The parameter Id: {question.IdForm} is invalid");
+
+
+            if (matchingForm is false)
                 throw new Exception($"The value IdForm: {question.IdForm} is invalid");
 
 

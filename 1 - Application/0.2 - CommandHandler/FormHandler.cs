@@ -36,10 +36,14 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         // GET by Id METHOD
         public async Task<Form> GetById(int id)
         {
-            Form forms = await _formRepo.GetById(id);
+            List<Form> formList = await _formRepo.Get();
 
-            if (forms is null) 
-                throw new Exception("Invalid id or no forms");
+            bool matchingForm = formList.Exists(i => i.Id == id);
+
+            if (matchingForm is false) 
+                throw new Exception($"Parameter Id: {id} is invalid");
+
+            Form forms = await _formRepo.GetById(id);
 
             return forms;
         }
@@ -47,13 +51,18 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         // POST METHOD
         public async Task<Form> Post([FromBody] Form forms)
         {
+            List<FormGroup> formGroupList = await _formGroupRepo.Get();
+
+            bool matchingFormGroup = formGroupList.Exists(i => i.Id == forms.IdGroup);
+
+            if (matchingFormGroup is false)
+                throw new Exception($"The IdGroup value: {forms.IdGroup} is invalid");
+
+
             if (string.IsNullOrWhiteSpace(forms.Title.Trim()))
                 throw new Exception("The value cannot be null or empty");
 
             Form form = await _formRepo.Post(forms);
-
-            if (form is null)
-                throw new Exception("Invalid id or no forms");
 
             return form;
         }
@@ -62,10 +71,16 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         // DELETE METHOD
         public async Task<Form> Delete(int id)
         {
+            List<Form> formList = await _formRepo.Get();
+
+            bool matchingForm = formList.Exists(i => i.Id == id);
+
+            if (matchingForm is false) 
+                throw new Exception("Parameter Id is invalid");
+
+
             Form form = await _formRepo.Delete(id);
 
-            if (form is null) 
-                throw new Exception("Invalid id");
 
 
             return form;
@@ -75,10 +90,18 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         public async Task<Form> Update([FromBody] Form form, int id)
         {
             List<FormGroup> listFormGroup = await _formGroupRepo.Get();
+            List<Form> listForm = await _formRepo.Get();
 
-            IEnumerable<FormGroup> matchingForms = listFormGroup.Where(i => i.Id == form.IdGroup);
 
-            if (!matchingForms.Any())
+            bool matchingForm = listForm.Exists(i => i.Id == id);
+            bool matchingFormGroup = listFormGroup.Exists(i => i.Id == form.IdGroup);
+
+            
+            if (matchingForm is false)
+                throw new Exception($"The Id parameter: {id} is invalid");
+
+
+            if (matchingFormGroup is false)
                 throw new Exception($"The value IdGroup: {form.IdGroup} is invalid");
 
 
@@ -86,9 +109,6 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
                 throw new Exception("The title cannot be null or empty");
 
             Form forms = await _formRepo.Update(form, id);
-
-            if (forms is null)
-                throw new Exception("Invalid id or no forms");
 
             return forms;
         }

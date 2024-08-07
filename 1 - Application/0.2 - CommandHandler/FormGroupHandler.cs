@@ -25,12 +25,16 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         // GET METHOD
         public async Task<FormGroup> GetById(int id)
         {
+            List<FormGroup> formGroupList = await _formGroupRepo.Get();
+
+            bool matchingFormGroup = formGroupList.Exists(i => i.Id == id);
+
+            if (matchingFormGroup is false)
+                throw new Exception("Predicate is invalid");
+
+
             FormGroup formGroup = await _formGroupRepo.GetById(id);
 
-            if (formGroup is null)
-            {
-                throw new Exception("Predicate is invalid");
-            }
 
             return formGroup;
         }
@@ -70,10 +74,14 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
 
         public async Task<FormGroup> Delete(int id)
         {
-            FormGroup formGroup = await _formGroupRepo.Delete(id);
+            List<FormGroup> formGroupList = await _formGroupRepo.Get();
 
-            if (formGroup is null)
+            bool matchingFormGroup = formGroupList.Exists(i => i.Id == id);
+
+            if (matchingFormGroup is false)
                 throw new Exception("Invalid id");
+
+            FormGroup formGroup = await _formGroupRepo.Delete(id);
 
 
             return formGroup;
@@ -85,9 +93,9 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         {
             List<FormGroup> listFormsGroup = await _formGroupRepo.Get();
 
-            IEnumerable<FormGroup> matchingFormGroup = listFormsGroup.Where(i => i.Id == id);
+            bool matchingFormGroup = listFormsGroup.Exists(i => i.Id == id);
 
-            if (!matchingFormGroup.Any())
+            if (matchingFormGroup is false)
                 throw new Exception($"The Id parameter is invalid - {id}");
 
             if (string.IsNullOrWhiteSpace(formGroup.Title))
