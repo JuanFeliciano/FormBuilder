@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovtechForms", "MovtechForms.csproj", "{28CAF736-2315-48BF-B0E4-94724ACC6E54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28CAF736-2315-48BF-B0E4-94724ACC6E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28CAF736-2315-48BF-B0E4-94724ACC6E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28CAF736-2315-48BF-B0E4-94724ACC6E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28CAF736-2315-48BF-B0E4-94724ACC6E54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1218CD28-4ADB-4AD3-8A0E-9E9899AE7D92}
+	EndGlobalSection
+EndGlobal
