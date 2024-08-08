@@ -1,0 +1,16 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    h1 {
+      margin: 0;
+      margin-top: 20px;
+    }
+  }
+}

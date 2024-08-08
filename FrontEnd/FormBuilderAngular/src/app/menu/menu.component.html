@@ -1,0 +1,11 @@
+<div class="menu">
+  <form class="menu-cred" (ngSubmit)="onSubmit()">
+    <label for="inputName">Username</label>
+    <input type="text" [(ngModel)]="inputName" name="inputName" required />
+
+    <label for="inputPass">Password</label>
+    <input type="password" [(ngModel)]="inputPass" name="inputPass" required />
+
+    <button type="submit">Log in</button>
+  </form>
+</div>

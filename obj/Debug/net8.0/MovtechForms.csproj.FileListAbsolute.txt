@@ -54,3 +54,5 @@ C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Fro
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\tsconfig.json
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\tsconfig.spec.json
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.AspNetCore.SpaServices.Extensions.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\proxy.conf.json
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\MovtechForms.staticwebassets.runtime.json
