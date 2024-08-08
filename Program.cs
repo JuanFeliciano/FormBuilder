@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.IdentityModel.Tokens;
 using MovtechForms._1___Application._0._2___CommandHandler;
 using MovtechForms._1___Application._0._2___CommandHandler._0._0._1___SecundaryHandler;
@@ -40,8 +39,7 @@ Configure(app, env);
 
 static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
-
-    // Registro de servi�os
+    // Registro de serviços
     services.AddScoped<IFormGroupService, FormGroupService>();
     services.AddScoped<IFormService, FormService>();
     services.AddScoped<IQuestionService, QuestionService>();
@@ -60,19 +58,19 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddScoped<IUserHandler, UserHandler>();
     services.AddScoped<ITokenConfigure, TokenConfigure>();
 
-    // Registro de reposit�rios
+    // Registro de repositórios
     services.AddScoped<IFormGroupRepository, FormGroupRepository>();
     services.AddScoped<IFormRepository, FormRepository>();
     services.AddScoped<IQuestionRepository, QuestionRepository>();
     services.AddScoped<IAnswerRepository, AnswerRepository>();
     services.AddScoped<IUserRepository, UserRepository>();
 
-    // Registro do servi�o ForEach
+    // Registro do serviço ForEach
     services.AddScoped<IFormGroupForEach, FormGroupForEach>();
     services.AddScoped<IFormForEach, FormForEach>();
     services.AddScoped<IQuestionForEach, QuestionForEach>();
 
-    //Registro de outros servi�os necessarios
+    // Registro de outros serviços necessários
     services.AddScoped<IDatabaseService, DatabaseService>();
     services.AddScoped<IBulkService, BulkService>();
 
@@ -83,9 +81,7 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
     services.AddHttpContextAccessor();
     services.AddControllers();
 
-
     services.AddSwaggerGen();
-
 
     services.AddAuthentication(option =>
     {
@@ -106,8 +102,12 @@ static void ConfigureServices(IServiceCollection services, IConfiguration config
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecretKey"]!))
         };
     });
-}
 
+    services.AddSpaStaticFiles(conf => 
+    {
+        conf.RootPath = "wwwroot"; // Configura a pasta onde o Angular vai gerar os arquivos estáticos
+    });
+}
 
 static void Configure(WebApplication app, IWebHostEnvironment env)
 {
@@ -122,10 +122,10 @@ static void Configure(WebApplication app, IWebHostEnvironment env)
         app.UseHsts();
     }
 
-    // Outros middlewares
     app.UseHttpsRedirection();
-    app.UseStaticFiles();
-    app.UseSpaStaticFiles();
+    app.UseStaticFiles(); // Serve arquivos estáticos da pasta wwwroot
+    app.UseSpaStaticFiles(); // Serve arquivos estáticos da pasta wwwroot configurada para a SPA
+
     app.UseMiddleware<JwtMiddleware>();
 
     app.UseRouting();
@@ -133,23 +133,7 @@ static void Configure(WebApplication app, IWebHostEnvironment env)
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
-
-    app.UseSpa(spa =>
-    {
-        spa.Options.SourcePath = "ClientApp";
-
-        if (env.IsDevelopment())
-        {
-            spa.UseAngularCliServer(npmScript: "start");
-        }
-    });
-
+    app.MapControllers();
 }
-
-// Configure the HTTP request pipeline.
 
 app.Run();

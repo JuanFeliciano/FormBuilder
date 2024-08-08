@@ -8,35 +8,31 @@
 .menu {
   display: flex;
   gap: 20px;
-}
 
-.menu-cred {
-  width: 230px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  .menu-cred {
+    width: 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-  h4 {
-    font-size: 30px;
-    margin: 0;
-  }
+    label {
+      font-size: 30px;
+      margin: 0;
+    }
 
-  input {
-    height: 30px;
-    border-radius: 8px;
-    background: rgb(56, 56, 56);
-  }
-}
+    input {
+      height: 30px;
+      border-radius: 8px;
+      background: rgb(56, 56, 56);
+    }
 
-.loginBtn {
-  display: flex;
-  align-items: center;
-  button {
-    background: rgb(12, 140, 233);
-    font-size: 20px;
-    border-radius: 10px;
-    height: 60px;
-    width: 120px;
-    cursor: pointer;
+    button {
+      background: rgb(12, 140, 233);
+      font-size: 20px;
+      border-radius: 10px;
+      height: 60px;
+      width: 120px;
+      cursor: pointer;
+    }
   }
 }

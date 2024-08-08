@@ -1,12 +1,11 @@
 <div class="menu">
-  <div class="menu-cred">
-    <h4>Username</h4>
-    <input type="text" />
-    <h4>Password</h4>
-    <input type="text" />
-  </div>
-  
-  <div class="loginBtn">
-    <button>Log in</button>
-  </div>
+  <form class="menu-cred" (ngSubmit)="onSubmit()">
+    <label for="inputName">Username</label>
+    <input type="text" [(ngModel)]="inputName" name="inputName" required />
+
+    <label for="inputPass">Password</label>
+    <input type="password" [(ngModel)]="inputPass" name="inputPass" required />
+
+    <button type="submit">Log in</button>
+  </form>
 </div>
