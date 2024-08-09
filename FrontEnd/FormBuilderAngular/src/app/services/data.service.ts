@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,6 +11,7 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   sendData(loginData: { username: string; password: string }): Observable<any> {
-    return this.http.post(this.apiUrl, loginData);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post(this.apiUrl, loginData, { headers });
   }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MovtechForms")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c2c261375d4b71938a4bd5d80c55ca3fef8278a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dfa36e6d023b591db62866bbd47ddf3e23d21b10")]
 [assembly: System.Reflection.AssemblyProductAttribute("MovtechForms")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MovtechForms")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

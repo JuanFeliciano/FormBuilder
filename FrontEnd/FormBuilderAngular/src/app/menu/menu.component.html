@@ -1,11 +1,64 @@
-<div class="menu">
-  <form class="menu-cred" (ngSubmit)="onSubmit()">
-    <label for="inputName">Username</label>
-    <input type="text" [(ngModel)]="inputName" name="inputName" required />
+<div class="login-container">
+  <img
+    src="\assets\footer-copilot.png"
+    alt="Astro"
+    class="side-image left-image"
+  />
+  <img src="\assets\ball.png" alt="Ball" class="side-image ball-image" />
+  <div class="container" id="container">
+    <div class="form-container sign in">
+      <form (ngSubmit)="onSubmit()">
+        <h1>Log in</h1>
+        <div class="login-box">
+          <button class="btnGoogle">
+            <span class="landind_form">
+              <div class="landing_form--googleBtn">
+                <span class="landing_form--googleIcon">
+                  <img
+                    class="googleSvg"
+                    src="\assets\google-svgrepo-com.svg"
+                    alt=""
+                  />
+                </span>
+                <span>Continue with Google</span>
+              </div>
+            </span>
+          </button>
+          <p>or</p>
+          <div class="email-input">
+            <label class="email-label">Email</label>
+            <input
+              type="text"
+              class="email-box"
+              [(ngModel)]="inputName"
+              name="inputName"
+            />
+          </div>
+          <div class="pass-input">
+            <label class="pass-label">Password</label> 
+            <input
+              type="password"
+              class="pass-box"
+              [(ngModel)]="inputPass"
+              name="inputPass"
+            />
+          </div>
+          <button type="submit">
+            <span>Log in</span>
+          </button>
+        </div>
 
-    <label for="inputPass">Password</label>
-    <input type="password" [(ngModel)]="inputPass" name="inputPass" required />
-
-    <button type="submit">Log in</button>
-  </form>
+        <p>
+          No account?
+          <a href="#"> Create one</a>
+        </p>
+      </form>
+    </div>
+  </div>
+  <img src="\assets\footer-cat.png" alt="Cat" class="side-image right-image" />
+  <img
+    src="\assets\bluestar.png"
+    alt="blue star"
+    class="side-image blue-image"
+  />
 </div>
