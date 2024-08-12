@@ -29,8 +29,8 @@ namespace MovtechForms._1___Application._0._6___Middlewares
 
             if (token is null || tokenRevocation.IsTokenRevoked(token))
             {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 await context.Response.WriteAsync("Please log in to access this route");
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
             }
 

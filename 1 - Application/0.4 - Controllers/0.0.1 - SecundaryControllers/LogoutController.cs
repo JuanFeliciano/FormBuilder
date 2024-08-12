@@ -20,7 +20,7 @@ namespace MovtechForms._1___Application._0._4___Controllers._0._0._1___Secundary
             {
                 _logout.Logout(context);
 
-                return Ok("LogOut completed");
+                return Ok(new { message = "LogOut completed" });  
             }
             catch (Exception ex)
             {

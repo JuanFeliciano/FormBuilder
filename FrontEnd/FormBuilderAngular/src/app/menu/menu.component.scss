@@ -1,38 +1,191 @@
+// Variáveis de cores
+$button-background-color: #fff;
+$button-border-color: #fff;
+$button-text-color: #000;
+$input-background-color: #dadada;
+$primary-color: #fff;
+$link-color: #000;
+$hover-color: darken($link-color, 10%);
+
 :host {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
+  margin: 0;
 }
 
-.menu {
+.login-container {
   display: flex;
-  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0 20px;
 
-  .menu-cred {
-    width: 230px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .side-image {
+    max-width: 150px;
+    height: auto;
+    margin: 0 80px;
+  }
 
-    label {
-      font-size: 30px;
-      margin: 0;
+  .left-image,
+  .right-image {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .blue-image,
+  .ball-image {
+    animation: kick 4s ease-in-out infinite;
+  }
+
+  @keyframes kick {
+    0%,
+    100% {
+      transform: translateY(0);
     }
-
-    input {
-      height: 30px;
-      border-radius: 8px;
-      background: rgb(56, 56, 56);
+    50% {
+      transform: translateX(-5px);
     }
+  }
 
-    button {
-      background: rgb(12, 140, 233);
-      font-size: 20px;
-      border-radius: 10px;
-      height: 60px;
-      width: 120px;
-      cursor: pointer;
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(5px);
+    }
+    50% {
+      transform: translateX(-10px);
+    }
+  }
+
+  .left-image {
+    margin-bottom: 200px;
+  }
+
+  .ball-image {
+    margin-top: 900px;
+  }
+
+  .blue-image {
+    margin-bottom: 500px;
+  }
+
+  .right-image {
+    margin-top: 300px;
+  }
+}
+
+.container {
+  width: 600px;
+  height: 600px;
+  padding: 5rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+h1 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 3rem;
+}
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    margin-top: 8%;
+    margin-bottom: 4%;
+    font-size: 0.8rem;
+  }
+}
+
+.btnGoogle {
+  background-color: $button-background-color;
+  border: 1px solid $button-border-color;
+  border-radius: 10px;
+  padding: 0.75rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: lighten($button-background-color, 3%);
+  }
+
+  span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $button-text-color;
+    display: inline;
+
+    .googleSvg {
+      width: 18px;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.email-input,
+.pass-input {
+  width: 100%;
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: $primary-color;
+    font-size: 0.9rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    background-color: rgb(56, 56, 56);
+    font-size: 1rem;
+  }
+}
+
+button {
+  background-color: #0c8ce9;
+  border: none;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: $hover-color;
+  }
+
+  span {
+    font-weight: 500;
+  }
+}
+p {
+  color: #fff;
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+  justify-content: center;
+  a {
+    color: #1a73e8;
+    text-decoration: none;
+    transition: color 0.3s;
+    margin-left: 8px;
+
+    &:hover {
+      color: darken(#1a73e8, 10%);
     }
   }
 }
