@@ -5,4 +5,28 @@
   </button>
 </header>
 
-
+<div class="sidebar">
+  <div class="top">
+    <div class="logo">
+      <i class="bx bxl-codepen"></i>
+      <span>FormBuilder</span>
+    </div>
+    <i class="bx bx-menu" id="btn"></i>
+  </div>
+  <div class="user">
+    <img src="/assets/movtechlogopgn.png" alt="logo user" class="user-img" />
+    <div>
+      <p class="bold">Clint B.</p>
+      <p>Admin</p>
+    </div>
+  </div>
+  <ul>
+    <li *ngFor="let i of [1, 2, 3, 4, 5]">
+      <a href="#">
+        <i class="bx bxs-grid-alt"></i>
+        <span class="nav-item">Dashboard</span>
+      </a>
+      <span class="tooltip">Dashboard</span>
+    </li>
+  </ul>
+</div>
