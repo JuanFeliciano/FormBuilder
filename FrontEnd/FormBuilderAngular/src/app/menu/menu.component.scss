@@ -6,10 +6,8 @@ $input-background-color: #dadada;
 $primary-color: #fff;
 $link-color: #000;
 $hover-color: darken($link-color, 10%);
-$font-family: "Roboto", sans-serif;
 
 :host {
-  font-family: $font-family;
   display: flex;
   justify-content: center;
   align-items: center;

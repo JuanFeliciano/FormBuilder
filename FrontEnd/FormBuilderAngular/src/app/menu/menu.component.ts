@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { DataService } from '../services/data.service';
+import { UserService } from '../services/data.service';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -11,7 +12,7 @@ export class MenuComponent {
   inputName: string = '';
   inputPass: string = '';
 
-  constructor(private dataService: DataService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   onSubmit() {
     const token = localStorage.getItem('authToken');
@@ -26,19 +27,23 @@ export class MenuComponent {
       password: this.inputPass,
     };
 
-    this.dataService.sendData(data).subscribe(
-      (response) => {
-        if (response && response.token) {
-          localStorage.setItem('authToken', JSON.stringify(response.token));
+    this.userService
+      .Login(data)
+      .pipe(
+        tap((response) => {
+          if (response) {
+            localStorage.setItem('token', response.accessToken);
 
-          console.log('Redirecionando para /dashboard');
-          this.router.navigate(['/dashboard']);
-        }
-      },
-      (error) => {
-        console.error('Error sending data', error);
-        alert('Login failed: ' + (error.error.message || 'Unknown error'));
-      }
-    );
+            console.log('Redirecionando para /dashboard');
+            this.router.navigate(['/dashboard']);
+          }
+        })
+      )
+      .subscribe({
+        error: (error) => {
+          console.error('Error sending data', error);
+          alert('Login failed: ' + (error.error.message || 'Unknown error'));
+        },
+      });
   }
 }
