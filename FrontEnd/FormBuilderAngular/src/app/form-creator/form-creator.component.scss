@@ -1,0 +1,40 @@
+.top-container {
+  display: flex;
+  flex-direction: row;
+}
+
+button {
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  height: 100px;
+  min-width: 220px;
+  border: none;
+  border-radius: 8px;
+  margin: 100px;
+  margin-top: 50px;
+  margin-bottom: 0;
+  background: #383838;
+  color: #fff;
+
+  &:hover {
+    background-color: darken(#f65009, 10%);
+  }
+}
+
+.btn-form-group {
+  &:hover {
+    background-color: #0c8ce9;
+  }
+}
+
+.btn-form {
+  &:hover {
+    background-color: #f65009;
+  }
+}
+.btn-question {
+  &:hover {
+    background-color: #8a38f5;
+  }
+}

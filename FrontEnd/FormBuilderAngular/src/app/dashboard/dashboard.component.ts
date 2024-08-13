@@ -1,19 +1,32 @@
-import { Component } from '@angular/core';
-import { UserService } from '../services/data.service';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from '../services/dataService/data.service';
+import { SharedService } from '../services/sharedService/shared.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
-  constructor(private userService: UserService, private router: Router) {}
+export class DashboardComponent implements OnInit {
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private el: ElementRef,
+    private sharedService: SharedService
+  ) {}
+  username: string | null;
+  role: string | null;
+
+  ngOnInit() {
+    this.username = this.sharedService.GetUsername();
+    this.role = this.sharedService.GetRole();
+  }
 
   Logout(): void {
-    var alertMessage = confirm('Are you sure?');
+    const alertMessage: boolean = confirm('Are you sure?');
 
     if (alertMessage) {
       this.userService
@@ -33,5 +46,11 @@ export class DashboardComponent {
         )
         .subscribe();
     }
+  }
+
+  ActiveSidebar() {
+    const sidebar = this.el.nativeElement.querySelector('.sidebar');
+
+    sidebar.classList.toggle('active');
   }
 }

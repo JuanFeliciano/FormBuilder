@@ -11,9 +11,9 @@ namespace MovtechForms.Application.Services
 
         public LoginService(ILoginHandler loginHandler) => _loginHandler = loginHandler;
 
-        public async Task<(string, string)> ValidationLogin([FromBody] LoginModel login)
+        public async Task<(string, string, string)> ValidationLogin([FromBody] LoginModel login)
         {
-            (string, string) loginCred = await _loginHandler.Login(login);
+            (string, string, string) loginCred = await _loginHandler.Login(login);
 
             return loginCred;
         }

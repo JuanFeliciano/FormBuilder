@@ -1,32 +1,59 @@
-<header>
-  <img src="/assets/movtechlogopgn.png" alt="" class="logo" />
-  <button type="submit" (click)="Logout()">
-    <img src="/assets/logout.png" alt="logout button" class="logout" />
-  </button>
-</header>
-
 <div class="sidebar">
   <div class="top">
     <div class="logo">
-      <i class="bx bxl-codepen"></i>
+      <i
+        ><img src="/assets/movtechlogopgn.png" alt="logo" class="movtechlogo"
+      /></i>
       <span>FormBuilder</span>
     </div>
-    <i class="bx bx-menu" id="btn"></i>
+    <i class="bx bx-menu" id="btn" (click)="ActiveSidebar()"></i>
   </div>
   <div class="user">
     <img src="/assets/movtechlogopgn.png" alt="logo user" class="user-img" />
     <div>
-      <p class="bold">Clint B.</p>
-      <p>Admin</p>
+      <p class="bold">{{ username }}</p>
+      <p>{{ role }}</p>
     </div>
   </div>
   <ul>
-    <li *ngFor="let i of [1, 2, 3, 4, 5]">
+    <li>
       <a href="#">
-        <i class="bx bxs-grid-alt"></i>
+        <i class="bx bx-grid-alt"></i>
         <span class="nav-item">Dashboard</span>
       </a>
       <span class="tooltip">Dashboard</span>
     </li>
+    <li>
+      <a href="#">
+        <i class="bx bx-shopping-bag"></i>
+        <span class="nav-item">Products</span>
+      </a>
+      <span class="tooltip">Products</span>
+    </li>
+    <li>
+      <a href="#">
+        <i class="bx bxs-food-menu"></i>
+        <span class="nav-item">Orders</span>
+      </a>
+      <span class="tooltip">Orders</span>
+    </li>
+    <li>
+      <a href="#">
+        <i class="bx bx-cog"></i>
+        <span class="nav-item">Settings</span>
+      </a>
+      <span class="tooltip">Settings</span>
+    </li>
+    <li (click)="Logout()">
+      <a href="javascript:void(0)">
+        <i class="bx bx-log-out"></i>
+        <span class="nav-item">Log out</span>
+      </a>
+      <span class="tooltip">Log out</span>
+    </li>
   </ul>
+</div>
+
+<div class="main-content">
+  <app-form-creator class="form-component" />
 </div>

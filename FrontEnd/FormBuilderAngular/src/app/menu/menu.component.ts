@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { UserService } from '../services/data.service';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { SharedService } from '../services/sharedService/shared.service';
+import { UserService } from '../services/dataService/data.service';
 
 @Component({
   selector: 'app-menu',
@@ -12,7 +13,11 @@ export class MenuComponent {
   inputName: string = '';
   inputPass: string = '';
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private sharedService: SharedService
+  ) {}
 
   onSubmit() {
     const token = localStorage.getItem('authToken');
@@ -27,12 +32,15 @@ export class MenuComponent {
       password: this.inputPass,
     };
 
+    this.sharedService.SetCredentials(data.username);
+
     this.userService
       .Login(data)
       .pipe(
         tap((response) => {
           if (response) {
             localStorage.setItem('token', response.accessToken);
+            localStorage.setItem('role', response.role);
 
             console.log('Redirecionando para /dashboard');
             this.router.navigate(['/dashboard']);

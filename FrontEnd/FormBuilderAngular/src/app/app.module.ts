@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { FormCreatorComponent } from './form-creator/form-creator.component';
 
 @NgModule({
-  declarations: [AppComponent, MenuComponent, DashboardComponent],
+  declarations: [AppComponent, MenuComponent, DashboardComponent, FormCreatorComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
