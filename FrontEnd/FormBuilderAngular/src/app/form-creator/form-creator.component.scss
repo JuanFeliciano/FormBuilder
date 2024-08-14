@@ -5,7 +5,8 @@
 
 button {
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
+  flex-direction: row;
   display: flex;
   height: 100px;
   min-width: 220px;
@@ -14,18 +15,29 @@ button {
   margin: 100px;
   margin-top: 50px;
   margin-bottom: 0;
+  cursor: pointer;
   background: #383838;
   color: #fff;
 
-  &:hover {
-    background-color: darken(#f65009, 10%);
+  transition: background-color 0.2s ease-out;
+
+  svg {
+    margin-right: 15px;
+    height: 25px;
   }
 }
 
 .btn-form-group {
+  svg {
+    border-radius: 50%;
+  }
   &:hover {
     background-color: #0c8ce9;
   }
+}
+
+.btn-form-group:hover svg path {
+  fill: #fff;
 }
 
 .btn-form {
@@ -33,8 +45,117 @@ button {
     background-color: #f65009;
   }
 }
+
+.btn-form:hover svg path {
+  fill: #fff;
+}
+
 .btn-question {
   &:hover {
     background-color: #8a38f5;
   }
+}
+
+.btn-question:hover svg path {
+  fill: #fff;
+}
+
+.btn-answer {
+  &:hover {
+    background-color: #757575;
+  }
+}
+
+.btn-answer:hover svg path {
+  fill: #fff;
+}
+
+.dialog {
+  height: 70vh;
+  width: 150vh;
+  border: none;
+  border-radius: 20px;
+  padding: 20px;
+  color: #2c2c2c;
+  background-color: #fff;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-direction: row;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+  width: 300px;
+
+  label {
+    font-size: 16px;
+    margin-left: 10px;
+    width: 100px;
+  }
+
+  input {
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: #f5f5f5;
+    width: 300px;
+    margin-left: 10px;
+  }
+
+  .btn-remove {
+    margin: 0;
+    margin-top: 15px;
+    margin-left: 20px;
+    min-width: 100px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.btn {
+  height: 30px;
+  width: 80px;
+}
+
+.btn-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0d99ff;
+  min-width: 100px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 0;
+}
+
+.btn-close-dialog,
+.btn-submit {
+  background-color: #0d99ff;
+  color: white;
+  border: none;
+  width: 100px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 20px;
+  margin: 0;
+  right: 20px;
+}
+
+.btn-submit {
+  right: 0;
+  left: 0;
+  margin-left: 20px;
 }

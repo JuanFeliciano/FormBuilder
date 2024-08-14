@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.box-form {
+  display: flex;
+  height: 205px;
+  width: 342px;
+  margin-top: 40px;
+  margin-left: 70px;
+  background-color: #383838;
+  border-radius: 20px;
+
+  img {
+    height: 204px;
+    width: 341px;
+  }
+}
