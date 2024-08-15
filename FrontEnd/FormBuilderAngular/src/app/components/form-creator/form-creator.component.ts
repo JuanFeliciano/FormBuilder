@@ -1,5 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
+import { tap } from 'rxjs';
+import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 
 @Component({
   selector: 'app-form-creator',
@@ -9,7 +17,11 @@ import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 export class FormCreatorComponent implements OnInit {
   formGroup: FormGroup;
 
-  constructor(private el: ElementRef, private fb: FormBuilder) {}
+  constructor(
+    private el: ElementRef,
+    private fb: FormBuilder,
+    private formGroupService: FormGroupService
+  ) {}
 
   ngOnInit(): void {
     if (!HTMLDialogElement.prototype.showModal) {
@@ -28,8 +40,8 @@ export class FormCreatorComponent implements OnInit {
 
   addForm(): void {
     const formGroup = this.fb.group({
-      formTitle: [''],
-      question: this.fb.array([]),
+      formTitle: ['', Validators.required],
+      questions: this.fb.array([]),
     });
 
     this.forms.push(formGroup);
@@ -54,7 +66,21 @@ export class FormCreatorComponent implements OnInit {
   }
 
   submit(): void {
-    console.log(this.formGroup.value);
+    if (this.formGroup.valid) {
+      this.formGroupService
+        .createFormGroup(this.formGroup.value)
+        .pipe(
+          tap((response) => {
+            console.log('Form Group create successfully', response);
+            this.closeDialog();
+          })
+        )
+        .subscribe((error) => {
+          console.error('Error creating Form Group', error);
+        });
+    } else {
+      console.error('Form is invalid');
+    }
   }
 
   openDialog(): void {

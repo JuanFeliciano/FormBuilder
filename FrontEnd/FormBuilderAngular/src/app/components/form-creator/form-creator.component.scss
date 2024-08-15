@@ -17,6 +17,7 @@ button {
   margin-bottom: 0;
   cursor: pointer;
   background: #383838;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: #fff;
 
   transition: background-color 0.2s ease-out;
@@ -72,12 +73,13 @@ button {
 
 .dialog {
   height: 70vh;
-  width: 150vh;
+  width: 65vh;
   border: none;
   border-radius: 20px;
   padding: 20px;
-  color: #2c2c2c;
-  background-color: #fff;
+  color: #fff;
+  background-color: #383838;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 50%;
   left: 50%;
@@ -94,68 +96,86 @@ button {
 .form-group {
   display: flex;
   flex-direction: row;
-  margin-bottom: 15px;
+  margin: 0;
   width: 300px;
 
   label {
+    color: #757575;
     font-size: 16px;
     margin-left: 10px;
     width: 100px;
   }
 
+  .label-input {
+    margin-top: 20px;
+  }
+
+  .label-question {
+    display: flex;
+    align-items: center;
+  }
+
   input {
     border: none;
     border-radius: 4px;
-    padding: 5px;
+    padding: 25px;
     background-color: #f5f5f5;
-    width: 300px;
+    height: 36px;
+    width: 58vh;
+    margin-top: 15px;
     margin-left: 10px;
   }
 
-  .btn-remove {
-    margin: 0;
-    margin-top: 15px;
-    margin-left: 20px;
-    min-width: 100px;
+  .btn-remove-form {
+    margin-top: 10px;
+    margin-left: 82%;
+    min-width: 60px;
     background-color: #ff4d4d;
-    color: white;
-    border: none;
-    cursor: pointer;
+
+    svg {
+      margin: 0;
+    }
+  }
+
+  .btn-remove-question {
+    margin-top: 20px;
+    margin-left: 25px;
+    min-width: 60px;
+    background-color: #ff4d4d;
+
+    svg {
+      margin: 0;
+    }
   }
 }
 
 .btn {
   height: 30px;
-  width: 80px;
-}
-
-.btn-add {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #0d99ff;
-  min-width: 100px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  margin: 0;
 }
 
 .btn-close-dialog,
-.btn-submit {
+.btn-submit,
+.btn-add,
+.btn-add-question {
   background-color: #0d99ff;
-  color: white;
-  border: none;
-  width: 100px;
-  cursor: pointer;
-  position: absolute;
-  bottom: 20px;
+  min-width: 70px;
   margin: 0;
-  right: 20px;
+  margin-top: 5px;
 }
 
-.btn-submit {
+.btn-submit,
+.btn-add {
   right: 0;
   left: 0;
-  margin-left: 20px;
+}
+
+.btn-add-question {
+  min-width: 100px;
+  margin-top: 5px;
+}
+
+.btn-close-dialog {
+  svg {
+    margin: 0;
+  }
 }

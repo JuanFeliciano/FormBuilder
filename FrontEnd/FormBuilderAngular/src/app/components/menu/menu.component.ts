@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { SharedService } from '../services/sharedService/shared.service';
-import { UserService } from '../services/dataService/data.service';
+import { SharedService } from '../../services/SharedService/shared.service';
+import { UserService } from '../../services/LoginService/login.service';
 
 @Component({
   selector: 'app-menu',

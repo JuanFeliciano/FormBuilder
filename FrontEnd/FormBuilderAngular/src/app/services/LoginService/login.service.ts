@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { User } from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +12,12 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  Login(loginData: { username: string; password: string }): Observable<any> {
+  Login(loginData: {
+    username: User['username'];
+    password: User['password'];
+  }): Observable<User> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(this.urlLogin, loginData, { headers });
+    return this.http.post<User>(this.urlLogin, loginData, { headers });
   }
 
   Logout(): Observable<any> {
@@ -23,6 +27,10 @@ export class UserService {
       return throwError(() => new Error('No token was found'));
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post(this.urlLogout, {}, { headers, responseType: 'text' });
+    return this.http.post(
+      this.urlLogout,
+      {},
+      { headers, responseType: 'text' }
+    );
   }
 }

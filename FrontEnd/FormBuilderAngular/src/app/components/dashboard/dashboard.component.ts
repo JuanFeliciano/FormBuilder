@@ -2,8 +2,8 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserService } from '../services/dataService/data.service';
-import { SharedService } from '../services/sharedService/shared.service';
+import { UserService } from '../../services/LoginService/login.service';
+import { SharedService } from '../../services/SharedService/shared.service';
 
 @Component({
   selector: 'app-dashboard',
