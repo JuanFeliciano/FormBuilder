@@ -6,7 +6,6 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-import { tap } from 'rxjs';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 
 @Component({
@@ -67,19 +66,30 @@ export class FormCreatorComponent implements OnInit {
 
   submit(): void {
     if (this.formGroup.valid) {
-      this.formGroupService
-        .createFormGroup(this.formGroup.value)
-        .pipe(
-          tap((response) => {
-            console.log('Form Group create successfully', response);
-            this.closeDialog();
-          })
-        )
-        .subscribe((error) => {
+      const formGroupData = {
+        id: this.formGroup.get('id')?.value,
+        title: this.formGroup.get('groupTitle')?.value,
+        forms: this.forms.controls.map((formControl) => ({
+          id: this.forms.get('id')?.value,
+          idGroup: this.forms.get('idGroup')?.value,
+          title: formControl.get('formTitle')?.value,
+          questions: formControl
+            .get('questions')
+            ?.value.map((question: string) => ({
+              content: question,
+            })),
+        }))
+      };
+
+      this.formGroupService.createFormGroup(formGroupData).subscribe({
+        next: (response) => {
+          console.log('Form Group created successfully', response);
+          this.closeDialog();
+        },
+        error: (error) => {
           console.error('Error creating Form Group', error);
-        });
-    } else {
-      console.error('Form is invalid');
+        },
+      });
     }
   }
 

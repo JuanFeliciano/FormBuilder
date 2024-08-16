@@ -5,6 +5,7 @@
 
 .box-form {
   display: flex;
+  flex-direction: column;
   height: 205px;
   width: 342px;
   margin-top: 40px;
@@ -12,9 +13,68 @@
   background-color: #383838;
   border-radius: 20px;
 
+  transition: transform 0.2s ease-in-out;
+  h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 340px;
+    border-radius: 20px;
+    margin-top: 2px;
+    color: #fff;
+  }
+
   img {
+    border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    height: 204px;
+    height: 175px;
     width: 341px;
+  }
+}
+
+.box-form:hover {
+  transform: translateY(5px);
+}
+
+.dialog {
+  height: 70vh;
+  width: 65vh;
+  border: none;
+  border-radius: 20px;
+  padding: 20px;
+  color: #fff;
+  background-color: #383838;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-direction: row;
+}
+
+.btn {
+  height: 30px;
+  background-color: #0d99ff;
+  border-radius: 10px;
+  border: none;
+  min-width: 70px;
+  margin: 0;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.btn-close-dialog {
+  background-color: #0d99ff;
+  svg {
+    margin-right: 15px;
+    height: 25px;
+    margin: 0;
   }
 }
