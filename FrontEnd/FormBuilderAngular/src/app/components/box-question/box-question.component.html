@@ -1,0 +1,19 @@
+<div class="container">
+  <div
+    class="box-form questions-container"
+    *ngFor="let question of selectedQuestionList"
+  >
+    <h5>{{ question.content }}</h5>
+    <div class="answer-container">
+      <select>
+        <option
+          value="{{ i }}"
+          *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+        >
+          {{ i }}
+        </option>
+      </select>
+      <input type="text" placeholder="Description (optional)" />
+    </div>
+  </div>
+</div>

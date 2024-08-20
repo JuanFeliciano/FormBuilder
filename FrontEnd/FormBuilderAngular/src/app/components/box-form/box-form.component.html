@@ -1,19 +1,15 @@
-<div class="container">
+<div class="forms-container">
   <div
-    class="box-form"
-    *ngFor="let formGroup of formGroupList"
-    (click)="openDialog($event, formGroup.id)"
+    class="box-form box-dialog"
+    *ngFor="let form of selectedFormList"
+    (click)="openFormDialog($event, form.id)"
   >
-    <h4>{{ formGroup.title }}</h4>
+    <label>{{ form.title }}</label>
     <img src="/assets/footer-copilot.png" alt="" />
-  </div>
-
-  <div class="dialog-container">
-    <dialog class="dialog">
-      <div class="title">
-        <h1>Form Group</h1>
-
-        <button class="btn btn-close-dialog" (click)="closeDialog($event)">
+    <dialog #dialog class="form-dialog">
+      <div class="title-btn">
+        <h1>{{ selectedForm?.title }}</h1>
+        <button class="btn btn-close-dialog" (click)="closeFormDialog($event)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="ionicon"
@@ -25,36 +21,11 @@
             />
           </svg>
         </button>
-
-        <div class="form-group">
-          <label>Group Title</label>
-          <h3>{{ selectedFormGroup!.title }}</h3>
-        </div>
-
-        <div
-          class="forms-container"
-          *ngFor="let form of selectedFormGroup!.forms"
-        >
-          <label>Form Title</label>
-          <h4>{{ form.title }}</h4>
-          <div
-            class="questions-container"
-            *ngFor="let question of form.questions"
-          >
-            <label>Question Content</label>
-            <h5>{{ question.content }}</h5>
-
-            <div
-              class="answers-container"
-              *ngFor="let answer of question.answers"
-            >
-              <label>Answer Grade</label>
-              <h6>{{ answer.grade }}</h6>
-              <h6>{{ answer.description }}</h6>
-            </div>
-          </div>
-        </div>
       </div>
+      <app-box-question
+        class="box-question"
+        [selectedQuestionList]="selectedForm?.questions"
+      />
     </dialog>
   </div>
 </div>

@@ -1,3 +1,8 @@
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
 .box-form {
   display: flex;
   flex-direction: column;
@@ -9,6 +14,16 @@
   border-radius: 20px;
 
   transition: transform 0.2s ease-in-out;
+  h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 340px;
+    border-radius: 20px;
+    margin-top: 2px;
+    color: #fff;
+  }
 
   img {
     border-radius: 20px;
@@ -22,7 +37,7 @@
   transform: translateY(5px);
 }
 
-.form-dialog {
+.form-group-dialog {
   height: 70vh;
   width: 80vw;
   border: none;
@@ -37,49 +52,34 @@
   transform: translate(-50%, -50%);
 }
 
-.forms-container {
+.title {
   display: flex;
-  flex-direction: row;
+  margin-bottom: 20px;
+  flex-direction: column;
+
+  h1 {
+    height: 35px;
+  }
 }
 
 .title-btn {
   display: flex;
   justify-content: space-between;
-
-  h1 {
-    height: 40px;
-  }
 }
 
-.btn {
-  height: 30px;
+.btn-close-dialog {
   background-color: #0d99ff;
+  height: 30px;
   border-radius: 10px;
   border: none;
   min-width: 70px;
   margin: 0;
   margin-top: 5px;
   cursor: pointer;
-}
-
-.btn-close-dialog {
-  background-color: #0d99ff;
   width: 10px;
   svg {
     margin-right: 15px;
     height: 25px;
     margin: 0;
   }
-}
-
-.box-dialog {
-  margin: 0;
-  margin-top: 60px;
-}
-
-.box-question {
-  display: flex;
-  justify-content: start;
-  height: 300px;
-  width: 350px;
 }

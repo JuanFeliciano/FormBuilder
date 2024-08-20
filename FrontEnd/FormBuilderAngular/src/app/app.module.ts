@@ -8,7 +8,9 @@ import { MenuComponent } from './components/menu/menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { FormCreatorComponent } from './components/form-creator/form-creator.component';
+import { BoxFormGroupComponent } from './components/box-form-group/box-form-group.component';
 import { BoxFormComponent } from './components/box-form/box-form.component';
+import { BoxQuestionComponent } from './components/box-question/box-question.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { BoxFormComponent } from './components/box-form/box-form.component';
     MenuComponent,
     DashboardComponent,
     FormCreatorComponent,
+    BoxFormGroupComponent,
     BoxFormComponent,
+    BoxQuestionComponent,
   ],
   imports: [
     BrowserModule,
