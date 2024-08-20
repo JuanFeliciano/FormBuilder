@@ -1,19 +1,23 @@
 <div class="container">
   <div
     class="box-form questions-container"
-    *ngFor="let question of selectedQuestionList"
+    *ngFor="let question of selectedQuestionList; let i = index"
   >
     <h5>{{ question.content }}</h5>
     <div class="answer-container">
-      <select>
+      <select [(ngModel)]="userAnswers[i].grade">
         <option
-          value="{{ i }}"
-          *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+          *ngFor="let option of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+          [value]="option"
         >
-          {{ i }}
+          {{ option }}
         </option>
       </select>
-      <input type="text" placeholder="Description (optional)" />
+      <input
+        type="text"
+        placeholder="Description (optional)"
+        [(ngModel)]="userAnswers[i].description"
+      />
     </div>
   </div>
 </div>

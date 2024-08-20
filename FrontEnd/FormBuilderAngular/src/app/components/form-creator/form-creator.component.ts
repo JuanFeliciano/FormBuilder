@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -16,8 +16,9 @@ import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.serv
 export class FormCreatorComponent implements OnInit {
   formGroup: FormGroup;
 
+  @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+
   constructor(
-    private el: ElementRef,
     private fb: FormBuilder,
     private formGroupService: FormGroupService
   ) {}
@@ -78,7 +79,7 @@ export class FormCreatorComponent implements OnInit {
             ?.value.map((question: string) => ({
               content: question,
             })),
-        }))
+        })),
       };
 
       this.formGroupService.createFormGroup(formGroupData).subscribe({
@@ -94,22 +95,10 @@ export class FormCreatorComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialog = this.el.nativeElement.querySelector(
-      '.dialog'
-    ) as HTMLDialogElement;
-
-    if (dialog) {
-      dialog.showModal();
-    }
+    this.dialog.nativeElement.showModal();
   }
 
   closeDialog(): void {
-    const dialog = this.el.nativeElement.querySelector(
-      '.dialog'
-    ) as HTMLDialogElement;
-
-    if (dialog) {
-      dialog.close();
-    }
+    this.dialog.nativeElement.close();
   }
 }
