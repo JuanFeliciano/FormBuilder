@@ -1,4 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { Answer, Form, Question } from 'src/app/interfaces/interfaces';
 import { AnswerService } from 'src/app/services/AnswerService/answer.service';
 
@@ -7,44 +15,47 @@ import { AnswerService } from 'src/app/services/AnswerService/answer.service';
   templateUrl: './box-question.component.html',
   styleUrls: ['./box-question.component.scss'],
 })
-export class BoxQuestionComponent implements OnInit {
-  @Input() selectedForm: Form | null;
-  @Input() selectedQuestionList: Question[] | undefined;
+export class BoxQuestionComponent implements OnInit, OnChanges {
+  @Input() selectedForm: Form | null = null;
+  @Input() selectedQuestionList: Question[] = [];
+  @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
 
-  userAnswers: Answer[] = [];
+  userAnswers: Answer[];
 
-  constructor(private answerService: AnswerService) {}
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    console.log(this.selectedQuestionList);
-    if (this.selectedQuestionList && this.selectedQuestionList.length > 0) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedQuestionList'] && this.selectedQuestionList) {
       this.userAnswers = this.selectedQuestionList.map((question) => ({
-        id: 0,
-        idQuestion: question.id,
-        grade: 0,
-        description: '',
+        IdQuestion: question.id,
+        Grade: 0,
+        Description: '',
       }));
-      console.log(this.userAnswers);
-    } else {
-      console.log('nada encontrado');
     }
   }
 
+  constructor(private answerService: AnswerService) {}
+
   submitAnswers(): void {
     const answers: Answer[] = this.userAnswers.map((answer, index) => ({
-      id: answer.id,
-      idQuestion: this.selectedQuestionList![index]?.id ?? 0,
-      grade: answer.grade,
-      description: answer.description,
+      IdQuestion: this.selectedQuestionList![index]?.id,
+      Grade: answer.Grade,
+      Description: answer.Description,
     }));
 
     this.answerService.bulkAnswer(answers).subscribe({
       next: (response) => {
         console.log('Response submitted successfully', response);
+        this.dialog.nativeElement.showModal();
       },
       error: (err) => {
         console.error('Failed to submit answers', err);
+        console.error('Error details: ', err.error);
       },
     });
+  }
+
+  closeModal() {
+    this.dialog.nativeElement.close();
   }
 }

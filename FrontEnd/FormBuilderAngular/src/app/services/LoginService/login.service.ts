@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { User } from 'src/app/interfaces/interfaces';
+import { jwtDecode } from 'jwt-decode';
+import { Observable, tap, throwError } from 'rxjs';
+import {
+  DecodedToken,
+  RefreshRoute,
+  User,
+} from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +22,14 @@ export class UserService {
     password: User['password'];
   }): Observable<User> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<User>(this.urlLogin, loginData, { headers });
+
+    return this.http.post<User>(this.urlLogin, loginData, { headers }).pipe(
+      tap((response) => {
+        const decodedToken: DecodedToken = jwtDecode(response.accessToken);
+
+        this.setSession(response, decodedToken.exp);
+      })
+    );
   }
 
   Logout(): Observable<any> {
@@ -27,10 +39,19 @@ export class UserService {
       return throwError(() => new Error('No token was found'));
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
     return this.http.post(
       this.urlLogout,
       {},
       { headers, responseType: 'text' }
     );
+  }
+
+  private setSession(authResult: any, expire: number) {
+    const expiresAt = Date.now() + expire * 1000;
+
+    localStorage.setItem('token', authResult.accessToken);
+    localStorage.setItem('refreshToken', authResult.refreshToken);
+    localStorage.setItem('expiresAt', expiresAt.toString());
   }
 }

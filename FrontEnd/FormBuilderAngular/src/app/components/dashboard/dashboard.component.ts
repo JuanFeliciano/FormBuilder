@@ -1,29 +1,30 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../services/LoginService/login.service';
-import { SharedService } from '../../services/SharedService/shared.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   constructor(
     private userService: UserService,
     private router: Router,
-    private el: ElementRef,
-    private sharedService: SharedService
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {}
-  username: string | null;
-  role: string | null;
 
-  ngOnInit() {
-    this.username = this.sharedService.GetUsername();
-    this.role = this.sharedService.GetRole();
-  }
+  username: string = localStorage.getItem('name')!;
+  role: string = localStorage.getItem('role')!;
 
   Logout(): void {
     const alertMessage: boolean = confirm('Are you sure?');
@@ -49,8 +50,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ActiveSidebar() {
-    const sidebar = this.el.nativeElement.querySelector('.sidebar');
+    const sidebarElement = this.el.nativeElement.querySelector('.sidebar');
+    const hasClass = sidebarElement.classList.contains('active');
 
-    sidebar.classList.toggle('active');
+    if (hasClass) this.renderer.removeClass(sidebarElement, 'active');
+    else this.renderer.addClass(sidebarElement, 'active');
   }
 }

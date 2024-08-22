@@ -19,10 +19,9 @@ export interface Question {
 }
 
 export interface Answer {
-  id: number;
-  idQuestion: number;
-  grade: number;
-  description: string;
+  IdQuestion: number;
+  Grade: number;
+  Description: string;
 }
 
 export interface User {
@@ -31,4 +30,15 @@ export interface User {
   role: string;
   accessToken: string;
   refreshToken: string;
+}
+
+export interface DecodedToken {
+  exp: number;
+  role: string;
+}
+
+export interface RefreshRoute {
+  accessToken: string;
+  refreshToken: string;
+  dateToken: Date;
 }

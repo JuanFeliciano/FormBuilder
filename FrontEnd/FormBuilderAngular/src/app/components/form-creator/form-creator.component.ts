@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -16,11 +22,13 @@ import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.serv
 export class FormCreatorComponent implements OnInit {
   formGroup: FormGroup;
 
-  @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+  @ViewChild('dialog') dialog: ElementRef;
 
   constructor(
     private fb: FormBuilder,
-    private formGroupService: FormGroupService
+    private formGroupService: FormGroupService,
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {}
 
   ngOnInit(): void {
@@ -95,10 +103,10 @@ export class FormCreatorComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.dialog.nativeElement.showModal();
+    this.renderer.setStyle(this.dialog.nativeElement, 'display', 'block');
   }
 
   closeDialog(): void {
-    this.dialog.nativeElement.close();
+    this.renderer.setStyle(this.dialog.nativeElement, 'display', 'none');
   }
 }

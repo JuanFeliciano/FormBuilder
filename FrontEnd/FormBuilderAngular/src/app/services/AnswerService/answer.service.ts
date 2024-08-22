@@ -9,6 +9,7 @@ import { Answer } from 'src/app/interfaces/interfaces';
 export class AnswerService {
   private url: string = 'http://localhost:5117/Answer';
   private storageToken: string = localStorage.getItem('token')!;
+
   constructor(private http: HttpClient) {}
 
   bulkAnswer(answer: Answer[]): Observable<Answer[]> {
@@ -17,6 +18,6 @@ export class AnswerService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post<Answer[]>(this.url, { headers: headers });
+    return this.http.post<Answer[]>(this.url, answer, { headers: headers });
   }
 }

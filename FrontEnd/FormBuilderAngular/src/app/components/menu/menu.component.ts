@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { SharedService } from '../../services/SharedService/shared.service';
 import { UserService } from '../../services/LoginService/login.service';
 
 @Component({
@@ -9,39 +8,33 @@ import { UserService } from '../../services/LoginService/login.service';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
   inputName: string = '';
   inputPass: string = '';
 
-  constructor(
-    private userService: UserService,
-    private router: Router,
-    private sharedService: SharedService
-  ) {}
+  constructor(private userService: UserService, private router: Router) {}
 
-  onSubmit() {
-    const token = localStorage.getItem('authToken');
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
 
     if (token) {
-      alert('Você já esta logado');
-      return;
+      this.router.navigate(['/dashboard']);
     }
+  }
 
+  onSubmit() {
     const data = {
       username: this.inputName,
       password: this.inputPass,
     };
 
-    this.sharedService.SetCredentials(data.username);
+    localStorage.setItem('name', data.username);
 
     this.userService
       .Login(data)
       .pipe(
         tap((response) => {
           if (response) {
-            localStorage.setItem('token', response.accessToken);
-            localStorage.setItem('role', response.role);
-
             console.log('Redirecionando para /dashboard');
             this.router.navigate(['/dashboard']);
           }
