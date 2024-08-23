@@ -20,7 +20,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
             _tokenService = tokenRevocation;
         }
 
-        public async Task<(string, string)> Login([FromBody] LoginModel login)
+        public async Task<(string, string, string)> Login([FromBody] LoginModel login)
         {
             if (_tokenService.CountTokenValidList())
                 throw new Exception("You are already logged in");

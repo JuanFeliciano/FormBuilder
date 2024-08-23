@@ -5,6 +5,6 @@ namespace MovtechForms.Domain.Interfaces.ServicesInterfaces
 {
     public interface ILoginService
     {
-        Task<(string, string)> ValidationLogin([FromBody] LoginModel login);
+        Task<(string, string, string)> ValidationLogin([FromBody] LoginModel login);
     }
 }

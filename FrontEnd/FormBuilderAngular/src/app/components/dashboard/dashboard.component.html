@@ -1,0 +1,62 @@
+<div class="sidebar">
+  <div class="top">
+    <div class="logo">
+      <i
+        ><img src="/assets/movtechlogopgn.png" alt="logo" class="movtechlogo"
+      /></i>
+      <span>FormBuilder</span>
+    </div>
+    <i class="bx bx-menu" id="btn" (click)="ActiveSidebar()"></i>
+  </div>
+  <div class="user">
+    <img src="/assets/movtechlogopgn.png" alt="logo user" class="user-img" />
+    <div>
+      <p class="bold">{{ username }}</p>
+      <p>{{ role }}</p>
+    </div>
+  </div>
+  <ul>
+    <li (click)="formGroupCreatorComponent.openDialog($event)">
+      <a href="javascript:void(0)">
+        <i class="bx bx-grid-alt"></i>
+        <span class="nav-item">FormGroup</span>
+      </a>
+      <span class="tooltip">Create FormGroup</span>
+    </li>
+    <li (click)="formCreatorComponent.openDialog($event)">
+      <a href="javascript:void(0)">
+        <i class="bx bx-shopping-bag"></i>
+        <span class="nav-item">Form</span>
+      </a>
+      <span class="tooltip">Create Form</span>
+    </li>
+    <li>
+      <a href="javascript:void(0)">
+        <i class="bx bxs-food-menu"></i>
+        <span class="nav-item">Question</span>
+      </a>
+      <span class="tooltip">Create Question</span>
+    </li>
+    <li>
+      <a>
+        <i class="bx bx-cog"></i>
+        <span class="nav-item">Answer</span>
+      </a>
+      <span class="tooltip">Create Answer</span>
+    </li>
+    <li (click)="Logout()">
+      <a href="javascript:void(0)">
+        <i class="bx bx-log-out"></i>
+        <span class="nav-item">LogOut</span>
+      </a>
+      <span class="tooltip">LogOut</span>
+    </li>
+  </ul>
+</div>
+
+<div class="main-content">
+  <app-box-form-group class="box-component" />
+</div>
+
+<app-form-group-creator />
+<app-form-creator />

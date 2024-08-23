@@ -23,7 +23,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
             _tokenValid = tokenValid;
             _userRepository = userRepo;
         }
-        public async Task<(string, string)> GenerateToken(User user)
+        public async Task<(string, string, string)> GenerateToken(User user)
         {
 
             byte[] secretKey = Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]!);
@@ -56,7 +56,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 
             _tokenValid?.Add(token);
 
-            return (token, refreshToken);
+            return (token, refreshToken, user.Role);
         }
 
 
