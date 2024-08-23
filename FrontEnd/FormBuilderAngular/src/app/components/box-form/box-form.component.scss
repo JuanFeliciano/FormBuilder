@@ -13,8 +13,8 @@
   img {
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    height: 175px;
-    width: 341px;
+    height: 130px;
+    width: 300px;
   }
 }
 
@@ -24,7 +24,7 @@
 
 .form-dialog {
   height: 70vh;
-  width: 80vw;
+  width: 60vw;
   border: none;
   border-radius: 20px;
   padding: 20px;
@@ -79,7 +79,7 @@
 
 .box-question {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   height: 300px;
   width: 350px;
 }

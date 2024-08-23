@@ -35,7 +35,6 @@ export class MenuComponent implements OnInit {
       .pipe(
         tap((response) => {
           if (response) {
-            console.log('Redirecionando para /dashboard');
             this.router.navigate(['/dashboard']);
           }
         })

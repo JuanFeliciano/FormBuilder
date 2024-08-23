@@ -15,20 +15,19 @@ import {
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 
 @Component({
-  selector: 'app-form-creator',
-  templateUrl: './form-creator.component.html',
-  styleUrls: ['./form-creator.component.scss'],
+  selector: 'app-form-group-creator',
+  templateUrl: './form-group-creator.component.html',
+  styleUrls: ['./form-group-creator.component.scss'],
 })
-export class FormCreatorComponent implements OnInit {
+export class FormGroupCreatorComponent implements OnInit {
   formGroup: FormGroup;
+  event: Event;
 
   @ViewChild('dialog') dialog: ElementRef;
 
   constructor(
     private fb: FormBuilder,
-    private formGroupService: FormGroupService,
-    private renderer: Renderer2,
-    private el: ElementRef
+    private formGroupService: FormGroupService
   ) {}
 
   ngOnInit(): void {
@@ -93,7 +92,7 @@ export class FormCreatorComponent implements OnInit {
       this.formGroupService.createFormGroup(formGroupData).subscribe({
         next: (response) => {
           console.log('Form Group created successfully', response);
-          this.closeDialog();
+          this.closeDialog(this.event);
         },
         error: (error) => {
           console.error('Error creating Form Group', error);
@@ -102,11 +101,13 @@ export class FormCreatorComponent implements OnInit {
     }
   }
 
-  openDialog(): void {
-    this.renderer.setStyle(this.dialog.nativeElement, 'display', 'block');
+  openDialog(event: Event): void {
+    event.stopPropagation();
+    this.dialog.nativeElement.showModal();
   }
 
-  closeDialog(): void {
-    this.renderer.setStyle(this.dialog.nativeElement, 'display', 'none');
+  closeDialog(event: Event): void {
+    event.stopPropagation();
+    this.dialog.nativeElement.close();
   }
 }

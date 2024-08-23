@@ -1,10 +1,10 @@
 <div class="container">
   <div
     class="box-form"
-    *ngFor="let formGroup of formGroupList"
+    *ngFor="let formGroup of formGroupList; let i = index"
     (click)="openDialog($event, formGroup.id)"
   >
-    <h4>{{ formGroup.title }}</h4>
+    <h4>{{ formGroup.id }} - {{ formGroup.title }}</h4>
     <img src="/assets/footer-copilot.png" alt="" />
   </div>
 

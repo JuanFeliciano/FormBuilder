@@ -7,20 +7,21 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { FormCreatorComponent } from './components/form-creator/form-creator.component';
+import { FormGroupCreatorComponent } from './components/form-group-creator/form-group-creator.component';
 import { BoxFormGroupComponent } from './components/box-form-group/box-form-group.component';
 import { BoxFormComponent } from './components/box-form/box-form.component';
 import { BoxQuestionComponent } from './components/box-question/box-question.component';
-
+import { FormCreatorComponent } from './form-creator/form-creator.component';
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     DashboardComponent,
-    FormCreatorComponent,
+    FormGroupCreatorComponent,
     BoxFormGroupComponent,
     BoxFormComponent,
     BoxQuestionComponent,
+    FormCreatorComponent,
   ],
   imports: [
     BrowserModule,

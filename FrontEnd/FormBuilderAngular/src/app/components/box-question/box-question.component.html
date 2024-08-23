@@ -7,7 +7,7 @@
     <div class="answer-container">
       <input
         class="grade-input"
-        type="number"
+        type="text"
         placeholder="Grade"
         [(ngModel)]="userAnswers[i].Grade"
       />
@@ -23,7 +23,7 @@
 
   <dialog #dialog class="dialog">
     <div class="container-message">
-      <h1>Responses sent</h1>
+      <h1>Responses Sent</h1>
       <button (click)="closeModal()">Ok</button>
     </div>
   </dialog>

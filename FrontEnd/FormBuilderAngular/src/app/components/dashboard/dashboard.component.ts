@@ -1,14 +1,10 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserService } from '../../services/LoginService/login.service';
+import { FormGroupCreatorComponent } from '../form-group-creator/form-group-creator.component';
+import { FormCreatorComponent } from 'src/app/form-creator/form-creator.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +12,12 @@ import { UserService } from '../../services/LoginService/login.service';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
+  @ViewChild(FormGroupCreatorComponent)
+  formGroupCreatorComponent: FormGroupCreatorComponent;
+  @ViewChild(FormCreatorComponent) formCreatorComponent: FormCreatorComponent;
+
+  event: Event;
+
   constructor(
     private userService: UserService,
     private router: Router,

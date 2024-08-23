@@ -4,7 +4,7 @@
     *ngFor="let form of selectedFormList"
     (click)="openFormDialog($event, form)"
   >
-    <label>{{ form.title }}</label>
+    <h5>{{ form.id }} - {{ form.title }}</h5>
     <img src="/assets/footer-copilot.png" alt="" />
   </div>
   <dialog #dialog class="form-dialog">
