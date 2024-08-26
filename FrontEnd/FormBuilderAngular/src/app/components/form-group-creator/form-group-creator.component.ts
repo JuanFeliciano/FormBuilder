@@ -92,7 +92,7 @@ export class FormGroupCreatorComponent implements OnInit {
       this.formGroupService.createFormGroup(formGroupData).subscribe({
         next: (response) => {
           console.log('Form Group created successfully', response);
-          this.closeDialog(this.event);
+          this.closeDialog();
         },
         error: (error) => {
           console.error('Error creating Form Group', error);
@@ -106,8 +106,7 @@ export class FormGroupCreatorComponent implements OnInit {
     this.dialog.nativeElement.showModal();
   }
 
-  closeDialog(event: Event): void {
-    event.stopPropagation();
+  closeDialog(): void {
     this.dialog.nativeElement.close();
   }
 }

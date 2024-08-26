@@ -22,6 +22,20 @@ export class FormGroupService {
     });
   }
 
+  updateFormGroup(
+    id: number,
+    formGroup: FormGroupModel
+  ): Observable<FormGroupModel> {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.put<FormGroupModel>(`${this.url}/${id}`, formGroup, {
+      headers,
+    });
+  }
+
   getFormGroup(): Observable<FormGroupModel[]> {
     const headers: HttpHeaders = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,

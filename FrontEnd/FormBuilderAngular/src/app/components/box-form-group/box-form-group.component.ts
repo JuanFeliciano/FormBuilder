@@ -1,5 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { FormGroupModel } from 'src/app/interfaces/interfaces';
+import { PutFormGroupComponent } from 'src/app/put-form-group/put-form-group.component';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 
 @Component({
@@ -12,8 +19,13 @@ export class BoxFormGroupComponent implements OnInit {
   selectedFormGroup: FormGroupModel | undefined = undefined;
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+  @ViewChild(PutFormGroupComponent) putFormGroup: PutFormGroupComponent;
 
-  constructor(private formGroupService: FormGroupService) {}
+  constructor(
+    private formGroupService: FormGroupService,
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit(): void {
     this.getFormGroup();
@@ -54,5 +66,17 @@ export class BoxFormGroupComponent implements OnInit {
     event.stopPropagation();
 
     this.dialog.nativeElement.close();
+  }
+
+  ActiveEditContainer(index: number) {
+    const editContainerers =
+      this.el.nativeElement.querySelectorAll('.edit-container');
+
+    const editContainer = editContainerers[index];
+
+    const hasClass = editContainer.classList.contains('active');
+
+    if (hasClass) this.renderer.removeClass(editContainer, 'active');
+    else this.renderer.addClass(editContainer, 'active');
   }
 }

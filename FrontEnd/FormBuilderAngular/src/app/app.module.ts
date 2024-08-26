@@ -12,6 +12,7 @@ import { BoxFormGroupComponent } from './components/box-form-group/box-form-grou
 import { BoxFormComponent } from './components/box-form/box-form.component';
 import { BoxQuestionComponent } from './components/box-question/box-question.component';
 import { FormCreatorComponent } from './form-creator/form-creator.component';
+import { PutFormGroupComponent } from './put-form-group/put-form-group.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +23,7 @@ import { FormCreatorComponent } from './form-creator/form-creator.component';
     BoxFormComponent,
     BoxQuestionComponent,
     FormCreatorComponent,
+    PutFormGroupComponent,
   ],
   imports: [
     BrowserModule,

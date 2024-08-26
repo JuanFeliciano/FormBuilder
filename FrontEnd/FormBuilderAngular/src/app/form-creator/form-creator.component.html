@@ -23,6 +23,10 @@
     </div>
     <form [formGroup]="formGroup" (ngSubmit)="submit()">
       <div class="form">
+        <div class="idgroup-container">
+          <label for="IdGroup">Id Group</label>
+          <input formControlName="idGroup" placeholder="Id Group" />
+        </div>
         <div class="label-input">
           <label for="title">Form Title</label>
           <input id="title" formControlName="title" placeholder="Form Title" />

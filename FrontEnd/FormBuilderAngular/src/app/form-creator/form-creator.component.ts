@@ -43,11 +43,11 @@ export class FormCreatorComponent {
     const questionGroup = this.fb.group({
       id: [null],
       content: ['', Validators.required],
-      idForm: [null],
+      idForm: [0],
       answers: this.fb.array([]),
     });
 
-    this.questions.push(new FormControl(questionGroup));
+    this.questions.push(questionGroup);
   }
 
   removeQuestion(index: number): void {
@@ -59,17 +59,19 @@ export class FormCreatorComponent {
       const formData = {
         id: this.formGroup.get('id')?.value,
         idGroup: this.formGroup.get('idGroup')?.value,
-        title: this.formGroup.get('title')?.value || '',
+        title: this.formGroup.get('title')?.value,
         questions: this.questions.controls.map((questionControl) => {
           const questionGroup = questionControl as FormGroup;
           return {
             id: questionGroup.get('id')?.value,
             idForm: questionGroup.get('idForm')?.value,
-            content: questionGroup.get('content')?.value || '',
+            content: questionGroup.get('content')?.value,
             answers: [],
           } as Question;
         }),
       };
+
+      console.log(formData);
 
       this.formService.createForm(formData).subscribe({
         next: (response) => {

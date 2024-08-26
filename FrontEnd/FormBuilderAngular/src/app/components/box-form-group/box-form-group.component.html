@@ -1,11 +1,36 @@
 <div class="container">
-  <div
-    class="box-form"
-    *ngFor="let formGroup of formGroupList; let i = index"
-    (click)="openDialog($event, formGroup.id)"
-  >
-    <h4>{{ formGroup.id }} - {{ formGroup.title }}</h4>
-    <img src="/assets/footer-copilot.png" alt="" />
+  <div class="box-form" *ngFor="let formGroup of formGroupList; let i = index">
+    <div class="btn-edit">
+      <h4>{{ formGroup.id }} - {{ formGroup.title }}</h4>
+      <div class="edit-container">
+        <label class="edit" (click)="putFormGroup.openDialog($event)"
+          >Edit</label
+        >
+        <label class="delete">Delete</label>
+      </div>
+      <button (click)="ActiveEditContainer(i)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#e8eaed"
+        >
+          <path
+            d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
+          />
+        </svg>
+      </button>
+    </div>
+    <app-put-form-group
+      [idFormGroup]="formGroup.id"
+      [titleFormGroup]="formGroup.title"
+    />
+    <img
+      src="/assets/footer-copilot.png"
+      alt=""
+      (click)="openDialog($event, formGroup.id)"
+    />
   </div>
 
   <div class="dialog-container">

@@ -13,24 +13,76 @@
   margin-left: 70px;
   background-color: #383838;
   border-radius: 20px;
-
   transition: transform 0.2s ease-in-out;
+
+  .btn-edit {
+    display: flex;
+    height: 4vh;
+    button {
+      padding: 0;
+    }
+  }
+
   h4 {
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 30px;
-    width: 340px;
-    border-radius: 20px;
-    margin-top: 2px;
+    margin-left: 11px;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
     color: #fff;
+  }
+
+  button {
+    border: none;
+    background-color: #383838;
+    padding: 5px;
   }
 
   img {
     border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    height: 175px;
-    width: 341px;
+    height: 156px;
+    width: 332px;
+  }
+}
+
+.edit-container {
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  padding: 5px;
+  height: 5vh;
+  width: 6vw;
+  background-color: #2c2c2c;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 3px;
+
+  .edit {
+    border-radius: 3px;
+  }
+
+  .edit:hover {
+    background-color: #0c8ce9;
+  }
+  .delete:hover {
+    background-color: #8a38f5;
+  }
+
+  .delete {
+    border-radius: 3px;
+  }
+}
+
+.active {
+  opacity: 1;
+}
+
+.btn-edit {
+  button {
+    border: none;
+    background-color: #383838;
   }
 }
 
