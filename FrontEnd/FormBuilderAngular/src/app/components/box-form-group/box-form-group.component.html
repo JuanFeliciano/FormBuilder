@@ -3,7 +3,7 @@
     <div class="btn-edit">
       <h4>{{ formGroup.id }} - {{ formGroup.title }}</h4>
       <div class="edit-container">
-        <label class="edit" (click)="putFormGroup.openDialog($event)"
+        <label class="edit" (click)="openPutDialog($event, formGroup.id)"
           >Edit</label
         >
         <label class="delete">Delete</label>
@@ -22,10 +22,6 @@
         </svg>
       </button>
     </div>
-    <app-put-form-group
-      [idFormGroup]="formGroup.id"
-      [titleFormGroup]="formGroup.title"
-    />
     <img
       src="/assets/footer-copilot.png"
       alt=""
@@ -56,4 +52,37 @@
       </div>
     </dialog>
   </div>
+</div>
+
+<div class="dialog-container">
+  <dialog #dialogPut class="dialog-put form-group-dialog">
+    <div class="title">
+      <h1>Form Group Updater</h1>
+      <button type="submit" class="btn btn-submit" (click)="submit()">
+        Submit
+      </button>
+      <button class="btn btn-close-dialog" (click)="closePutDialog($event)">
+        Close
+      </button>
+    </div>
+    <form (ngSubmit)="submit()">
+      <div class="form-group">
+        <div class="label-input old-title">
+          <label>Old Title:</label>
+          <p>{{ selectFormGroupPut?.title }}</p>
+        </div>
+        <div class="label-input new-title">
+          <label for="groupTitle">New Title</label>
+          <input id="groupTitle" placeholder=" New Group Title" />
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog #dialogMessage class="dialog-message">
+    <h1>Title changed successfully!</h1>
+    <button class="btn btn-close-dialog" (click)="closeDialogMessage()">
+      Close
+    </button>
+  </dialog>
 </div>

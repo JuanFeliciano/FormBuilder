@@ -32,7 +32,7 @@ export class FormGroupService {
     });
 
     return this.http.put<FormGroupModel>(`${this.url}/${id}`, formGroup, {
-      headers,
+      headers: headers,
     });
   }
 

@@ -90,7 +90,9 @@
   transform: translateY(5px);
 }
 
-.form-group-dialog {
+.form-group-dialog,
+.dialog-put,
+.dialog-message {
   height: 70vh;
   width: 65vw;
   border: none;
@@ -105,8 +107,57 @@
   transform: translate(-50%, -50%);
 }
 
+.dialog-message {
+  height: 30vh;
+  width: 30vw;
+
+  button {
+    height: 8vh;
+    width: 10vw;
+    color: #fff;
+    font-weight: bold;
+    font-size: x-large;
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.dialog-put {
+  height: 24vh;
+  width: 40vw;
+
+  .title {
+    display: flex;
+    flex-direction: row;
+  }
+
+  input {
+    width: 32vw;
+    height: 5vh;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
+
+  .old-title {
+    display: flex;
+    margin-bottom: 40px;
+
+    p {
+      color: #7b8385;
+    }
+
+    label {
+      margin-right: 20px;
+    }
+  }
+}
+
 .title {
   display: flex;
+  justify-content: space-between;
   margin-bottom: 20px;
   flex-direction: column;
 
@@ -115,9 +166,25 @@
   }
 }
 
+.btn {
+  color: #fff;
+  font-weight: bold;
+}
+
 .title-btn {
   display: flex;
   justify-content: space-between;
+}
+
+.btn-submit {
+  height: 30px;
+  background-color: #0d99ff;
+  border-radius: 10px;
+  border: none;
+  min-width: 70px;
+  margin: 0;
+  margin-top: 5px;
+  cursor: pointer;
 }
 
 .btn-close-dialog {
