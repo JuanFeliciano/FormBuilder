@@ -24,6 +24,7 @@ export class FormGroupCreatorComponent implements OnInit {
   event: Event;
 
   @ViewChild('dialog') dialog: ElementRef;
+  @ViewChild('dialogMessage') dialogMessage: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -93,6 +94,7 @@ export class FormGroupCreatorComponent implements OnInit {
         next: (response) => {
           console.log('Form Group created successfully', response);
           this.closeDialog();
+          this.openDialogMessage(new Event('Modal open'));
         },
         error: (error) => {
           console.error('Error creating Form Group', error);
@@ -108,5 +110,14 @@ export class FormGroupCreatorComponent implements OnInit {
 
   closeDialog(): void {
     this.dialog.nativeElement.close();
+  }
+
+  openDialogMessage(event: Event): void {
+    event.stopPropagation();
+    this.dialogMessage.nativeElement.showModal();
+  }
+
+  closeDialogMessage(): void {
+    this.dialogMessage.nativeElement.close();
   }
 }

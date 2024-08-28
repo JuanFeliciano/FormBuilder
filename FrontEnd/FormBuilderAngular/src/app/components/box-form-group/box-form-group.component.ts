@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Title } from '@angular/platform-browser';
 import { FormGroupModel } from 'src/app/interfaces/interfaces';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 
@@ -21,10 +20,13 @@ export class BoxFormGroupComponent implements OnInit, AfterViewInit {
   formGroupList: FormGroupModel[] = [];
   selectedFormGroup: FormGroupModel | undefined = undefined;
   selectFormGroupPut: FormGroupModel | undefined = undefined;
+  idDelete: number;
 
   @ViewChild('dialogPut') dialogPut: ElementRef;
-  @ViewChild('dialogMessage') dialogMessage: ElementRef;
+  @ViewChild('dialogPutMessage') dialogPutMessage: ElementRef;
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+  @ViewChild('dialogDeleteMessage')
+  dialogDeleteMessage: ElementRef<HTMLDialogElement>;
 
   constructor(
     private formGroupService: FormGroupService,
@@ -35,6 +37,11 @@ export class BoxFormGroupComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getFormGroup();
+
+    this.formGroup = this.fb.group({
+      id: 0,
+      groupTitle: '',
+    });
   }
 
   ngAfterViewInit(): void {}
@@ -91,9 +98,15 @@ export class BoxFormGroupComponent implements OnInit, AfterViewInit {
   }
 
   submit(): void {
-    if (this.selectFormGroupPut) {
+    if (this.formGroup.valid) {
+      const formGroupData = {
+        id: this.formGroup.get('id')?.value as number,
+        title: this.formGroup.get('groupTitle')?.value as string,
+        forms: [],
+      };
+
       this.formGroupService
-        .updateFormGroup(this.selectFormGroupPut.id, this.selectFormGroupPut)
+        .updateFormGroup(formGroupData.id, formGroupData)
         .subscribe({
           next: () => {
             this.openDialogMessage();
@@ -104,6 +117,14 @@ export class BoxFormGroupComponent implements OnInit, AfterViewInit {
           },
         });
     }
+  }
+
+  delete(): void {
+    this.formGroupService.deleteFormGroup(this.idDelete).subscribe({
+      next: () => {
+        this.openDialogMessageDelete();
+      },
+    });
   }
 
   openDialog(event: Event, id: number): void {
@@ -119,6 +140,7 @@ export class BoxFormGroupComponent implements OnInit, AfterViewInit {
 
   openPutDialog(event: Event, id: number): void {
     this.getFormGroupByIdToPut(id);
+    this.formGroup.patchValue({ id: id });
     event.stopPropagation();
   }
 
@@ -129,14 +151,36 @@ export class BoxFormGroupComponent implements OnInit, AfterViewInit {
   }
 
   openDialogMessage(): void {
-    if (this.dialogMessage && this.dialogMessage.nativeElement) {
-      this.dialogMessage.nativeElement.showModal();
+    if (this.dialogPutMessage && this.dialogPutMessage.nativeElement) {
+      this.dialogPutMessage.nativeElement.showModal();
     }
   }
 
   closeDialogMessage(): void {
-    if (this.dialogMessage && this.dialogMessage.nativeElement) {
-      this.dialogMessage.nativeElement.close();
+    if (this.dialogPutMessage && this.dialogPutMessage.nativeElement) {
+      this.dialogPutMessage.nativeElement.close();
+      this.getFormGroup();
     }
+  }
+
+  openDialogMessageDelete(): void {
+    if (this.dialogDeleteMessage && this.dialogDeleteMessage.nativeElement) {
+      this.dialogDeleteMessage.nativeElement.showModal();
+    }
+  }
+
+  closeDialogMessageDelete(): void {
+    if (this.dialogDeleteMessage && this.dialogDeleteMessage.nativeElement) {
+      this.dialogDeleteMessage.nativeElement.close();
+      this.getFormGroup();
+    }
+  }
+
+  alertMessage(id: number) {
+    const confirmMsg: boolean = confirm('Are you sure about this?');
+    this.idDelete = id;
+
+    this.delete();
+    if (confirmMsg) this.openDialogMessageDelete();
   }
 }

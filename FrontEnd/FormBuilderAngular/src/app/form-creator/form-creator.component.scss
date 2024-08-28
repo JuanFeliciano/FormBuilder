@@ -27,7 +27,8 @@ button {
     height: 25px;
   }
 }
-.dialog {
+.dialog,
+.dialog-message {
   height: 70vh;
   width: 65vh;
   border: none;
@@ -40,6 +41,23 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.dialog-message {
+  height: 30vh;
+  width: 30vw;
+
+  button {
+    height: 8vh;
+    width: 10vw;
+    color: #fff;
+    font-weight: bold;
+    font-size: x-large;
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .title {

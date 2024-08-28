@@ -22,6 +22,28 @@ export class FormService {
     });
   }
 
+  updateForm(id: number, form: Form): Observable<Form> {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.put<Form>(`${this.url}/${id}`, form, {
+      headers: headers,
+    });
+  }
+
+  deleteForm(id: number): Observable<any> {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.delete(`${this.url}/${id}`, {
+      headers: headers,
+    });
+  }
+
   GetForm(): Observable<Form[]> {
     const headers: HttpHeaders = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -29,5 +51,16 @@ export class FormService {
     });
 
     return this.http.get<Form[]>(this.url, { headers });
+  }
+
+  getFormById(id: number): Observable<Form> {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<Form>(`${this.url}/${id}`, {
+      headers: headers,
+    });
   }
 }

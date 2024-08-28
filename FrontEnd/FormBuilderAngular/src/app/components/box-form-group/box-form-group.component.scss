@@ -43,6 +43,7 @@
     border-radius: 20px;
     height: 156px;
     width: 332px;
+    cursor: pointer;
   }
 }
 
@@ -54,6 +55,7 @@
   padding: 5px;
   height: 5vh;
   width: 6vw;
+  z-index: 10;
   background-color: #2c2c2c;
   font-weight: bold;
   color: #fff;
@@ -83,6 +85,7 @@
   button {
     border: none;
     background-color: #383838;
+    cursor: pointer;
   }
 }
 

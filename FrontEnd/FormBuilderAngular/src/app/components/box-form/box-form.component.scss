@@ -15,6 +15,18 @@
     height: 130px;
     width: 300px;
   }
+
+  p {
+    cursor: pointer;
+  }
+
+  .btn-edit {
+    display: flex;
+    height: 4vh;
+    button {
+      padding: 0;
+    }
+  }
 }
 
 .box-form:hover {
@@ -49,6 +61,49 @@
 
   h1 {
     height: 40px;
+  }
+}
+
+.edit-container {
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: -5px;
+  margin-left: 100px;
+  background-color: #383838;
+  padding: 5px;
+  height: 5vh;
+  width: 6vw;
+  z-index: 10;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 3px;
+
+  .edit {
+    border-radius: 3px;
+  }
+
+  .edit:hover {
+    background-color: #0c8ce9;
+  }
+  .delete:hover {
+    background-color: #8a38f5;
+  }
+
+  .delete {
+    border-radius: 3px;
+  }
+}
+
+.active {
+  opacity: 1;
+}
+
+.btn-edit {
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
   }
 }
 

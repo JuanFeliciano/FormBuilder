@@ -16,9 +16,9 @@ import { Question } from '../interfaces/interfaces';
 })
 export class FormCreatorComponent {
   formGroup: FormGroup;
-  event: Event;
 
   @ViewChild('dialog') dialog: ElementRef;
+  @ViewChild('dialogMessage') dialogMessage: ElementRef;
 
   constructor(private fb: FormBuilder, private formService: FormService) {}
 
@@ -76,7 +76,8 @@ export class FormCreatorComponent {
       this.formService.createForm(formData).subscribe({
         next: (response) => {
           console.log('Form created successfully', response);
-          this.closeDialog(this.event);
+          this.closeDialog(new Event(''));
+          this.openDialogMessage(new Event('Modal open'));
         },
         error: (error) => {
           console.error('Error creating Form', error);
@@ -93,5 +94,14 @@ export class FormCreatorComponent {
   closeDialog(event: Event): void {
     event.stopPropagation();
     this.dialog.nativeElement.close();
+  }
+
+  openDialogMessage(event: Event): void {
+    event.stopPropagation();
+    this.dialogMessage.nativeElement.showModal();
+  }
+
+  closeDialogMessage(): void {
+    this.dialogMessage.nativeElement.close();
   }
 }

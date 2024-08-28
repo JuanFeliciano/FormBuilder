@@ -1,11 +1,33 @@
 <div class="forms-container">
   <div
     class="box-form box-dialog"
-    *ngFor="let form of selectedFormList"
-    (click)="openFormDialog($event, form)"
+    *ngFor="let form of selectedFormList; let i = index"
   >
-    <h5>{{ form.id }} - {{ form.title }}</h5>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+    <div class="btn-edit">
+      <h5>{{ form.id }} - {{ form.title }}</h5>
+      <div class="edit-container">
+        <label class="edit" (click)="openPutDialog($event, form.id)"
+          >Edit</label
+        >
+        <label class="delete">Delete</label>
+      </div>
+      <button (click)="ActiveEditContainer(i)">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#e8eaed"
+        >
+          <path
+            d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
+          />
+        </svg>
+      </button>
+    </div>
+    <p (click)="openFormDialog($event, form)">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+    </p>
   </div>
   <dialog #dialog class="form-dialog">
     <div class="title-btn">
@@ -31,4 +53,48 @@
       Submit
     </button>
   </dialog>
+
+  <div class="dialog-container">
+    <dialog #dialogPut class="dialog-put form-group-dialog">
+      <div class="title">
+        <h1>Form Updater</h1>
+        <button type="submit" class="btn btn-submit" (click)="updateForm()">
+          Submit
+        </button>
+        <button class="btn btn-close-dialog" (click)="closePutDialog($event)">
+          Close
+        </button>
+      </div>
+      <form [formGroup]="formGroup" (ngSubmit)="updateForm()">
+        <div class="form-group">
+          <div class="label-input old-title">
+            <label>Old Title:</label>
+            <p>{{ selectFormPut.title }}</p>
+          </div>
+          <div class="label-input new-title">
+            <label for="groupTitle">New Title</label>
+            <input
+              id="groupTitle"
+              formControlName="title"
+              placeholder=" New Group Title"
+            />
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog #dialogPutMessage class="dialog-message">
+      <h1>Group Title changed successfully!</h1>
+      <button class="btn btn-close-dialog" (click)="closeDialogMessage()">
+        Close
+      </button>
+    </dialog>
+
+    <dialog #dialogDeleteMessage class="dialog-message">
+      <h1>Group deleted successfully!</h1>
+      <button class="btn btn-close-dialog" (click)="closeDialogMessageDelete()">
+        Close
+      </button>
+    </dialog>
+  </div>
 </div>

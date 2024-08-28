@@ -36,6 +36,15 @@ export class FormGroupService {
     });
   }
 
+  deleteFormGroup(id: number): Observable<any> {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.delete(`${this.url}/${id}`, { headers });
+  }
+
   getFormGroup(): Observable<FormGroupModel[]> {
     const headers: HttpHeaders = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
