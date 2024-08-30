@@ -1,12 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { Form } from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormService {
+  formUpdated = new EventEmitter<void>();
+
   private url: string = 'http://localhost:5117/Form';
 
   constructor(private http: HttpClient) {}
@@ -28,9 +30,15 @@ export class FormService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.put<Form>(`${this.url}/${id}`, form, {
-      headers: headers,
-    });
+    return this.http
+      .put<Form>(`${this.url}/${id}`, form, {
+        headers: headers,
+      })
+      .pipe(
+        tap(() => {
+          this.formUpdated.emit();
+        })
+      );
   }
 
   deleteForm(id: number): Observable<any> {

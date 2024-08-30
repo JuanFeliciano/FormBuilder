@@ -13,6 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
+import { BoxFormGroupComponent } from '../../boxComponents/box-form-group/box-form-group.component';
 
 @Component({
   selector: 'app-form-group-creator',

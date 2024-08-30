@@ -23,6 +23,12 @@
   .btn-edit {
     display: flex;
     height: 4vh;
+
+    h5 {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
     button {
       padding: 0;
     }
@@ -33,7 +39,9 @@
   transform: translateY(5px);
 }
 
-.form-dialog {
+.form-dialog,
+.dialog-put,
+.dialog-message {
   height: 70vh;
   width: 60vw;
   border: none;
@@ -46,6 +54,62 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.dialog-message {
+  height: 30vh;
+  width: 30vw;
+
+  button {
+    height: 8vh;
+    width: 10vw;
+    color: #fff;
+    font-weight: bold;
+    font-size: x-large;
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.dialog-put {
+  height: 24vh;
+  width: 40vw;
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+    .button-container {
+      .btn-submit {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  input {
+    width: 32vw;
+    height: 5vh;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
+
+  .old-title {
+    display: flex;
+    margin-top: 25px;
+    margin-bottom: 30px;
+
+    p {
+      color: #7b8385;
+    }
+
+    label {
+      margin-right: 20px;
+    }
+  }
 }
 
 .forms-container {

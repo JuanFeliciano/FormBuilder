@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MenuComponent } from './components/menu/menu.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SidebarComponent } from './components/mainComponents/sidebar/sidebar.component';
 import { AuthGuard } from './auth/auth.guard';
+import { MenuComponent } from './components/mainComponents/menu/menu.component';
 
 const routes: Routes = [
   { path: 'login', component: MenuComponent },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    component: SidebarComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },

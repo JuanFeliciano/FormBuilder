@@ -30,7 +30,7 @@
       </a>
       <span class="tooltip">Create Form</span>
     </li>
-    <li>
+    <li (click)="questionCreatorComponent.openDialog($event)">
       <a href="javascript:void(0)">
         <i class="bx bxs-food-menu"></i>
         <span class="nav-item">Question</span>
@@ -60,3 +60,4 @@
 
 <app-form-group-creator />
 <app-form-creator />
+<app-question-creator />

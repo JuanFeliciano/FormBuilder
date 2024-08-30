@@ -1,5 +1,5 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { FormService } from '../services/FormService/form.service';
+import { FormService } from '../../../services/FormService/form.service';
 import {
   FormArray,
   FormBuilder,
@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Question } from '../interfaces/interfaces';
+import { Question } from '../../../interfaces/interfaces';
 
 @Component({
   selector: 'app-form-creator',

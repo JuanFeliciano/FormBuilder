@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { UserService } from '../../services/LoginService/login.service';
+import { UserService } from 'src/app/services/LoginService/login.service';
+
 
 @Component({
   selector: 'app-menu',

@@ -2,19 +2,22 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserService } from '../../services/LoginService/login.service';
-import { FormGroupCreatorComponent } from '../form-group-creator/form-group-creator.component';
-import { FormCreatorComponent } from 'src/app/form-creator/form-creator.component';
+import { UserService } from '../../../services/LoginService/login.service';
+import { FormGroupCreatorComponent } from '../../creatorComponents/form-group-creator/form-group-creator.component';
+import { FormCreatorComponent } from 'src/app/components/creatorComponents/form-creator/form-creator.component';
+import { QuestionCreatorComponent } from 'src/app/components/creatorComponents/question-creator/question-creator.component';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
 })
-export class DashboardComponent {
+export class SidebarComponent {
   @ViewChild(FormGroupCreatorComponent)
   formGroupCreatorComponent: FormGroupCreatorComponent;
   @ViewChild(FormCreatorComponent) formCreatorComponent: FormCreatorComponent;
+  @ViewChild(QuestionCreatorComponent)
+  questionCreatorComponent: QuestionCreatorComponent;
 
   event: Event;
 
