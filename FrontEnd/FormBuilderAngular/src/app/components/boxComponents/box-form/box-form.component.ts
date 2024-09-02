@@ -2,8 +2,10 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
   OnInit,
   Renderer2,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Form, FormGroupModel } from 'src/app/interfaces/interfaces';
@@ -16,7 +18,7 @@ import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.serv
   templateUrl: './box-form.component.html',
   styleUrls: ['./box-form.component.scss'],
 })
-export class BoxFormComponent implements OnInit {
+export class BoxFormComponent implements OnInit, OnChanges {
   @Input() formGroupId: number;
   formsSelected: Form[];
 
@@ -35,6 +37,14 @@ export class BoxFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.formService.formUpdated.subscribe(this.getFormByGroupId.bind(this));
+
+    this.formService.formDeleted.subscribe(this.getFormByGroupId.bind(this));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['formGroupId'] && !changes['formGroupId'].isFirstChange()) {
+      this.getFormByGroupId();
+    }
   }
 
   getFormByGroupId(): void {
@@ -42,14 +52,12 @@ export class BoxFormComponent implements OnInit {
       this.formGroupService.getFormGroupById(this.formGroupId).subscribe({
         next: (data: FormGroupModel) => {
           this.formsSelected = data.forms;
-          console.log(this.formsSelected);
         },
         error: (err) => {
           console.error('Failed fetching formgroup by id', err);
         },
       });
     }
-    console.log('failed');
   }
 
   openFormDialog(form: Form) {

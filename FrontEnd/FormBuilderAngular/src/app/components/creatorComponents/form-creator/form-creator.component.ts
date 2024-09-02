@@ -55,6 +55,7 @@ export class FormCreatorComponent {
   }
 
   submit(): void {
+    console.log(this.formGroup);
     if (this.formGroup.valid) {
       const formData = {
         id: this.formGroup.get('id')?.value,

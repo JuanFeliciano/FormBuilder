@@ -8,6 +8,7 @@ import { Form } from 'src/app/interfaces/interfaces';
 })
 export class FormService {
   formUpdated = new EventEmitter<void>();
+  formDeleted = new EventEmitter<void>();
 
   private url: string = 'http://localhost:5117/Form';
 
@@ -47,9 +48,16 @@ export class FormService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.delete(`${this.url}/${id}`, {
-      headers: headers,
-    });
+    return this.http
+      .delete(`${this.url}/${id}`, {
+        responseType: 'text',
+        headers: headers,
+      })
+      .pipe(
+        tap(() => {
+          this.formDeleted.emit();
+        })
+      );
   }
 
   GetForm(): Observable<Form[]> {

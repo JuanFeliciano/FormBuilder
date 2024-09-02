@@ -32,6 +32,12 @@
   <dialog #dialog class="form-dialog">
     <div class="title-btn">
       <h1>{{ selectedForm.title }}</h1>
+      <button
+        class="btn btn-submit"
+        (click)="questionComponent.submitAnswers()"
+      >
+        Submit
+      </button>
       <button class="btn btn-close-dialog" (click)="closeFormDialog()">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -49,8 +55,5 @@
       class="box-question"
       [selectedQuestionList]="selectedForm.questions"
     />
-    <button class="btn btn-submit" (click)="questionComponent.submitAnswers()">
-      Submit
-    </button>
   </dialog>
 </div>

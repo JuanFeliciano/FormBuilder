@@ -11,7 +11,6 @@ import { FormGroupModel } from 'src/app/interfaces/interfaces';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 import { FormGroupUpdaterComponent } from '../../updaterComponents/form-group-updater/form-group-updater.component';
 import { FormGroupDeleterComponent } from '../../deleterComponents/form-group-deleter/form-group-deleter.component';
-import { FormService } from 'src/app/services/FormService/form.service';
 
 @Component({
   selector: 'app-box-form-group',
@@ -22,6 +21,7 @@ export class BoxFormGroupComponent implements OnInit {
   formGroup: FormGroup;
   formGroupList: FormGroupModel[] = [];
   selectedFormGroup: FormGroupModel = { id: 0, title: '', forms: [] };
+  idFormGroup: number = 0;
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(FormGroupUpdaterComponent)
@@ -95,6 +95,7 @@ export class BoxFormGroupComponent implements OnInit {
   }
 
   openDialog(event: Event, id: number): void {
+    this.idFormGroup = id;
     this.getFormGroupById(id);
     event.stopPropagation();
   }
@@ -111,23 +112,5 @@ export class BoxFormGroupComponent implements OnInit {
     this.formGroup.patchValue({ id: formGroup.id, title: formGroup.title });
 
     event.stopPropagation();
-  }
-
-  openDialogMessageDelete(event: Event): void {
-    event.stopPropagation();
-
-    if (this.deleterComponent.dialogDeleteMessage) {
-      this.deleterComponent.dialogDeleteMessage.nativeElement.showModal();
-    }
-  }
-
-  alertMessage(formGroup: FormGroupModel): void {
-    const confirmMsg: boolean = confirm('Are you sure about this?');
-
-    this.deleterComponent.deleteFormGroup(formGroup);
-
-    if (confirmMsg) {
-      this.openDialogMessageDelete(new Event('modal open'));
-    }
   }
 }

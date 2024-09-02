@@ -8,7 +8,11 @@
         >
         <app-form-group-updater [formGroupInput]="selectedFormGroup" />
         <app-form-group-deleter />
-        <label class="delete" (click)="alertMessage(formGroup)">Delete</label>
+        <label
+          class="delete"
+          (click)="deleterComponent.deleteFormGroup(formGroup)"
+          >Delete</label
+        >
       </div>
       <button (click)="ActiveEditContainer(i)">
         <svg
@@ -50,7 +54,7 @@
             </svg>
           </button>
         </div>
-        <app-box-form [formGroupId]="selectedFormGroup.id!" />
+        <app-box-form [formGroupId]="idFormGroup" />
       </div>
     </dialog>
   </div>
