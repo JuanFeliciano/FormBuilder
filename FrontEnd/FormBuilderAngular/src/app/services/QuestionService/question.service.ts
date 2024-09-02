@@ -7,7 +7,7 @@ import { Question } from 'src/app/interfaces/interfaces';
   providedIn: 'root',
 })
 export class QuestionService {
-  private questionCreatedEmmiter = new EventEmitter();
+  questionCreated = new EventEmitter<void>();
 
   private url: string = 'http://localhost:5117/Question';
 
@@ -23,7 +23,7 @@ export class QuestionService {
       .post<Question[]>(this.url, questionArray, { headers })
       .pipe(
         tap(() => {
-          this.questionCreatedEmmiter.emit();
+          this.questionCreated.emit();
         })
       );
   }

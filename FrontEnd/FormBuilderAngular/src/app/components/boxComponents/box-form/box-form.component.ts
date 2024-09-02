@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -13,6 +14,9 @@ import { FormService } from 'src/app/services/FormService/form.service';
 import { FormUpdaterComponent } from '../../updaterComponents/form-updater/form-updater.component';
 import { BoxQuestionComponent } from '../box-question/box-question.component';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
+import { QuestionService } from 'src/app/services/QuestionService/question.service';
+import { FormDeleterComponent } from '../../deleterComponents/form-deleter/form-deleter.component';
+
 @Component({
   selector: 'app-box-form',
   templateUrl: './box-form.component.html',
@@ -21,24 +25,36 @@ import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.serv
 export class BoxFormComponent implements OnInit, OnChanges {
   @Input() formGroupId: number;
   formsSelected: Form[];
-
+  idForm: number;
   selectedForm: Form = { id: 0, idGroup: 0, title: '', questions: [] };
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(FormUpdaterComponent) formUpdater: FormUpdaterComponent;
+  @ViewChild(FormDeleterComponent) formDeleter: FormDeleterComponent;
   @ViewChild(BoxQuestionComponent) questionComponent: BoxQuestionComponent;
 
   constructor(
     private formService: FormService,
     private formGroupService: FormGroupService,
+    private questionService: QuestionService,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.formService.formUpdated.subscribe(this.getFormByGroupId.bind(this));
-
-    this.formService.formDeleted.subscribe(this.getFormByGroupId.bind(this));
+    this.formService.formUpdated.subscribe(() => {
+      this.getFormByGroupId();
+      this.cdr.detectChanges();
+    });
+    this.formService.formDeleted.subscribe(() => {
+      this.getFormByGroupId();
+      this.cdr.detectChanges();
+    });
+    this.questionService.questionCreated.subscribe(() => {
+      this.getFormByGroupId();
+      this.cdr.detectChanges();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -61,8 +77,10 @@ export class BoxFormComponent implements OnInit, OnChanges {
   }
 
   openFormDialog(form: Form) {
+    this.idForm = form.id;
     this.selectedForm = form;
 
+    this.cdr.detectChanges();
     this.dialog.nativeElement.showModal();
   }
 
@@ -70,17 +88,11 @@ export class BoxFormComponent implements OnInit, OnChanges {
     this.dialog.nativeElement.close();
   }
 
-  confirmDelete(id: number): void {
-    if (confirm('Are you sure about this?')) {
-      this.formService.deleteForm(id).subscribe({
-        next: () => {
-          console.log('Form deleted successfully');
-          this.closeFormDialog();
-        },
-        error: (err) => {
-          console.error('Error deleting form', err);
-        },
-      });
+  deleteForm(id: number): void {
+    const confirmDelete = confirm('Are you sure about that?');
+
+    if (confirmDelete) {
+      this.formDeleter.deleteForm(id);
     }
   }
 

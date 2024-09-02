@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Answer, Form, Question } from 'src/app/interfaces/interfaces';
 import { AnswerService } from 'src/app/services/AnswerService/answer.service';
+import { FormService } from 'src/app/services/FormService/form.service';
 
 @Component({
   selector: 'app-box-question',
@@ -18,9 +19,15 @@ import { AnswerService } from 'src/app/services/AnswerService/answer.service';
 export class BoxQuestionComponent implements OnInit, OnChanges {
   @Input() selectedForm: Form | null = null;
   @Input() selectedQuestionList: Question[] = [];
+  @Input() idForm: number = 0;
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
 
-  userAnswers: Answer[];
+  userAnswers: Answer[] = [];
+
+  constructor(
+    private answerService: AnswerService,
+    private formService: FormService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -34,9 +41,12 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private answerService: AnswerService) {}
-
   submitAnswers(): void {
+    if (this.userAnswers.length === 0) {
+      console.warn('no answers to submit');
+      return;
+    }
+
     const answers: Answer[] = this.userAnswers.map((answer, index) => ({
       IdQuestion: this.selectedQuestionList![index]?.id,
       Grade: answer.Grade,

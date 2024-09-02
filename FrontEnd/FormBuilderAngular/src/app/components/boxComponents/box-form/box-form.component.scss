@@ -178,7 +178,6 @@
   border: none;
   min-width: 70px;
   margin: 0;
-  margin-top: 5px;
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -191,6 +190,14 @@
     margin-right: 15px;
     height: 25px;
     margin: 0;
+  }
+}
+
+.btn-container {
+  display: flex;
+
+  .btn-submit {
+    margin-right: 10px;
   }
 }
 

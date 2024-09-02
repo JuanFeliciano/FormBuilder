@@ -24,12 +24,6 @@ export class FormGroupDeleterComponent {
 
   constructor(private formGroupService: FormGroupService) {}
 
-  // ngAfterViewInit(): void {
-  //   if (!this.dialogDeleteMessage) {
-  //     console.error('Dialog element not found or not yet initialized');
-  //   }
-  // }
-
   deleteFormGroup(formGroup: FormGroupModel): void {
     const confirmMsg = confirm('Are you sure about this?');
 
@@ -44,18 +38,4 @@ export class FormGroupDeleterComponent {
       });
     }
   }
-
-  // closeDialogMessageDelete(): void {
-  //   if (this.dialogDeleteMessage && this.dialogDeleteMessage.nativeElement) {
-  //     this.dialogDeleteMessage.nativeElement.close();
-  //   }
-  // }
-
-  // openDialog(): void {
-  //   if (this.dialogDeleteMessage && this.dialogDeleteMessage.nativeElement) {
-  //     this.dialogDeleteMessage.nativeElement.showModal();
-  //   } else {
-  //     console.error('Dialog element not found or not yet initialized.');
-  //   }
-  // }
 }

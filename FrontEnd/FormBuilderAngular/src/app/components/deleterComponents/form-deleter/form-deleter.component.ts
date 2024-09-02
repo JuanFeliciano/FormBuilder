@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { FormService } from 'src/app/services/FormService/form.service';
 
 @Component({
   selector: 'app-form-deleter',
@@ -6,12 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./form-deleter.component.scss'],
 })
 export class FormDeleterComponent {
-  // deleteForm(): void {
-  //   this.formService.deleteForm(this.idForm).subscribe({
-  //     next: () => {},
-  //     error: (err) => {
-  //       console.error('Error deleting form', err);
-  //     },
-  //   });
-  // }
+  @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+
+  constructor(private formService: FormService) {}
+
+  deleteForm(id: number): void {
+    this.formService.deleteForm(id).subscribe({
+      next: () => {
+        console.log('Form deleted successfully');
+      },
+      error: (err) => {
+        console.error('Error deleting form', err);
+      },
+    });
+  }
 }

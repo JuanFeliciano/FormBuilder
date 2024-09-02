@@ -1,13 +1,9 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { FormService } from '../../../services/FormService/form.service';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { Question } from '../../../interfaces/interfaces';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroupModel, Question } from '../../../interfaces/interfaces';
+import { BoxFormGroupComponent } from '../../boxComponents/box-form-group/box-form-group.component';
+import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 
 @Component({
   selector: 'app-form-creator',
@@ -16,13 +12,21 @@ import { Question } from '../../../interfaces/interfaces';
 })
 export class FormCreatorComponent {
   formGroup: FormGroup;
+  formsGroup: FormGroupModel[];
 
   @ViewChild('dialog') dialog: ElementRef;
   @ViewChild('dialogMessage') dialogMessage: ElementRef;
+  @ViewChild(BoxFormGroupComponent) allFormGroup: BoxFormGroupComponent;
 
-  constructor(private fb: FormBuilder, private formService: FormService) {}
+  constructor(
+    private fb: FormBuilder,
+    private formService: FormService,
+    private formGroupService: FormGroupService
+  ) {}
 
   ngOnInit(): void {
+    this.getFormGroup();
+
     if (!HTMLDialogElement.prototype.showModal) {
       console.error('your browser does not support the <dialog> element');
     }
@@ -32,6 +36,17 @@ export class FormCreatorComponent {
       idGroup: [null],
       title: ['', Validators.required],
       questions: this.fb.array([]),
+    });
+  }
+
+  getFormGroup(): void {
+    this.formGroupService.getFormGroup().subscribe({
+      next: (data: FormGroupModel[]) => {
+        this.formsGroup = data;
+      },
+      error: (err) => {
+        console.error('Failed to fetch form group', err);
+      },
     });
   }
 

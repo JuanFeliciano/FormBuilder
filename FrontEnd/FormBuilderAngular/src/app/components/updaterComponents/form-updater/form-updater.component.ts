@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/FormService/form.service';
 import { BoxQuestionComponent } from '../../boxComponents/box-question/box-question.component';
 import { Form } from 'src/app/interfaces/interfaces';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-form-updater',
@@ -23,9 +22,6 @@ export class FormUpdaterComponent implements OnChanges {
   @Input() formInput: Form;
 
   @ViewChild('dialogPut') dialogPut: ElementRef<HTMLDialogElement>;
-  @ViewChild('dialogPutMessage')
-  dialogPutMessage: ElementRef<HTMLDialogElement>;
-
   @ViewChild(BoxQuestionComponent) questionComponent: BoxQuestionComponent;
 
   constructor(private fb: FormBuilder, private formService: FormService) {
@@ -58,17 +54,11 @@ export class FormUpdaterComponent implements OnChanges {
       this.formService.updateForm(formData.id, formData).subscribe({
         next: () => {
           this.dialogPut.nativeElement.close();
-          this.dialogPutMessage.nativeElement.showModal();
         },
       });
     }
   }
-
-  closeDialog(event: Event): void {
-    event.stopPropagation();
-    this.dialogPutMessage.nativeElement.close();
-  }
-
+  
   closePutDialog(event: Event) {
     event.stopPropagation();
 

@@ -44,17 +44,9 @@ export class BoxFormGroupComponent implements OnInit {
       title: '',
     });
 
-    this.formGroupService.formGroupCreated.subscribe(
-      this.getFormGroup.bind(this)
-    );
-
-    this.formGroupService.formGroupUpdated.subscribe(
-      this.getFormGroup.bind(this)
-    );
-
-    this.formGroupService.formGroupDeleted.subscribe(
-      this.getFormGroup.bind(this)
-    );
+    this.formGroupService.formGroupCreated.subscribe(() => this.getFormGroup());
+    this.formGroupService.formGroupUpdated.subscribe(() => this.getFormGroup());
+    this.formGroupService.formGroupDeleted.subscribe(() => this.getFormGroup());
   }
 
   getFormGroup(): void {
@@ -74,7 +66,6 @@ export class BoxFormGroupComponent implements OnInit {
     this.formGroupService.getFormGroupById(id).subscribe({
       next: (data: FormGroupModel) => {
         this.selectedFormGroup = data;
-
         this.dialog.nativeElement.showModal();
       },
       error: (err) => {
@@ -102,8 +93,9 @@ export class BoxFormGroupComponent implements OnInit {
 
   closeDialog(event: Event): void {
     event.stopPropagation();
-
-    if (this.dialog.nativeElement.open) this.dialog.nativeElement.close();
+    if (this.dialog.nativeElement.open) {
+      this.dialog.nativeElement.close();
+    }
   }
 
   openPutDialog(event: Event, formGroup: FormGroupModel): void {

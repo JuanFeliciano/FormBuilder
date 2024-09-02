@@ -24,8 +24,14 @@
     <form [formGroup]="formGroup" (ngSubmit)="submit()">
       <div class="form">
         <div class="idgroup-container">
-          <label for="IdGroup">Id Group</label>
-          <input formControlName="idGroup" placeholder="Id Group" />
+          <select formControlName="idGroup">
+            <option
+              *ngFor="let formGroup of formsGroup; let i = index"
+              [value]="formGroup.id"
+            >
+              {{ formGroup.id }} - {{ formGroup.title }}
+            </option>
+          </select>
         </div>
         <div class="label-input">
           <label for="title">Form Title</label>

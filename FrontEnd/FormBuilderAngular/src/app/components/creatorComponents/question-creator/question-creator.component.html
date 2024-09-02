@@ -22,8 +22,11 @@
       </button>
     </div>
     <div class="idgroup-container">
-      <label for="idForm">Id Form</label>
-      <input [(ngModel)]="idForm" placeholder="Id Form" />
+      <select [(ngModel)]="idForm" name="formSelect">
+        <option *ngFor="let form of forms" [value]="form.id">
+          {{ form.id }} - {{ form.title }}
+        </option>
+      </select>
     </div>
     <form [formGroup]="questionGroup" (ngSubmit)="submit()">
       <div class="form"></div>

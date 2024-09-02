@@ -31,7 +31,7 @@ import { FormDeleterComponent } from './components/deleterComponents/form-delete
     FormGroupUpdaterComponent,
     FormGroupDeleterComponent,
     FormUpdaterComponent,
-    FormDeleterComponent
+    FormDeleterComponent,
   ],
   imports: [
     BrowserModule,
