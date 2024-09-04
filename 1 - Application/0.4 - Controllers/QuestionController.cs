@@ -47,7 +47,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Question questions)
+        public async Task<IActionResult> Post([FromBody] Question[] questions)
         {
             try
             {
