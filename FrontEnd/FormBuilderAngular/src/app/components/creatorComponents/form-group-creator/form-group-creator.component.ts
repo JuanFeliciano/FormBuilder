@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
-import { BoxFormGroupComponent } from '../../boxComponents/box-form-group/box-form-group.component';
+import { FormGroupDialogCreateComponent } from '../../dialogs/form-group-dialog/createDialog/form-group-dialog-create.component';
 
 @Component({
   selector: 'app-form-group-creator',
@@ -25,7 +25,8 @@ export class FormGroupCreatorComponent implements OnInit {
   event: Event;
 
   @ViewChild('dialog') dialog: ElementRef;
-  @ViewChild('dialogMessage') dialogMessage: ElementRef;
+  @ViewChild(FormGroupDialogCreateComponent)
+  formGroupDialog: FormGroupDialogCreateComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -94,8 +95,8 @@ export class FormGroupCreatorComponent implements OnInit {
       this.formGroupService.createFormGroup(formGroupData).subscribe({
         next: (response) => {
           console.log('Form Group created successfully', response);
-          this.closeDialog();
-          this.openDialogMessage(new Event('Modal open'));
+          this.closeDialog(new Event(''));
+          this.formGroupDialog.openDialogMessage(new Event('open modal'));
         },
         error: (error) => {
           console.error('Error creating Form Group', error);
@@ -109,16 +110,8 @@ export class FormGroupCreatorComponent implements OnInit {
     this.dialog.nativeElement.showModal();
   }
 
-  closeDialog(): void {
-    this.dialog.nativeElement.close();
-  }
-
-  openDialogMessage(event: Event): void {
+  closeDialog(event: Event): void {
     event.stopPropagation();
-    this.dialogMessage.nativeElement.showModal();
-  }
-
-  closeDialogMessage(): void {
-    this.dialogMessage.nativeElement.close();
+    this.dialog.nativeElement.close();
   }
 }

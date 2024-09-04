@@ -99,10 +99,10 @@ export class BoxFormGroupComponent implements OnInit {
   }
 
   openPutDialog(event: Event, formGroup: FormGroupModel): void {
+    event.stopPropagation();
+
     this.selectedFormGroup = formGroup;
     this.updaterComponent.getFormGroupByIdToPut(this.selectedFormGroup.id);
     this.formGroup.patchValue({ id: formGroup.id, title: formGroup.title });
-
-    event.stopPropagation();
   }
 }

@@ -7,9 +7,8 @@
       <h5>{{ form.id }} - {{ form.title }}</h5>
       <div class="edit-container">
         <label class="edit" (click)="openPutDialog(form)">Edit</label>
-        <app-form-updater [formInput]="selectedForm" />
+
         <label class="delete" (click)="deleteForm(form.id)">Delete</label>
-        <app-form-deleter #formDeleter/>
       </div>
       <button (click)="ActiveEditContainer(i)">
         <svg
@@ -29,6 +28,9 @@
       Lorem ipsum, dolor sit amet consectetur adipisicing elit.
     </p>
   </div>
+
+  <app-form-updater [formInput]="selectedForm" />
+  <app-form-deleter #formDeleter />
 
   <dialog #dialog class="form-dialog">
     <div class="title-btn">
