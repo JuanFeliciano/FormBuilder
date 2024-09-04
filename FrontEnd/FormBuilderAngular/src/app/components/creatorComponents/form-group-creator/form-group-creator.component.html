@@ -8,7 +8,7 @@
       <button type="button" class="btn btn-add" (click)="addForm()">
         Add Form
       </button>
-      <button class="btn btn-close-dialog" (click)="closeDialog()">
+      <button class="btn btn-close-dialog" (click)="closeDialog($event)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="ionicon"
@@ -126,11 +126,5 @@
       </div>
     </form>
   </dialog>
-
-  <dialog #dialogMessage class="dialog-message">
-    <h1>Group created successfully!</h1>
-    <button class="btn btn-close-dialog" (click)="closeDialogMessage()">
-      Close
-    </button>
-  </dialog>
+  <app-form-group-dialog-create />
 </div>

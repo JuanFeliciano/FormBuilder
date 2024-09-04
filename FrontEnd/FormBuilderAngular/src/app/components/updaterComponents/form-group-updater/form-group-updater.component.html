@@ -1,5 +1,5 @@
 <div class="dialog-container">
-  <dialog #dialogPut class="dialog-put form-group-dialog">
+  <dialog #dialog class="dialog-put form-group-dialog">
     <div class="title">
       <h1>Form Group Updater</h1>
       <button type="submit" class="btn btn-submit" (click)="updateFormGroup()">
@@ -27,10 +27,5 @@
     </form>
   </dialog>
 
-  <dialog #dialogPutMessage class="dialog-message">
-    <h1>Group Title changed successfully!</h1>
-    <button class="btn btn-close-dialog" (click)="closeDialogMessage()">
-      Close
-    </button>
-  </dialog>
+  <app-form-group-dialog-update [updateEvent]="updateEvent" />
 </div>

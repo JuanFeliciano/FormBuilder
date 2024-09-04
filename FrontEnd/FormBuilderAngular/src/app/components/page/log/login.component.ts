@@ -3,13 +3,12 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { UserService } from 'src/app/services/LoginService/login.service';
 
-
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss'],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
-export class MenuComponent implements OnInit {
+export class LoginComponent implements OnInit {
   inputName: string = '';
   inputPass: string = '';
 

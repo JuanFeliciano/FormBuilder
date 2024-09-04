@@ -1,0 +1,16 @@
+.main-content {
+  position: relative;
+  background-color: #2c2c2c;
+  min-height: 100vh;
+  top: 0;
+  left: 80px;
+  transition: left 0.5s ease, width 0.5s ease;
+  width: calc(100% - 80px);
+  padding: 1rem;
+  z-index: 1;
+}
+
+.active ~ .main-content {
+  left: 250px;
+  width: calc(100% - 250px);
+}

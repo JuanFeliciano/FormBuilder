@@ -1,14 +1,20 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
+import { FormGroupCreatorComponent } from '../../creatorComponents/form-group-creator/form-group-creator.component';
+import { FormCreatorComponent } from '../../creatorComponents/form-creator/form-creator.component';
+import { QuestionCreatorComponent } from '../../creatorComponents/question-creator/question-creator.component';
+import { UserService } from 'src/app/services/LoginService/login.service';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserService } from '../../../services/LoginService/login.service';
-import { FormGroupCreatorComponent } from '../../creatorComponents/form-group-creator/form-group-creator.component';
-import { FormCreatorComponent } from 'src/app/components/creatorComponents/form-creator/form-creator.component';
-import { QuestionCreatorComponent } from 'src/app/components/creatorComponents/question-creator/question-creator.component';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
@@ -20,14 +26,22 @@ export class SidebarComponent {
   questionCreatorComponent: QuestionCreatorComponent;
 
   event: Event;
+  route: string;
 
   constructor(
-    private userService: UserService,
     private router: Router,
     private renderer: Renderer2,
-    private el: ElementRef
-  ) {}
+    private el: ElementRef,
+    private userService: UserService
+  ) {
+    this.router.events.subscribe(() => {
+      this.currentRoute = this.router.url;
+      this.updateButtonLabel();
+    });
+  }
 
+  currentRoute: string = '';
+  buttonLabel: string = '';
   username: string = localStorage.getItem('name')!;
   role: string = localStorage.getItem('role')!;
 
@@ -58,7 +72,26 @@ export class SidebarComponent {
     const sidebarElement = this.el.nativeElement.querySelector('.sidebar');
     const hasClass = sidebarElement.classList.contains('active');
 
-    if (hasClass) this.renderer.removeClass(sidebarElement, 'active');
-    else this.renderer.addClass(sidebarElement, 'active');
+    if (hasClass) {
+      this.renderer.removeClass(sidebarElement, 'active');
+    } else {
+      this.renderer.addClass(sidebarElement, 'active');
+    }
+  }
+
+  updateButtonLabel(): void {
+    if (this.currentRoute === '/dashboard') {
+      this.buttonLabel = 'NPS';
+    } else if (this.currentRoute === '/nps') {
+      this.buttonLabel = 'Dashboard';
+    }
+  }
+
+  navigateBasedOnRoute(): void {
+    if (this.currentRoute === '/dashboard') {
+      this.router.navigate(['/nps']);
+    } else if (this.currentRoute === '/nps') {
+      this.router.navigate(['/dashboard']);
+    }
   }
 }

@@ -2,8 +2,8 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { FormService } from '../../../services/FormService/form.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormGroupModel, Question } from '../../../interfaces/interfaces';
-import { BoxFormGroupComponent } from '../../boxComponents/box-form-group/box-form-group.component';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
+import { FormDialogComponent } from '../../dialogs/form-dialog/createDialog/form-dialog.component';
 
 @Component({
   selector: 'app-form-creator',
@@ -15,8 +15,7 @@ export class FormCreatorComponent {
   formsGroup: FormGroupModel[];
 
   @ViewChild('dialog') dialog: ElementRef;
-  @ViewChild('dialogMessage') dialogMessage: ElementRef;
-  @ViewChild(BoxFormGroupComponent) allFormGroup: BoxFormGroupComponent;
+  @ViewChild(FormDialogComponent) formDialog: FormDialogComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -70,7 +69,6 @@ export class FormCreatorComponent {
   }
 
   submit(): void {
-    console.log(this.formGroup);
     if (this.formGroup.valid) {
       const formData = {
         id: this.formGroup.get('id')?.value,
@@ -93,7 +91,7 @@ export class FormCreatorComponent {
         next: (response) => {
           console.log('Form created successfully', response);
           this.closeDialog(new Event(''));
-          this.openDialogMessage(new Event('Modal open'));
+          this.formDialog.openDialogMessage(new Event('modal open'));
         },
         error: (error) => {
           console.error('Error creating Form', error);
@@ -110,14 +108,5 @@ export class FormCreatorComponent {
   closeDialog(event: Event): void {
     event.stopPropagation();
     this.dialog.nativeElement.close();
-  }
-
-  openDialogMessage(event: Event): void {
-    event.stopPropagation();
-    this.dialogMessage.nativeElement.showModal();
-  }
-
-  closeDialogMessage(): void {
-    this.dialogMessage.nativeElement.close();
   }
 }

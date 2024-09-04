@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroupModel } from 'src/app/interfaces/interfaces';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
+import { FormGroupDialogDeleteComponent } from '../../dialogs/form-group-dialog/deleteDialog/form-group-dialog-delete/form-group-dialog-delete.component';
 
 @Component({
   selector: 'app-form-group-deleter',
@@ -17,10 +18,10 @@ import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.serv
 })
 export class FormGroupDeleterComponent {
   @Input() formGroupInput: FormGroupModel;
-  @Output() formGroupDeleted = new EventEmitter<void>();
+  @ViewChild(FormGroupDialogDeleteComponent)
+  formGroupDeleteComponent: FormGroupDialogDeleteComponent;
 
-  @ViewChild('dialogDeleteMessage')
-  dialogDeleteMessage: ElementRef<HTMLDialogElement>;
+  deleteEvent = new EventEmitter<void>();
 
   constructor(private formGroupService: FormGroupService) {}
 
@@ -31,6 +32,7 @@ export class FormGroupDeleterComponent {
       this.formGroupService.deleteFormGroup(formGroup.id).subscribe({
         next: () => {
           console.log('Successfully deleting form Group');
+          this.deleteEvent.emit();
         },
         error: (err) => {
           console.error('Error deleting form Group', err);

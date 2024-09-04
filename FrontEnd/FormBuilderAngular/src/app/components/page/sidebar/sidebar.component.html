@@ -39,10 +39,17 @@
     </li>
     <li>
       <a>
-        <i class="bx bx-cog"></i>
+        <i class="bx bxs-chalkboard"></i>
         <span class="nav-item">Answer</span>
       </a>
-      <span class="tooltip">Create Answer</span>
+      <span class="tooltip">See Answer</span>
+    </li>
+    <li (click)="navigateBasedOnRoute()">
+      <a>
+        <i class="bx bx-chart"></i>
+        <span class="nav-item">{{ buttonLabel }}</span>
+      </a>
+      <span class="tooltip">{{ buttonLabel }}</span>
     </li>
     <li (click)="Logout()">
       <a href="javascript:void(0)">
@@ -54,10 +61,6 @@
   </ul>
 </div>
 
-<div class="main-content">
-  <app-box-form-group class="box-component" />
-</div>
-
-<app-form-group-creator />
-<app-form-creator />
-<app-question-creator />
+<app-form-group-creator></app-form-group-creator>
+<app-form-creator></app-form-creator>
+<app-question-creator></app-question-creator>

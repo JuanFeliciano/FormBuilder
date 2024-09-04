@@ -6,8 +6,7 @@
         <label class="edit" (click)="openPutDialog($event, formGroup)"
           >Edit</label
         >
-        <app-form-group-updater [formGroupInput]="selectedFormGroup" />
-        <app-form-group-deleter />
+
         <label
           class="delete"
           (click)="deleterComponent.deleteFormGroup(formGroup)"
@@ -28,12 +27,14 @@
         </svg>
       </button>
     </div>
-    <img
-      src="/assets/footer-copilot.png"
-      alt=""
-      (click)="openDialog($event, formGroup.id)"
-    />
+    <p (click)="openDialog($event, formGroup.id)">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aspernatur
+      ea, facere, commodi libero, autem facilis deleniti tenetur sunt
+    </p>
   </div>
+
+  <app-form-group-deleter />
+  <app-form-group-updater [formGroupInput]="selectedFormGroup" />
 
   <div class="dialog-container">
     <dialog #dialog class="form-group-dialog">

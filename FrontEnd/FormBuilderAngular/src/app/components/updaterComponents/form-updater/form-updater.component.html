@@ -19,12 +19,10 @@
         </div>
         <div class="label-input new-title">
           <label for="title">New Title</label>
-          <input
-            formControlName="title"
-            placeholder=" New Group Title"
-          />
+          <input formControlName="title" placeholder=" New Group Title" />
         </div>
       </div>
     </form>
   </dialog>
+  <app-form-dialog-update [updateEvent]="updateEvent" />
 </div>

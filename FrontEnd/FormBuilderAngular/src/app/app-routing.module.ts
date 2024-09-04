@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SidebarComponent } from './components/mainComponents/sidebar/sidebar.component';
 import { AuthGuard } from './auth/auth.guard';
-import { MenuComponent } from './components/mainComponents/menu/menu.component';
+import { NpsRouteComponent } from './components/page/nps-route/nps-route.component';
+import { LoginComponent } from './components/page/log/login.component';
+import { MainComponent } from './components/mainComponents/main.component';
 
 const routes: Routes = [
-  { path: 'login', component: MenuComponent },
+  { path: 'login', component: LoginComponent },
   {
     path: 'dashboard',
-    component: SidebarComponent,
+    component: MainComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'nps', component: NpsRouteComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
 

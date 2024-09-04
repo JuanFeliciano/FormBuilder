@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   Renderer2,
@@ -19,6 +20,8 @@ import { Form } from 'src/app/interfaces/interfaces';
 })
 export class FormUpdaterComponent implements OnChanges {
   formGroup: FormGroup;
+  updateEvent: EventEmitter<void> = new EventEmitter<void>();
+
   @Input() formInput: Form;
 
   @ViewChild('dialogPut') dialogPut: ElementRef<HTMLDialogElement>;
@@ -54,11 +57,12 @@ export class FormUpdaterComponent implements OnChanges {
       this.formService.updateForm(formData.id, formData).subscribe({
         next: () => {
           this.dialogPut.nativeElement.close();
+          this.updateEvent.emit();
         },
       });
     }
   }
-  
+
   closePutDialog(event: Event) {
     event.stopPropagation();
 
