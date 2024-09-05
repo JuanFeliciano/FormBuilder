@@ -8,7 +8,7 @@ import {
 import { FormGroupCreatorComponent } from '../../creatorComponents/form-group-creator/form-group-creator.component';
 import { FormCreatorComponent } from '../../creatorComponents/form-creator/form-creator.component';
 import { QuestionCreatorComponent } from '../../creatorComponents/question-creator/question-creator.component';
-import { UserService } from 'src/app/services/LoginService/login.service';
+import { LoginService } from 'src/app/services/LoginService/login.service';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -32,16 +32,18 @@ export class SidebarComponent {
     private router: Router,
     private renderer: Renderer2,
     private el: ElementRef,
-    private userService: UserService
+    private loginService: LoginService
   ) {
     this.router.events.subscribe(() => {
       this.currentRoute = this.router.url;
       this.updateButtonLabel();
+      this.updateButtonAnswer();
     });
   }
 
   currentRoute: string = '';
   buttonLabel: string = '';
+  buttonAnswer: string = '';
   username: string = localStorage.getItem('name')!;
   role: string = localStorage.getItem('role')!;
 
@@ -49,7 +51,7 @@ export class SidebarComponent {
     const alertMessage: boolean = confirm('Are you sure?');
 
     if (alertMessage) {
-      this.userService
+      this.loginService
         .Logout()
         .pipe(
           tap(() => {
@@ -80,17 +82,32 @@ export class SidebarComponent {
   }
 
   updateButtonLabel(): void {
-    if (this.currentRoute === '/dashboard') {
+    if (this.currentRoute === '/dashboard' || this.currentRoute === '/answer') {
       this.buttonLabel = 'NPS';
     } else if (this.currentRoute === '/nps') {
       this.buttonLabel = 'Dashboard';
     }
   }
 
+  updateButtonAnswer(): void {
+    if (this.currentRoute === '/dashboard' || this.currentRoute === '/nps') {
+      this.buttonAnswer = 'Answer';
+    } else if (this.currentRoute === '/answer') {
+      this.buttonAnswer = 'Dashboard';
+    }
+  }
+
   navigateBasedOnRoute(): void {
-    if (this.currentRoute === '/dashboard') {
+    if (this.currentRoute === '/dashboard' || this.currentRoute === '/answer') {
       this.router.navigate(['/nps']);
     } else if (this.currentRoute === '/nps') {
+      this.router.navigate(['/dashboard']);
+    }
+  }
+  navigateBasedOnRouteAnswer(): void {
+    if (this.currentRoute === '/dashboard' || this.currentRoute === '/nps') {
+      this.router.navigate(['/answer']);
+    } else if (this.currentRoute === '/answer') {
       this.router.navigate(['/dashboard']);
     }
   }

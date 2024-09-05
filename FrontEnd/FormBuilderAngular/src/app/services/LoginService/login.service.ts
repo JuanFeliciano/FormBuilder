@@ -2,16 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap, throwError } from 'rxjs';
-import {
-  DecodedToken,
-  RefreshRoute,
-  User,
-} from 'src/app/interfaces/interfaces';
+import { DecodedToken, User } from 'src/app/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class LoginService {
   private urlLogin: string = 'http://localhost:5117/Login';
   private urlLogout: string = 'http://localhost:5117/LogOut';
 

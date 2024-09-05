@@ -37,12 +37,12 @@
       </a>
       <span class="tooltip">Create Question</span>
     </li>
-    <li>
+    <li (click)="navigateBasedOnRouteAnswer()">
       <a>
         <i class="bx bxs-chalkboard"></i>
-        <span class="nav-item">Answer</span>
+        <span class="nav-item">{{ buttonAnswer }}</span>
       </a>
-      <span class="tooltip">See Answer</span>
+      <span class="tooltip">{{ buttonAnswer }}</span>
     </li>
     <li (click)="navigateBasedOnRoute()">
       <a>

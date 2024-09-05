@@ -1,0 +1,16 @@
+.main {
+  display: grid;
+  flex-direction: row;
+  grid-template-columns: repeat(4, 1fr);
+  margin-left: 265px;
+  color: #fff;
+}
+
+.box-answer {
+  height: 110px;
+  width: 210px;
+  margin-top: 40px;
+  padding: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background-color: #383838;
+}

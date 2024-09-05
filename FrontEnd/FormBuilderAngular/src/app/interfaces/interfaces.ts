@@ -19,7 +19,9 @@ export interface Question {
 }
 
 export interface Answer {
+  Id: number;
   IdQuestion: number;
+  IdUser: number;
   Grade: number;
   Description: string;
 }

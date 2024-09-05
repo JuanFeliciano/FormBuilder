@@ -26,6 +26,8 @@ import { FormGroupDialogDeleteComponent } from './components/dialogs/form-group-
 import { FormDialogDeleteComponent } from './components/dialogs/form-dialog/deleteDialog/form-dialog-delete/form-dialog-delete.component';
 import { LoginComponent } from './components/page/log/login.component';
 import { MainComponent } from './components/mainComponents/main.component';
+import { AnswerComponent } from './components/page/answer/answer.component';
+import { AnswerRouteComponent } from './components/page/answer-route/answer-route.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { MainComponent } from './components/mainComponents/main.component';
     FormDialogUpdateComponent,
     FormGroupDialogDeleteComponent,
     FormDialogDeleteComponent,
+    AnswerComponent,
+    AnswerRouteComponent,
   ],
   imports: [
     BrowserModule,

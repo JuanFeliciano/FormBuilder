@@ -4,6 +4,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { NpsRouteComponent } from './components/page/nps-route/nps-route.component';
 import { LoginComponent } from './components/page/log/login.component';
 import { MainComponent } from './components/mainComponents/main.component';
+import { AnswerRouteComponent } from './components/page/answer-route/answer-route.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'nps', component: NpsRouteComponent, canActivate: [AuthGuard] },
+  { path: 'answer', component: AnswerRouteComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
 

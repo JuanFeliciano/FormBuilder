@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   OnInit,
   Renderer2,
   ViewChild,
@@ -22,6 +23,7 @@ export class BoxFormGroupComponent implements OnInit {
   formGroupList: FormGroupModel[] = [];
   selectedFormGroup: FormGroupModel = { id: 0, title: '', forms: [] };
   idFormGroup: number = 0;
+  visibleElements: boolean[] = [];
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(FormGroupUpdaterComponent)
@@ -47,6 +49,8 @@ export class BoxFormGroupComponent implements OnInit {
     this.formGroupService.formGroupCreated.subscribe(() => this.getFormGroup());
     this.formGroupService.formGroupUpdated.subscribe(() => this.getFormGroup());
     this.formGroupService.formGroupDeleted.subscribe(() => this.getFormGroup());
+
+    this.visibleElements = new Array(this.formGroupList.length).fill(false);
   }
 
   getFormGroup(): void {
@@ -104,5 +108,18 @@ export class BoxFormGroupComponent implements OnInit {
     this.selectedFormGroup = formGroup;
     this.updaterComponent.getFormGroupByIdToPut(this.selectedFormGroup.id);
     this.formGroup.patchValue({ id: formGroup.id, title: formGroup.title });
+  }
+
+  toggleElement(index: number): void {
+    this.visibleElements[index] = !this.visibleElements[index];
+  }
+
+  @HostListener('document:click', ['$event'])
+  outClick(event: Event) {
+    const clickInside = (event.target as HTMLElement).closest('.btn-edit');
+
+    if (!clickInside) {
+      this.visibleElements = new Array(this.formGroupList.length).fill(false);
+    }
   }
 }

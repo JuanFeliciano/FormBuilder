@@ -1,0 +1,15 @@
+<div class="main" *ngIf="answerArray.length > 0; else noData">
+  <div class="box-answer" *ngFor="let item of answerArray">
+    <div class="answer">
+      <p>{{item.Grade}}</p>
+      <h1>{{ item.Description }}</h1>
+    </div>
+    <div class="id-question">
+      <h4>{{ item.IdQuestion }}</h4>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>There are no Answers</p>
+</ng-template>

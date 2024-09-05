@@ -2,7 +2,7 @@
   <div class="box-form" *ngFor="let formGroup of formGroupList; let i = index">
     <div class="btn-edit">
       <h4>{{ formGroup.id }} - {{ formGroup.title }}</h4>
-      <div class="edit-container">
+      <div class="edit-container" *ngIf="visibleElements[i]">
         <label class="edit" (click)="openPutDialog($event, formGroup)"
           >Edit</label
         >
@@ -13,7 +13,7 @@
           >Delete</label
         >
       </div>
-      <button (click)="ActiveEditContainer(i)">
+      <button (click)="toggleElement(i)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
