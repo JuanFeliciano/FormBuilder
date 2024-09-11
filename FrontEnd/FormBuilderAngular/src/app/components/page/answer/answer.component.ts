@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Answer } from 'src/app/interfaces/interfaces';
-import { AnswerService } from 'src/app/services/AnswerService/answer.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Form } from 'src/app/interfaces/interfaces';
+import { FormService } from 'src/app/services/FormService/form.service';
+import { AnswerDialogComponent } from '../../dialogs/answer-dialog/answer-dialog/answer-dialog.component';
 
 @Component({
   selector: 'app-answer',
@@ -8,22 +9,30 @@ import { AnswerService } from 'src/app/services/AnswerService/answer.service';
   styleUrls: ['./answer.component.scss'],
 })
 export class AnswerComponent implements OnInit {
-  answerArray: Answer[] = [];
+  formArray: Form[] = [];
+  selectedFormId: number;
 
-  constructor(private answerService: AnswerService) {}
+  @ViewChild('answerDialog') answerDialog: AnswerDialogComponent;
+
+  constructor(private formService: FormService) {}
 
   ngOnInit(): void {
-    this.getAnswer();
+    this.getForm();
   }
 
-  getAnswer(): void {
-    this.answerService.getAnswer().subscribe({
-      next: (data) => {
-        this.answerArray = data;
+  getForm(): void {
+    this.formService.GetForm().subscribe({
+      next: (data: Form[]) => {
+        this.formArray = data;
       },
       error: (err) => {
-        console.error('Error fetching answer', err);
+        console.log('error fetching form data', err);
       },
     });
+  }
+
+  openDialog(formId: number): void {
+    this.selectedFormId = formId;
+    this.answerDialog.openDialog();
   }
 }

@@ -1,9 +1,7 @@
 .main {
-  display: grid;
-  flex-direction: row;
-  grid-template-columns: repeat(4, 1fr);
+  position: relative;
   margin-left: 265px;
-  color: #fff;
+  color: #1f1f1f;
 
   .grade {
     display: flex;
@@ -30,11 +28,24 @@
   }
 }
 
+.container-answer {
+  position: absolute;
+  top: 40px;
+  display: grid;
+  flex-direction: row;
+  grid-template-columns: repeat(5, 1fr);
+}
+
 .box-answer {
   height: 110px;
-  width: 210px;
+  width: 342px;
   margin-top: 40px;
+  margin-right: 100px;
   padding: 10px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  background-color: #383838;
+
+  .answer {
+    padding: 10px;
+    border: 2px solid #1f1f1f;
+    border-radius: 10px;
+  }
 }

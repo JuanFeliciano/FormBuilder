@@ -29,6 +29,7 @@ import { MainComponent } from './components/mainComponents/main.component';
 import { AnswerComponent } from './components/page/answer/answer.component';
 import { AnswerRouteComponent } from './components/page/answer-route/answer-route.component';
 import { AuthInterceptor } from './auth-interceptor/auth.interceptor';
+import { AnswerDialogComponent } from './components/dialogs/answer-dialog/answer-dialog/answer-dialog.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { AuthInterceptor } from './auth-interceptor/auth.interceptor';
     FormDialogDeleteComponent,
     AnswerComponent,
     AnswerRouteComponent,
+    AnswerDialogComponent,
   ],
   imports: [
     BrowserModule,
