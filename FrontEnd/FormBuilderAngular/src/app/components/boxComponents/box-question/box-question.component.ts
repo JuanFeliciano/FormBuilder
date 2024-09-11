@@ -31,11 +31,11 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedQuestionList'] && this.selectedQuestionList) {
       this.userAnswers = this.selectedQuestionList.map((question) => ({
-        Id: 0,
-        IdQuestion: question.id,
-        IdUser: 0,
-        Grade: 0,
-        Description: '',
+        id: 0,
+        idQuestion: question.id,
+        idUser: 0,
+        grade: 0,
+        description: '',
       }));
     }
   }
@@ -47,11 +47,11 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
     }
 
     const answers: Answer[] = this.userAnswers.map((answer, index) => ({
-      Id: 0,
-      IdUser: 0,
-      IdQuestion: this.selectedQuestionList![index]?.id,
-      Grade: answer.Grade,
-      Description: answer.Description,
+      id: 0,
+      idUser: 0,
+      idQuestion: this.selectedQuestionList![index]?.id,
+      grade: answer.grade,
+      description: answer.description,
     }));
 
     this.answerService.bulkAnswer(answers).subscribe({

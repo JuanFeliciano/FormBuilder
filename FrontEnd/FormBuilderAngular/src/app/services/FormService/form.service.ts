@@ -48,6 +48,8 @@ export class FormService {
       'Content-Type': 'application/json',
     });
 
+    console.log(id);
+
     return this.http
       .delete(`${this.url}/${id}`, {
         responseType: 'text',

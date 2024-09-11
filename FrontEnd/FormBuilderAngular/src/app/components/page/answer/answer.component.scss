@@ -4,6 +4,30 @@
   grid-template-columns: repeat(4, 1fr);
   margin-left: 265px;
   color: #fff;
+
+  .grade {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .desc {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+
+    .description-title {
+      margin-bottom: 5px;
+    }
+
+    .description-value {
+      font-style: italic;
+    }
+  }
 }
 
 .box-answer {

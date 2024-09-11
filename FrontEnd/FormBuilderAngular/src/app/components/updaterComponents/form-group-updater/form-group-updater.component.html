@@ -2,12 +2,18 @@
   <dialog #dialog class="dialog-put form-group-dialog">
     <div class="title">
       <h1>Form Group Updater</h1>
-      <button type="submit" class="btn btn-submit" (click)="updateFormGroup()">
-        Submit
-      </button>
-      <button class="btn btn-close-dialog" (click)="closePutDialog($event)">
-        Close
-      </button>
+      <div class="buttons-container">
+        <button
+          type="submit"
+          class="btn btn-submit"
+          (click)="updateFormGroup()"
+        >
+          Submit
+        </button>
+        <button class="btn btn-close-dialog" (click)="closePutDialog($event)">
+          Close
+        </button>
+      </div>
     </div>
     <form [formGroup]="formGroup" (ngSubmit)="updateFormGroup()">
       <div class="form-group">

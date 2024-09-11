@@ -55,7 +55,6 @@ export class SidebarComponent {
         .Logout()
         .pipe(
           tap(() => {
-            localStorage.clear();
             this.router.navigate(['/login']);
           }),
           catchError((error: HttpErrorResponse) => {

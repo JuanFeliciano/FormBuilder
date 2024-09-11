@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
@@ -27,6 +28,7 @@ export class BoxFormComponent implements OnInit, OnChanges {
   formsSelected: Form[];
   idForm: number;
   selectedForm: Form = { id: 0, idGroup: 0, title: '', questions: [] };
+  visibleElements: boolean[] = [];
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(FormUpdaterComponent) formUpdater: FormUpdaterComponent;
@@ -55,6 +57,12 @@ export class BoxFormComponent implements OnInit, OnChanges {
       this.getFormByGroupId();
       this.cdr.detectChanges();
     });
+
+    if (this.formsSelected && this.formsSelected.length > 0) {
+      this.visibleElements = new Array(this.formsSelected.length).fill(false);
+    } else {
+      this.visibleElements = [];
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -111,5 +119,9 @@ export class BoxFormComponent implements OnInit, OnChanges {
   openPutDialog(form: Form): void {
     this.selectedForm = form;
     this.formUpdater.dialogPut.nativeElement.showModal();
+  }
+
+  toggleElement(index: number): void {
+    this.visibleElements[index] = !this.visibleElements[index];
   }
 }

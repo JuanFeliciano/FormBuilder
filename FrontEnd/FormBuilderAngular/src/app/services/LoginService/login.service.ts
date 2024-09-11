@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap, throwError } from 'rxjs';
 import { DecodedToken, User } from 'src/app/interfaces/interfaces';
+import { TokenService } from '../TokenService/token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class LoginService {
   private urlLogin: string = 'http://localhost:5117/Login';
   private urlLogout: string = 'http://localhost:5117/LogOut';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   Login(loginData: {
     username: User['username'];
@@ -37,18 +38,14 @@ export class LoginService {
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    return this.http.post(
-      this.urlLogout,
-      {},
-      { headers, responseType: 'text' }
-    );
+    return this.http
+      .post(this.urlLogout, {}, { headers, responseType: 'text' })
+      .pipe(tap(() => this.tokenService.clearStorage()));
   }
 
   private setSession(authResult: any, expire: number) {
-    const expiresAt = Date.now() + expire * 1000;
-
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('refreshToken', authResult.refreshToken);
-    localStorage.setItem('expiresAt', expiresAt.toString());
+    localStorage.setItem('expiresAt', expire.toString());
   }
 }

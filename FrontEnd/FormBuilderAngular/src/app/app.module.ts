@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormGroupCreatorComponent } from './components/creatorComponents/form-group-creator/form-group-creator.component';
 import { BoxFormGroupComponent } from './components/boxComponents/box-form-group/box-form-group.component';
 import { BoxFormComponent } from './components/boxComponents/box-form/box-form.component';
@@ -28,6 +28,7 @@ import { LoginComponent } from './components/page/log/login.component';
 import { MainComponent } from './components/mainComponents/main.component';
 import { AnswerComponent } from './components/page/answer/answer.component';
 import { AnswerRouteComponent } from './components/page/answer-route/answer-route.component';
+import { AuthInterceptor } from './auth-interceptor/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,9 @@ import { AnswerRouteComponent } from './components/page/answer-route/answer-rout
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

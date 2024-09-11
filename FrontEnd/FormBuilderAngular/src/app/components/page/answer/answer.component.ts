@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Answer } from 'src/app/interfaces/interfaces';
 import { AnswerService } from 'src/app/services/AnswerService/answer.service';
 
@@ -8,7 +8,7 @@ import { AnswerService } from 'src/app/services/AnswerService/answer.service';
   styleUrls: ['./answer.component.scss'],
 })
 export class AnswerComponent implements OnInit {
-  answerArray: Answer[];
+  answerArray: Answer[] = [];
 
   constructor(private answerService: AnswerService) {}
 
@@ -20,7 +20,6 @@ export class AnswerComponent implements OnInit {
     this.answerService.getAnswer().subscribe({
       next: (data) => {
         this.answerArray = data;
-        console.log(data);
       },
       error: (err) => {
         console.error('Error fetching answer', err);
