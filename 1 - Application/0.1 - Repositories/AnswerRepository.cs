@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._4___DatabaseInterface;
 using MovtechForms.Domain.Entities;
 using MovtechForms.Domain.Interfaces.RepositoryInterfaces;
@@ -21,7 +22,7 @@ namespace MovtechForms.Application.Repositories.MainRepositories
 
         public async Task<DataTable> PostAnswer([FromBody] Answer[] answer)
         {
-            await _bulkService.BulkInsert(answer);
+            await _bulkService.BulkInsertAnswers(answer);
 
             string query = $"SELECT TOP {answer.Count()} * FROM Answer ORDER BY id DESC;";
 

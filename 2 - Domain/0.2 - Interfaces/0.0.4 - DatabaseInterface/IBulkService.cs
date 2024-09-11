@@ -5,6 +5,7 @@ namespace MovtechForms._2___Domain._0._2___Interfaces._0._0._4___DatabaseInterfa
 {
     public interface IBulkService
     {
-        Task BulkInsert([FromBody] Answer[] asnwer);
+        Task BulkInsertAnswers([FromBody] Answer[] asnwer);
+        Task BulkInsertQuestions([FromBody] Question[] question);
     }
 }

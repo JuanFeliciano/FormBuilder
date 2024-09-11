@@ -19,9 +19,11 @@ export interface Question {
 }
 
 export interface Answer {
-  IdQuestion: number;
-  Grade: number;
-  Description: string;
+  id: number;
+  idQuestion: number;
+  idUser: number;
+  grade: number;
+  description: string;
 }
 
 export interface User {

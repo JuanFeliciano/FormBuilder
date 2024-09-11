@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._2___HandlerInterfaces;
+using MovtechForms.Application;
+using MovtechForms.Application.Services.MainServices;
 using MovtechForms.Domain.Entities;
+using System.Data;
 
 namespace MovtechForms._1___Application._0._2___CommandHandler
 {
@@ -44,19 +47,26 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return question;
         }
 
-        public async Task<Question> Post([FromBody] Question question)
+        public async Task<List<Question>> Post([FromBody] Question[] questions)
         {
             List<Form> formList = await _formRepo.Get();
 
-            bool matchingQuestion = formList.Exists(i => i.Id == question.IdForm);
+            foreach (Question question in questions)
+            {
+                bool matchingQuestion = formList.Exists(i => i.Id == question.IdForm);
 
-            if (matchingQuestion is false)
-                throw new Exception($"The value IdForm: {question.IdForm} is invalid");
-            
-            if (string.IsNullOrWhiteSpace(question.Content.Trim()))
-                throw new Exception("The content cannot be null or empty");
 
-            return await _questionRepo.Post(question);
+                if (matchingQuestion is false)
+                    throw new Exception($"The value IdForm: {question.IdForm} is invalid");
+
+                if (string.IsNullOrWhiteSpace(question.Content.Trim()))
+                    throw new Exception("The content cannot be null or empty");
+            }
+
+            DataTable questionTable=  await _questionRepo.Post(questions);
+            List<Question> questionList = questionTable.ConvertDataTableToList<Question>();
+
+            return questionList;
         }
 
         public async Task<Question> Delete(int id)

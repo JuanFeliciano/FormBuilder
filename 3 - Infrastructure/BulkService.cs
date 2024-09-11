@@ -18,7 +18,7 @@ namespace MovtechForms._3___Infrastructure
             _context = context;
         }
 
-        public async Task BulkInsert([FromBody] Answer[] answerBody)
+        public async Task BulkInsertAnswers(Answer[] answerBody)
         {
             string idString = _context.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
             int id = Convert.ToInt32(idString);
@@ -50,6 +50,37 @@ namespace MovtechForms._3___Infrastructure
 
 
                     await bulkCopy.WriteToServerAsync(answerTable);
+                }
+            }
+
+        }
+
+        public async Task BulkInsertQuestions(Question[] questionBody)
+        {
+
+            DataTable questionTable = new();
+
+            questionTable.Columns.Add("IdForm", typeof(int));
+            questionTable.Columns.Add("Content", typeof(string));
+
+            foreach (Question question in questionBody)
+            {
+                questionTable.Rows.Add(question.IdForm , question.Content);
+            }
+
+            using (SqlConnection connection = new(_configuration.GetConnectionString("DefaultConnection")))
+            {
+                await connection.OpenAsync();
+
+                using (SqlBulkCopy bulkCopy = new(connection))
+                {
+                    bulkCopy.DestinationTableName = "Questions";
+
+                    bulkCopy.ColumnMappings.Add("IdForm", "IdForm");
+                    bulkCopy.ColumnMappings.Add("Content", "Content");
+
+
+                    await bulkCopy.WriteToServerAsync(questionTable);
                 }
             }
 

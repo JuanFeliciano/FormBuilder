@@ -17,43 +17,43 @@
   </div>
   <ul>
     <li (click)="formGroupCreatorComponent.openDialog($event)">
-      <a href="javascript:void(0)">
-        <i class="bx bx-grid-alt"></i>
+      <a href="javascript:void(0)" class="bx-green">
+        <i class="bx bx-grid-alt bx-green"></i>
         <span class="nav-item">FormGroup</span>
       </a>
       <span class="tooltip">Create FormGroup</span>
     </li>
     <li (click)="formCreatorComponent.openDialog($event)">
-      <a href="javascript:void(0)">
-        <i class="bx bx-shopping-bag"></i>
+      <a href="javascript:void(0)" class="bx-purple">
+        <i class="bx bx-shopping-bag bx-purple"></i>
         <span class="nav-item">Form</span>
       </a>
       <span class="tooltip">Create Form</span>
     </li>
     <li (click)="questionCreatorComponent.openDialog($event)">
-      <a href="javascript:void(0)">
-        <i class="bx bxs-food-menu"></i>
+      <a href="javascript:void(0)" class="bx-green">
+        <i class="bx bxs-food-menu bx-green"></i>
         <span class="nav-item">Question</span>
       </a>
       <span class="tooltip">Create Question</span>
     </li>
-    <li>
-      <a>
-        <i class="bx bxs-chalkboard"></i>
-        <span class="nav-item">Answer</span>
+    <li (click)="navigateBasedOnRouteAnswer()">
+      <a class="bx-purple">
+        <i class="bx bxs-chalkboard bx-purple"></i>
+        <span class="nav-item">{{ buttonAnswer }}</span>
       </a>
-      <span class="tooltip">See Answer</span>
+      <span class="tooltip">{{ buttonAnswer }}</span>
     </li>
     <li (click)="navigateBasedOnRoute()">
-      <a>
-        <i class="bx bx-chart"></i>
+      <a class="bx-green">
+        <i class="bx bx-chart bx-green"></i>
         <span class="nav-item">{{ buttonLabel }}</span>
       </a>
       <span class="tooltip">{{ buttonLabel }}</span>
     </li>
     <li (click)="Logout()">
-      <a href="javascript:void(0)">
-        <i class="bx bx-log-out"></i>
+      <a href="javascript:void(0)" class="bx-purple">
+        <i class="bx bx-log-out bx-purple"></i>
         <span class="nav-item">LogOut</span>
       </a>
       <span class="tooltip">LogOut</span>

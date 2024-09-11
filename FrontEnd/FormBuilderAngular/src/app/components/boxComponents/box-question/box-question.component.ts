@@ -7,9 +7,8 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { Answer, Form, Question } from 'src/app/interfaces/interfaces';
+import { Answer, Form, Question, User } from 'src/app/interfaces/interfaces';
 import { AnswerService } from 'src/app/services/AnswerService/answer.service';
-import { FormService } from 'src/app/services/FormService/form.service';
 
 @Component({
   selector: 'app-box-question',
@@ -23,20 +22,20 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
 
   userAnswers: Answer[] = [];
+  user: User;
 
-  constructor(
-    private answerService: AnswerService,
-    private formService: FormService
-  ) {}
+  constructor(private answerService: AnswerService) {}
 
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedQuestionList'] && this.selectedQuestionList) {
       this.userAnswers = this.selectedQuestionList.map((question) => ({
-        IdQuestion: question.id,
-        Grade: 0,
-        Description: '',
+        id: 0,
+        idQuestion: question.id,
+        idUser: 0,
+        grade: 0,
+        description: '',
       }));
     }
   }
@@ -48,9 +47,11 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
     }
 
     const answers: Answer[] = this.userAnswers.map((answer, index) => ({
-      IdQuestion: this.selectedQuestionList![index]?.id,
-      Grade: answer.Grade,
-      Description: answer.Description,
+      id: 0,
+      idUser: 0,
+      idQuestion: this.selectedQuestionList![index]?.id,
+      grade: answer.grade,
+      description: answer.description,
     }));
 
     this.answerService.bulkAnswer(answers).subscribe({

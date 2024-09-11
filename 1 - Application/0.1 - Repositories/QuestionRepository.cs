@@ -5,6 +5,7 @@ using System.Data;
 using MovtechForms.Domain.Interfaces.ServicesInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._1___RepositoryInterfaces._0._0._0._1___CoreInterfaces;
 using MovtechForms._2___Domain._0._2___Interfaces._0._0._5___UsecasesInterfaces;
+using MovtechForms._2___Domain._0._2___Interfaces._0._0._4___DatabaseInterface;
 
 namespace MovtechForms.Application.Repositories.MainRepositories
 {
@@ -12,11 +13,13 @@ namespace MovtechForms.Application.Repositories.MainRepositories
     {
         private readonly IDatabaseService _dbService;
         private readonly IQuestionForEach _forEach;
+        private readonly IBulkService _bulkService;
 
-        public QuestionRepository(IDatabaseService dbService, IQuestionForEach each)
+        public QuestionRepository(IDatabaseService dbService, IQuestionForEach each, IBulkService bulk)
         {
             _dbService = dbService;
             _forEach = each;
+            _bulkService = bulk;
         }
 
         public async Task<List<Question>> Get()
@@ -48,23 +51,15 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             return questions;
         }
 
-        public async Task<Question> Post([FromBody] Question questions)
+        public async Task<DataTable> Post([FromBody] Question[] questions)
         {
-            string insertQuery = "INSERT INTO Questions (IdForm, Content) OUTPUT INSERTED.Id VALUES (@IdForm, @Content)";
+            await _bulkService.BulkInsertQuestions(questions);
 
-            SqlParameter[] insertParameters =
-            {
-                new("@IdForm", questions.IdForm),
-                new("@Content", questions.Content.Trim())
-            };
+            string query = $"SELECT TOP {questions.Count()} * FROM Questions ORDER BY id DESC;";
 
-            DataTable insertResult = await _dbService.ExecuteQuery(insertQuery, insertParameters);
+            DataTable select = await _dbService.ExecuteQuery(query, null!);
 
-            int questionId = Convert.ToInt32(insertResult.Rows[0]["Id"]);
-
-            await _forEach.InsertForEach(questions, questionId);
-
-            return await GetById(questionId);
+            return select;
         }
 
         public async Task<Question> Delete(int id)

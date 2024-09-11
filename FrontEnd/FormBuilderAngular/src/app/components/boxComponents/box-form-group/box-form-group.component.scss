@@ -9,9 +9,10 @@
   flex-direction: column;
   height: 205px;
   width: 342px;
+  padding: 10px;
   margin-top: 40px;
   margin-left: 70px;
-  background-color: #383838;
+  border: 2px solid #2c2c2c;
   border-radius: 20px;
   transition: transform 0.2s ease-in-out;
 
@@ -19,12 +20,14 @@
     display: flex;
     height: 4vh;
     button {
+      background-color: #fff;
       padding: 0;
     }
   }
 
   p {
-    color: #fff;
+    color: #2c2c2c;
+    margin-top: 20px;
     margin-left: 5px;
   }
 
@@ -33,14 +36,17 @@
     align-items: center;
     margin-left: 11px;
     flex-grow: 1;
+    padding: 4px;
     white-space: nowrap;
     overflow: hidden;
-    color: #fff;
+    color: #1f1f1f;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    background-color: #fff;
   }
 
   button {
     border: none;
-    background-color: #383838;
     padding: 5px;
   }
 
@@ -53,28 +59,21 @@
 }
 
 .edit-container {
-  opacity: 0;
   display: flex;
   flex-direction: column;
-  margin-top: 5px;
-  padding: 5px;
-  height: 5vh;
+  margin-top: 0px;
+  padding: 4px;
+  height: 6vh;
   width: 6vw;
   z-index: 10;
-  background-color: #2c2c2c;
   font-weight: bold;
-  color: #fff;
+  border: 2px solid #2c2c2c;
+  color: #1f1f1f;
   border-radius: 3px;
+  background-color: #fff;
 
   .edit {
     border-radius: 3px;
-  }
-
-  .edit:hover {
-    background-color: #0c8ce9;
-  }
-  .delete:hover {
-    background-color: #8a38f5;
   }
 
   .delete {
@@ -82,14 +81,10 @@
   }
 }
 
-.active {
-  opacity: 1;
-}
-
 .btn-edit {
   button {
     border: none;
-    background-color: #383838;
+    background-color: #2c2c2c;
     cursor: pointer;
   }
 }
@@ -107,7 +102,8 @@
   border-radius: 20px;
   padding: 20px;
   color: #fff;
-  background-color: #383838;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background-color: #2c2c2c;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 50%;
@@ -196,13 +192,15 @@
 }
 
 .btn-close-dialog {
-  background-color: #0d99ff;
-  height: 30px;
-  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  height: 40px;
+  border-radius: 50%;
   border: none;
-  min-width: 70px;
+  min-width: 40px;
   margin: 0;
-  margin-top: 5px;
   cursor: pointer;
   width: 10px;
   svg {

@@ -68,7 +68,7 @@ namespace MovtechForms.Application.Controllers.CoreControllers
             {
                 await _formGroupService.Delete(id);
 
-                return StatusCode(200, "Successfully deleted object");
+                return Ok();
             }
             catch (Exception ex)
             {

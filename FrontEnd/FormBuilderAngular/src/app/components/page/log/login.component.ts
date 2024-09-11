@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
-import { UserService } from 'src/app/services/LoginService/login.service';
+import { LoginService } from 'src/app/services/LoginService/login.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   inputName: string = '';
   inputPass: string = '';
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
@@ -28,13 +28,12 @@ export class LoginComponent implements OnInit {
       password: this.inputPass,
     };
 
-    localStorage.setItem('name', data.username);
-
-    this.userService
+    this.loginService
       .Login(data)
       .pipe(
         tap((response) => {
           if (response) {
+            localStorage.setItem('name', data.username);
             this.router.navigate(['/dashboard']);
           }
         })

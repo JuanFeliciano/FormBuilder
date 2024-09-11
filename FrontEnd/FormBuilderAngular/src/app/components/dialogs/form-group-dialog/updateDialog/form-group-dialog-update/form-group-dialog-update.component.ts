@@ -20,7 +20,6 @@ export class FormGroupDialogUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateEvent.subscribe(() => {
-      console.log('a');
       this.openDialog();
     });
   }
