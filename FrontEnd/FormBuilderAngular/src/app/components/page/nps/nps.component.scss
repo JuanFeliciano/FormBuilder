@@ -5,8 +5,8 @@ main {
   flex-direction: column;
   margin-top: 2%;
   gap: 50px;
-  background-color: #2c2c2c;
-  color: #fff;
+  background-color: #fff;
+  color: #1f1f1f;
 }
 
 .nps-speedometer {
@@ -20,7 +20,7 @@ main {
     #f7b748 0% 11%,
     #1adc79 14% 20%,
     #16b463 23% 25%,
-    #2c2c2c 25% 75%,
+    #fff 25% 75%,
     #fc5757 75% 99%,
     #f7b748 100% 3%
   );
@@ -39,7 +39,7 @@ main {
   top: 50%;
   border-radius: 50%;
   translate: -50% -50%;
-  background-color: #2c2c2c;
+  background-color: #fff;
 }
 
 .nps-needle-container {

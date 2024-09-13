@@ -3,6 +3,7 @@ import {
   ElementRef,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -14,13 +15,18 @@ import { FormService } from 'src/app/services/FormService/form.service';
   templateUrl: './answer-dialog.component.html',
   styleUrls: ['./answer-dialog.component.scss'],
 })
-export class AnswerDialogComponent implements OnChanges {
+export class AnswerDialogComponent implements OnChanges, OnInit {
   formSelected: Form = { id: 0, idGroup: 0, title: '', questions: [] };
+  visibleAnswers: boolean[] = [];
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @Input() formId: number;
 
   constructor(private formService: FormService) {}
+
+  ngOnInit(): void {
+    this.visibleAnswers = new Array(this.formSelected.questions.length).fill(false)
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['formId'] && changes['formId'].currentValue) {
@@ -45,5 +51,9 @@ export class AnswerDialogComponent implements OnChanges {
 
   openDialog(): void {
     this.dialog.nativeElement.showModal();
+  }
+
+  toggleAnswer(index: number): void {
+    this.visibleAnswers[index] = !this.visibleAnswers[index] 
   }
 }

@@ -15,10 +15,25 @@
     </button>
   </div>
 
+  <h4>
+    - Questions
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="24px"
+      viewBox="0 -960 960 960"
+      width="24px"
+      fill="#e8eaed"
+    >
+      <path
+        d="M480-240 240-480l56-56 144 144v-368h80v368l144-144 56 56-240 240Z"
+      />
+    </svg>
+  </h4>
+
   <div class="content-container">
     <div
       class="question-container"
-      *ngFor="let question of formSelected.questions"
+      *ngFor="let question of formSelected.questions; let i = index"
     >
       <div class="question-content">
         <p>{{ question.id }} - {{ question.content }}</p>
@@ -28,10 +43,30 @@
           viewBox="0 -960 960 960"
           width="24px"
           fill="#1f1f1f"
+          (click)="toggleAnswer(i)"
         >
           <path d="M480-360 280-560h400L480-360Z" />
         </svg>
       </div>
+
+      <div class="answer-container" *ngIf="visibleAnswers[i]">
+        <div
+          class="condicional-container"
+          *ngIf="question.answers.length > 0; else answerData"
+        >
+          <div class="answer-content" *ngFor="let answer of question.answers">
+            <p>User: {{ answer.idUser }}</p>
+            <p>Grade: {{ answer.grade }}</p>
+            <p>Description: {{ answer.description }}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </dialog>
+
+<ng-template #answerData>
+  <div class="ng-container">
+    <p>There are no Answers</p>
+  </div>
+</ng-template>

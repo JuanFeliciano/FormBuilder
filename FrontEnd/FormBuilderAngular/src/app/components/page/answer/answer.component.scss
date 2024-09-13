@@ -44,8 +44,14 @@
   padding: 10px;
 
   .answer {
+    display: flex;
+    flex-direction: column;
+    height: 205px;
+    width: 342px;
     padding: 10px;
-    border: 2px solid #1f1f1f;
-    border-radius: 10px;
+    border: 2px solid #2c2c2c;
+    border-radius: 20px;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
   }
 }

@@ -29,6 +29,7 @@ export class BoxFormComponent implements OnInit, OnChanges {
   idForm: number;
   selectedForm: Form = { id: 0, idGroup: 0, title: '', questions: [] };
   visibleElements: boolean[] = [];
+  role: string = localStorage.getItem('role')!;
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(FormUpdaterComponent) formUpdater: FormUpdaterComponent;

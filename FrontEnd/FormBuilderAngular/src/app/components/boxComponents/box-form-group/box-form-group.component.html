@@ -2,7 +2,10 @@
   <div class="box-form" *ngFor="let formGroup of formGroupList; let i = index">
     <div class="btn-edit">
       <h4>{{ formGroup.id }} - {{ formGroup.title }}</h4>
-      <div class="edit-container" *ngIf="visibleElements[i]">
+      <div
+        class="edit-container"
+        *ngIf="visibleElements[i] && role === 'Admin'"
+      >
         <label class="edit" (click)="openPutDialog($event, formGroup)"
           >Edit</label
         >
@@ -13,7 +16,7 @@
           >Delete</label
         >
       </div>
-      <button (click)="toggleElement(i)">
+      <button (click)="toggleElement(i)" *ngIf="role === 'Admin'">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
@@ -28,8 +31,8 @@
       </button>
     </div>
     <p (click)="openDialog($event, formGroup.id)">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aspernatur
-      ea, facere, commodi libero, autem facilis deleniti tenetur sunt
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+      consectetur natus quod maiores dolorum saepe molestias delectus
     </p>
   </div>
 

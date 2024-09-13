@@ -106,6 +106,7 @@ button {
 
 .title {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
   flex-direction: row;
@@ -178,7 +179,6 @@ button {
   background-color: #0d99ff;
   min-width: 70px;
   margin: 0;
-  margin-top: 5px;
 }
 
 .btn-submit,
@@ -192,7 +192,25 @@ button {
   margin-top: 5px;
 }
 
+.btn-submit {
+  background-color: #daff7d;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+
+.btn-add {
+  background-color: #9381ff;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+
 .btn-close-dialog {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
   svg {
     margin: 0;
   }

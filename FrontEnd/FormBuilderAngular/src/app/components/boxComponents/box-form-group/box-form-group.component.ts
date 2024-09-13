@@ -24,6 +24,7 @@ export class BoxFormGroupComponent implements OnInit {
   selectedFormGroup: FormGroupModel = { id: 0, title: '', forms: [] };
   idFormGroup: number = 0;
   visibleElements: boolean[] = [];
+  role: string = localStorage.getItem('role')!;
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(FormGroupUpdaterComponent)

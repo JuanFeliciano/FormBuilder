@@ -5,12 +5,15 @@
   >
     <div class="btn-edit">
       <h5>{{ form.id }} - {{ form.title }}</h5>
-      <div class="edit-container" *ngIf="visibleElements[i]">
+      <div
+        class="edit-container"
+        *ngIf="visibleElements[i] && role === 'Admin'"
+      >
         <label class="edit" (click)="openPutDialog(form)">Edit</label>
 
         <label class="delete" (click)="deleteForm(form.id)">Delete</label>
       </div>
-      <button (click)="toggleElement(i)">
+      <button (click)="toggleElement(i)" *ngIf="role === 'Admin'">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="24px"
