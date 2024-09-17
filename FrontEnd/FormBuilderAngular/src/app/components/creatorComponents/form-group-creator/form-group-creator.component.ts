@@ -1,9 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -20,6 +15,7 @@ import { FormGroupDialogCreateComponent } from '../../dialogs/form-group-dialog/
   styleUrls: ['./form-group-creator.component.scss'],
 })
 export class FormGroupCreatorComponent implements OnInit {
+  isDialogOpen: boolean = false;
   formGroup: FormGroup;
   event: Event;
 
@@ -33,10 +29,6 @@ export class FormGroupCreatorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!HTMLDialogElement.prototype.showModal) {
-      console.error('your browser does not support the <dialog> element');
-    }
-
     this.formGroup = this.fb.group({
       groupTitle: [''],
       forms: this.fb.array([]),
@@ -94,7 +86,7 @@ export class FormGroupCreatorComponent implements OnInit {
       this.formGroupService.createFormGroup(formGroupData).subscribe({
         next: (response) => {
           console.log('Form Group created successfully', response);
-          this.closeDialog(new Event(''));
+          this.closeDialog();
           this.formGroupDialog.openDialogMessage(new Event('open modal'));
         },
         error: (error) => {
@@ -104,13 +96,16 @@ export class FormGroupCreatorComponent implements OnInit {
     }
   }
 
-  openDialog(event: Event): void {
-    event.stopPropagation();
+  openDialog(): void {
     this.dialog.nativeElement.showModal();
   }
 
-  closeDialog(event: Event): void {
-    event.stopPropagation();
+  closeDialog(): void {
     this.dialog.nativeElement.close();
+
+    this.formGroup = this.fb.group({
+      groupTitle: [''],
+      forms: this.fb.array([]),
+    });
   }
 }

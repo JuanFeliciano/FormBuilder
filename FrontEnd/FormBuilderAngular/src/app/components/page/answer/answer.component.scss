@@ -1,6 +1,6 @@
 .main {
   position: relative;
-  margin-left: 265px;
+  margin-left: 150px;
   color: #1f1f1f;
 
   .grade {
@@ -34,6 +34,19 @@
   display: grid;
   flex-direction: row;
   grid-template-columns: repeat(5, 1fr);
+
+  h1 {
+    position: relative;
+    top: -35%;
+    left: 3%;
+    color: #000;
+  }
+}
+
+.box-main {
+  display: flex;
+  position: absolute;
+  top: 5%;
 }
 
 .box-answer {
@@ -42,6 +55,7 @@
   margin-top: 40px;
   margin-right: 100px;
   padding: 10px;
+  transition: transform 0.2s ease-in-out;
 
   .answer {
     display: flex;
@@ -53,5 +67,28 @@
     border-radius: 20px;
     transition: transform 0.2s ease-in-out;
     cursor: pointer;
+
+    p {
+      color: #2c2c2c;
+      margin-top: 20px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
   }
+}
+
+.box-answer:hover {
+  transform: translateY(5px);
+}
+
+.message {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  border: 1px solid #1f1f1f;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

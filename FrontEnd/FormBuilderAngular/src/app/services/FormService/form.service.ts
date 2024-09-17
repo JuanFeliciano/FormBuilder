@@ -62,7 +62,7 @@ export class FormService {
       );
   }
 
-  GetForm(): Observable<Form[]> {
+  getForm(): Observable<Form[]> {
     const headers: HttpHeaders = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json',

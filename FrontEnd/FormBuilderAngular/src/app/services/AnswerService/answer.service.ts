@@ -9,8 +9,6 @@ import { Answer } from 'src/app/interfaces/interfaces';
 export class AnswerService {
   private url: string = 'http://localhost:5117/Answer';
 
-  // getAnswerEvent: EventEmitter<void> = new EventEmitter<void>();
-
   constructor(private http: HttpClient) {}
 
   bulkAnswer(answer: Answer[]): Observable<Answer[]> {

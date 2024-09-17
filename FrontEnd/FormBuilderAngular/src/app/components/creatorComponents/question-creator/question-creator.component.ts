@@ -36,7 +36,7 @@ export class QuestionCreatorComponent {
   }
 
   getForm(): void {
-    this.formService.GetForm().subscribe({
+    this.formService.getForm().subscribe({
       next: (data: Form[]) => {
         this.forms = data;
       },
@@ -75,8 +75,6 @@ export class QuestionCreatorComponent {
           };
         }
       ) as Question[];
-
-      console.log(questionData);
 
       this.questionService.createQuestion(questionData).subscribe({
         next: (response) => {

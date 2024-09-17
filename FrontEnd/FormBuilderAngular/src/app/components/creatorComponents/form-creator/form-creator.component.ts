@@ -26,10 +26,6 @@ export class FormCreatorComponent {
   ngOnInit(): void {
     this.getFormGroup();
 
-    if (!HTMLDialogElement.prototype.showModal) {
-      console.error('your browser does not support the <dialog> element');
-    }
-
     this.formGroup = this.fb.group({
       id: [null],
       idGroup: [null],
@@ -108,5 +104,12 @@ export class FormCreatorComponent {
   closeDialog(event: Event): void {
     event.stopPropagation();
     this.dialog.nativeElement.close();
+
+    this.formGroup = this.fb.group({
+      id: [null],
+      idGroup: [null],
+      title: ['', Validators.required],
+      questions: this.fb.array([]),
+    });
   }
 }

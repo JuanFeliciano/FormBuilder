@@ -63,14 +63,14 @@ export class FormGroupUpdaterComponent implements OnChanges {
 
   updateFormGroup(): void {
     if (this.formGroup.valid) {
-      const formGroupData = {
+      const formGroupData: FormGroupModel = {
         id: this.formGroupInput.id,
         title: this.formGroup.get('title')?.value as string,
         forms: [],
       };
 
       this.formGroupService
-        .updateFormGroup(formGroupData.id, formGroupData)
+        .updateFormGroup(formGroupData.id, formGroupData) //mudar
         .subscribe({
           next: () => {
             this.closePutDialog(new Event(''));

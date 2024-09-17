@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NpsService } from 'src/app/services/NpsService/nps.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { NpsService } from 'src/app/services/NpsService/nps.service';
   templateUrl: './nps.component.html',
   styleUrls: ['./nps.component.scss'],
 })
-export class NpsComponent {
+export class NpsComponent implements AfterViewInit {
   @ViewChild('pointer') pointer: ElementRef<HTMLDialogElement>;
   @ViewChild('nps') nps: ElementRef<HTMLDialogElement>;
   npsScore: number;
@@ -16,7 +16,7 @@ export class NpsComponent {
 
   constructor(private npsService: NpsService) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.npsService.GetNpsScore().subscribe((score) => {
       this.npsScore = score;
       this.updateNeedlePosition(score);

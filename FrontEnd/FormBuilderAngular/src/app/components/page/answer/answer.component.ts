@@ -21,7 +21,7 @@ export class AnswerComponent implements OnInit {
   }
 
   getForm(): void {
-    this.formService.GetForm().subscribe({
+    this.formService.getForm().subscribe({
       next: (data: Form[]) => {
         this.formArray = data;
       },

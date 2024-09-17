@@ -1,19 +1,27 @@
 <div class="main" *ngIf="formArray.length > 0; else noData">
   <div class="container-answer">
-    <div class="box-answer" *ngFor="let form of formArray">
-      <div class="answer" (click)="openDialog(form.id)">
-        <h3>{{ form.id }} - {{ form.title }}</h3>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo eligendi
-          quam perferendis quo cupiditate
-        </p>
-      </div>
+    <h1>Respond to Forms</h1>
+    <div class="box-main">
+      <div class="box-answer" *ngFor="let form of formArray">
+        <div class="answer" (click)="openDialog(form.id)">
+          <h3>{{ form.id }} - {{ form.title }}</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
+            eligendi quam perferendis quo cupiditate
+          </p>
+        </div>
 
-      <app-answer-dialog #answerDialog [formId]="selectedFormId"></app-answer-dialog>
+        <app-answer-dialog
+          #answerDialog
+          [formId]="selectedFormId"
+        ></app-answer-dialog>
+      </div>
     </div>
   </div>
 </div>
 
 <ng-template #noData>
-  <p>There are no Answers</p>
+  <div class="message">
+    <h1>There are no Answers</h1>
+  </div>
 </ng-template>

@@ -15,18 +15,16 @@ import { AnswerService } from 'src/app/services/AnswerService/answer.service';
   templateUrl: './box-question.component.html',
   styleUrls: ['./box-question.component.scss'],
 })
-export class BoxQuestionComponent implements OnInit, OnChanges {
+export class BoxQuestionComponent implements OnChanges {
+  userAnswers: Answer[] = [];
+  user: User;
+
   @Input() selectedForm: Form | null = null;
   @Input() selectedQuestionList: Question[] = [];
   @Input() idForm: number = 0;
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
 
-  userAnswers: Answer[] = [];
-  user: User;
-
   constructor(private answerService: AnswerService) {}
-
-  ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedQuestionList'] && this.selectedQuestionList) {

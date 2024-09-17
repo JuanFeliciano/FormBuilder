@@ -22,7 +22,6 @@ export class LoginService {
 
     return this.http.post<User>(this.urlLogin, loginData, { headers }).pipe(
       tap((response) => {
-        localStorage.setItem('role', response.role);
         const decodedToken: DecodedToken = jwtDecode(response.accessToken);
 
         this.setSession(response, decodedToken.exp);
@@ -47,5 +46,6 @@ export class LoginService {
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('refreshToken', authResult.refreshToken);
     localStorage.setItem('expiresAt', expire.toString());
+    localStorage.setItem('role', authResult.role);
   }
 }

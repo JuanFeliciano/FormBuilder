@@ -1,14 +1,8 @@
 <div class="dialog-container">
   <dialog #dialog class="dialog">
-    <div class="title">
-      <h1>Form Creator</h1>
-      <div class="btn-container">
-        <button type="button" class="btn btn-submit" (click)="submit()">
-          Submit
-        </button>
-        <button type="button" class="btn btn-add" (click)="addQuestion()">
-          Add Question
-        </button>
+    <div class="main-container">
+      <div class="title">
+        <h1>Form Creator</h1>
         <button class="btn btn-close-dialog" (click)="closeDialog($event)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -17,70 +11,92 @@
           >
             <path
               d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
-              fill="#1F1F1F"
+              fill="#1f1f1f"
             />
           </svg>
         </button>
       </div>
-    </div>
-    <form [formGroup]="formGroup" (ngSubmit)="submit()">
-      <div class="form">
-        <div class="idgroup-container">
-          <select formControlName="idGroup">
-            <option
-              *ngFor="let formGroup of formsGroup; let i = index"
-              [value]="formGroup.id"
-            >
-              {{ formGroup.id }} - {{ formGroup.title }}
-            </option>
-          </select>
-        </div>
-        <div class="label-input">
-          <label for="title" class="label-form">Form Title</label>
-          <input id="title" formControlName="title" placeholder="Form Title" />
-        </div>
-      </div>
-      <div formArrayName="questions">
-        <div
-          *ngFor="let question of questions.controls; let i = index"
-          [formGroupName]="i"
-          class="form-group"
-        >
-          <label for="question{{ i }}" class="label-question">Question</label>
-          <input
-            id="question{{ i }}"
-            formControlName="content"
-            placeholder="Question Content"
-          />
-          <button
-            type="button"
-            class="btn btn-remove-question"
-            (click)="removeQuestion(i)"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon"
-              viewBox="0 0 512 512"
-            >
-              <rect
-                x="32"
-                y="48"
-                width="448"
-                height="80"
-                rx="32"
-                ry="32"
-                fill="#ffffff"
-              />
-              <path
-                d="M74.45 160a8 8 0 00-8 8.83l26.31 252.56a1.5 1.5 0 000 .22A48 48 0 00140.45 464h231.09a48 48 0 0047.67-42.39v-.21l26.27-252.57a8 8 0 00-8-8.83zm248.86 180.69a16 16 0 11-22.63 22.62L256 318.63l-44.69 44.68a16 16 0 01-22.63-22.62L233.37 296l-44.69-44.69a16 16 0 0122.63-22.62L256 273.37l44.68-44.68a16 16 0 0122.63 22.62L278.62 296z"
-                fill="#ffffff"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </form>
-  </dialog>
 
-  <app-form-dialog />
+      <div class="scrollable-content">
+        <form [formGroup]="formGroup" (ngSubmit)="submit()">
+          <div class="form-group">
+            <div class="label-input">
+              <h4>Form Group</h4>
+              <select formControlName="idGroup">
+                <option
+                  *ngFor="let formGroup of formsGroup; let i = index"
+                  [value]="formGroup.id"
+                >
+                  {{ formGroup.id }} - {{ formGroup.title }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-input">
+              <h4>Form Title</h4>
+              <input
+                id="title"
+                formControlName="title"
+                placeholder="Form Title"
+              />
+            </div>
+          </div>
+
+          <div formArrayName="questions">
+            <h5 class="label-question" *ngIf="questions.length > 0">
+              Questions
+            </h5>
+            <div
+              *ngFor="let question of questions.controls; let i = index"
+              [formGroupName]="i"
+              class="form-group question-container"
+            >
+              <button
+                type="button"
+                class="btn btn-remove-question"
+                (click)="removeQuestion(i)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="ionicon"
+                  viewBox="0 0 512 512"
+                >
+                  <rect
+                    x="32"
+                    y="48"
+                    width="448"
+                    height="80"
+                    rx="32"
+                    ry="32"
+                    fill="#ff4d4d"
+                  />
+                  <path
+                    d="M74.45 160a8 8 0 00-8 8.83l26.31 252.56a1.5 1.5 0 000 .22A48 48 0 00140.45 464h231.09a48 48 0 0047.67-42.39v-.21l26.27-252.57a8 8 0 00-8-8.83zm248.86 180.69a16 16 0 11-22.63 22.62L256 318.63l-44.69 44.68a16 16 0 01-22.63-22.62L233.37 296l-44.69-44.69a16 16 0 0122.63-22.62L256 273.37l44.68-44.68a16 16 0 0122.63 22.62L278.62 296z"
+                    fill="#ff4d4d"
+                  />
+                </svg>
+              </button>
+              <input
+                class="question-input"
+                id="question{{ i }}"
+                formControlName="content"
+                placeholder="Question Content"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <footer class="footer">
+        <button type="button" class="btn btn-add" (click)="addQuestion()">
+          New Question
+        </button>
+        <button type="submit" class="btn btn-submit" (click)="submit()">
+          Submit
+        </button>
+      </footer>
+    </div>
+  </dialog>
 </div>
