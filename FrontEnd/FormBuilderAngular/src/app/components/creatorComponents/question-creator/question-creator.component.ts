@@ -31,6 +31,7 @@ export class QuestionCreatorComponent {
     }
 
     this.questionGroup = this.fb.group({
+      idForm: [null, Validators.required],
       questions: this.fb.array([this.createQuestionGroup()]),
     });
   }
@@ -70,7 +71,7 @@ export class QuestionCreatorComponent {
       const questionData: Question[] = this.questions.controls.map(
         (questionControl) => {
           return {
-            idForm: this.idForm,
+            idForm: this.questionGroup.get('idForm')?.value,
             content: questionControl.get('content')?.value,
           };
         }

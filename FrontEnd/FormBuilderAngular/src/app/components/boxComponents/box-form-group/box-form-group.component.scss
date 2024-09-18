@@ -1,5 +1,6 @@
 .main-container {
   h1 {
+    z-index: 1;
     display: flex;
     position: absolute;
     left: 5%;
@@ -13,6 +14,16 @@
   grid-template-columns: repeat(4, 1fr);
   position: absolute;
   top: 5%;
+}
+
+hr {
+  position: relative;
+  top: 40px;
+  left: 77px;
+  width: 12%;
+  height: 1px;
+  z-index: 0;
+  background-color: #1f1f1f;
 }
 
 .box-form {

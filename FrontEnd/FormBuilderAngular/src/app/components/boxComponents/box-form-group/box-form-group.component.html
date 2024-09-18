@@ -1,5 +1,6 @@
 <div class="main-container">
   <h1>Forms Group</h1>
+  <hr />
   <div class="container" *ngIf="formGroupList.length > 0; else noData">
     <div
       class="box-form"
@@ -61,7 +62,6 @@
                 />
               </svg>
             </button>
-            <hr />
           </div>
           <app-box-form [formGroupId]="idFormGroup" class="form-component" />
         </div>

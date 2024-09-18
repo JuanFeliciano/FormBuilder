@@ -1,6 +1,18 @@
-.dialog-container {
+.main-container {
+  height: 70vh;
+  width: 80vh;
+  border: none;
+  border-radius: 20px;
+  padding: 0;
+  color: #1f1f1f;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 button {
@@ -17,7 +29,6 @@ button {
   margin-bottom: 0;
   cursor: pointer;
   background: #383838;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: #fff;
 
   transition: background-color 0.2s ease-out;
@@ -27,97 +38,64 @@ button {
     height: 25px;
   }
 }
-.dialog,
+
 .dialog-message {
-  height: 70vh;
-  width: 65vh;
+  position: relative;
+  top: 40%;
+  left: 40%;
   border: none;
   border-radius: 20px;
+  height: 15vh;
   padding: 20px;
-  color: #fff;
-  background-color: #383838;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.dialog-message {
-  height: 30vh;
-  width: 30vw;
 
   button {
-    height: 8vh;
-    width: 10vw;
-    color: #fff;
+    position: absolute;
+    padding: 30px;
     font-weight: bold;
-    font-size: x-large;
-    position: fixed;
-    top: 60%;
     left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  flex-direction: row;
-
-  .btn-container {
-    display: flex;
-    align-items: center;
-  }
-}
-
-.form-group {
-  display: flex;
-  flex-direction: row;
-  margin: 0;
-  width: 300px;
-
-  label {
-    color: #757575;
-    font-size: 16px;
-    margin-left: 10px;
-    width: 100px;
-  }
-
-  .label-question {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-
-  input {
-    border: none;
-    border-radius: 4px;
-    padding: 25px;
-    background-color: #f5f5f5;
-    height: 36px;
-    width: 58vh;
-    margin-top: 15px;
-    margin-left: 10px;
-  }
-
-  .btn-remove-question {
-    margin-top: 20px;
-    margin-left: 25px;
-    min-width: 60px;
-    background-color: #ff4d4d;
-
-    svg {
-      margin: 0;
-    }
+    top: 50%;
+    color: #1f1f1f;
+    background-color: #0d99ff;
   }
 }
 
 select {
-  padding: 10px;
-  width: 10vw;
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.title {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.footer {
+  position: sticky;
+  bottom: -22%;
+  padding: 10px 20px;
+  background-color: white;
+  border-top: 1px solid #ddd;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .btn {
@@ -129,20 +107,6 @@ select {
 .btn-add {
   min-width: 70px;
   margin: 0;
-  margin-left: 15px;
-}
-
-.btn-submit {
-  background-color: #daff7d;
-  color: #1f1f1f;
-  font-weight: bold;
-}
-
-.btn-add {
-  padding: 4px;
-  background-color: #9381ff;
-  color: #1f1f1f;
-  font-weight: bold;
 }
 
 .btn-close-dialog {
@@ -157,32 +121,90 @@ select {
   }
 }
 
-.idgroup-container {
+.btn-submit {
+  background-color: #daff7d;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+
+.btn-add {
+  background-color: #fff;
+  border: 1.5px solid #000;
+  padding: 5px;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+
+.question-container {
+  position: relative;
+  top: 25px;
+  margin-top: 10px;
+}
+
+.questions {
+  position: relative;
+  height: 110px;
+}
+
+.label-question {
+  position: relative;
+  left: 13px;
+  top: 35px;
+}
+
+.question-input {
+  margin: 0;
+  position: relative;
+  left: 2%;
+  top: 9px;
+  width: 32.5vw;
+}
+
+.form-group {
   display: flex;
-  margin-bottom: 10px;
-  align-items: center;
+  position: relative;
+  top: -10px;
+  flex-direction: row;
+  margin: 0;
+  width: 300px;
+}
 
-  label {
-    height: 20px;
-  }
+.form-question {
+  border: 1.5px solid #000;
+  border-radius: 20px;
+  padding: 10px;
+  padding-bottom: 50px;
+}
 
-  input {
-    width: 10vw;
-    height: 3vh;
+.label-input {
+  position: relative;
+  margin-top: 20px;
+
+  h4 {
     margin-left: 10px;
-    border: none;
-    border-radius: 2px;
-    padding: 15px;
   }
 }
 
-#title {
+.btn-remove-question {
+  min-width: 1vw;
+  position: absolute;
+  margin: 0;
+  top: 20px;
+  left: 95%;
+  background-color: transparent;
+}
+
+input {
   border: none;
   border-radius: 4px;
   padding: 25px;
   background-color: #f5f5f5;
-  height: 3vh;
-  width: 58vh;
-  margin-top: 10px;
+  height: 36px;
+  width: 70vh;
+  margin-top: 15px;
   margin-left: 10px;
+}
+
+input:hover {
+  box-shadow: inset 0 0 0 1px #000;
 }

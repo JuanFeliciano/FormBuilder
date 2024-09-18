@@ -3,15 +3,17 @@
     <div class="title">
       <h1>Form Group Updater</h1>
       <div class="buttons-container">
-        <button
-          type="submit"
-          class="btn btn-submit"
-          (click)="updateFormGroup()"
-        >
-          Submit
-        </button>
         <button class="btn btn-close-dialog" (click)="closePutDialog($event)">
-          Close
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="ionicon"
+            viewBox="0 0 512 512"
+          >
+            <path
+              d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+              fill="#1f1f1f"
+            />
+          </svg>
         </button>
       </div>
     </div>
@@ -30,6 +32,9 @@
           />
         </div>
       </div>
+      <button type="submit" class="btn btn-submit" (click)="updateFormGroup()">
+        Submit
+      </button>
     </form>
   </dialog>
 

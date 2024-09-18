@@ -27,49 +27,6 @@ button {
   }
 }
 
-.btn-form-group {
-  svg {
-    border-radius: 50%;
-  }
-  &:hover {
-    background-color: #0c8ce9;
-  }
-}
-
-.btn-form-group:hover svg path {
-  fill: #fff;
-}
-
-.btn-form {
-  &:hover {
-    background-color: #f65009;
-  }
-}
-
-.btn-form:hover svg path {
-  fill: #fff;
-}
-
-.btn-question {
-  &:hover {
-    background-color: #8a38f5;
-  }
-}
-
-.btn-question:hover svg path {
-  fill: #fff;
-}
-
-.btn-answer {
-  &:hover {
-    background-color: #757575;
-  }
-}
-
-.btn-answer:hover svg path {
-  fill: #fff;
-}
-
 .main-container,
 .dialog-message {
   height: 70vh;
@@ -155,8 +112,8 @@ button {
     .btn-remove-form {
       margin: 0;
       position: absolute;
-      left: 96%;
-      top: 106%;
+      left: 102%;
+      top: 54%;
     }
   }
 
@@ -200,6 +157,13 @@ button {
   }
 }
 
+.form {
+  border: 1.5px solid #1f1f1f;
+  border-radius: 20px;
+  padding: 10px;
+  margin-top: 25px;
+}
+
 .label-question {
   margin-left: 10px;
   margin-top: 10px;
@@ -233,6 +197,10 @@ button {
   margin-left: 10px;
 }
 
+.btn-add-question:hover {
+  background-color: #f5f5f5;
+}
+
 .btn-submit {
   background-color: #daff7d;
   color: #1f1f1f;
@@ -245,6 +213,10 @@ button {
   padding: 5px;
   color: #1f1f1f;
   font-weight: bold;
+}
+
+.btn-add:hover {
+  background-color: #f5f5f5;
 }
 
 .btn-close-dialog {
