@@ -26,9 +26,10 @@ import { FormGroupDialogDeleteComponent } from './components/dialogs/form-group-
 import { FormDialogDeleteComponent } from './components/dialogs/form-dialog/deleteDialog/form-dialog-delete/form-dialog-delete.component';
 import { LoginComponent } from './components/page/log/login.component';
 import { MainComponent } from './components/mainComponents/main.component';
-import { AnswerComponent } from './components/page/answer/answer.component';
 import { AnswerRouteComponent } from './components/page/answer-route/answer-route.component';
 import { AuthInterceptor } from './auth-interceptor/auth.interceptor';
+import { AnswerDialogComponent } from './components/dialogs/answer-dialog/answer-dialog/answer-dialog.component';
+import { AnswerComponent } from './components/page/answer/answer.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { AuthInterceptor } from './auth-interceptor/auth.interceptor';
     FormDialogDeleteComponent,
     AnswerComponent,
     AnswerRouteComponent,
+    AnswerDialogComponent,
   ],
   imports: [
     BrowserModule,

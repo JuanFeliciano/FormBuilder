@@ -16,7 +16,6 @@ export class FormDeleterComponent {
   deleteForm(id: number): void {
     this.formService.deleteForm(id).subscribe({
       next: () => {
-        console.log('Form deleted successfully');
         this.deleteEvent.emit();
       },
       error: (err) => {

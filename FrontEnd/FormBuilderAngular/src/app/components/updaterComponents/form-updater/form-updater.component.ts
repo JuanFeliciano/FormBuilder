@@ -44,16 +44,14 @@ export class FormUpdaterComponent implements OnChanges {
   }
 
   updateForm(): void {
-    console.log('chamada do metodo update', this.formInput);
     if (this.formGroup.valid && this.formInput) {
-      const formData = {
+      const formData: Form = {
         id: this.formInput.id,
         idGroup: this.formGroup.get('idGroup')?.value as number,
         title: this.formGroup.get('title')?.value as string,
         questions: [],
       };
 
-      console.log('chamada do metodo update');
       this.formService.updateForm(formData.id, formData).subscribe({
         next: () => {
           this.dialogPut.nativeElement.close();

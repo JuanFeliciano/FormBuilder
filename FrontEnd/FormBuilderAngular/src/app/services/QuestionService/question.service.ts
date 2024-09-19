@@ -8,8 +8,10 @@ import { Question } from 'src/app/interfaces/interfaces';
 })
 export class QuestionService {
   questionCreated = new EventEmitter<void>();
+  questionGetter = new EventEmitter<void>();
 
   private url: string = 'http://localhost:5117/Question';
+  private urlByIdForm: string = 'http://localhost:5117/Question/IdForm';
 
   constructor(private http: HttpClient) {}
 
@@ -24,6 +26,21 @@ export class QuestionService {
       .pipe(
         tap(() => {
           this.questionCreated.emit();
+        })
+      );
+  }
+
+  getByIdForm(id: number): Observable<Question[]> {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http
+      .get<Question[]>(`${this.urlByIdForm}/${id}`, { headers })
+      .pipe(
+        tap(() => {
+          this.questionGetter.emit();
         })
       );
   }

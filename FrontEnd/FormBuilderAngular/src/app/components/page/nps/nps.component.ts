@@ -1,5 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { NpsService } from 'src/app/services/NpsService/nps.service';
 
 @Component({
@@ -7,19 +6,18 @@ import { NpsService } from 'src/app/services/NpsService/nps.service';
   templateUrl: './nps.component.html',
   styleUrls: ['./nps.component.scss'],
 })
-export class NpsComponent {
-  @ViewChild('pointer') pointer!: ElementRef<HTMLDialogElement>;
-  @ViewChild('nps') nps!: ElementRef<HTMLDialogElement>;
-  npsScore!: number;
-  detractors!: string;
-  passives!: string;
-  promoters!: string;
+export class NpsComponent implements AfterViewInit {
+  @ViewChild('pointer') pointer: ElementRef<HTMLDialogElement>;
+  @ViewChild('nps') nps: ElementRef<HTMLDialogElement>;
+  npsScore: number;
+  detractors: string;
+  passives: string;
+  promoters: string;
 
   constructor(private npsService: NpsService) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.npsService.GetNpsScore().subscribe((score) => {
-      console.log(score);
       this.npsScore = score;
       this.updateNeedlePosition(score);
       this.updateScoreStyle(score);

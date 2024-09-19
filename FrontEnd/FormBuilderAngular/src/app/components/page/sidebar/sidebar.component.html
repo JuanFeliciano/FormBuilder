@@ -16,35 +16,44 @@
     </div>
   </div>
   <ul>
-    <li (click)="formGroupCreatorComponent.openDialog($event)">
+    <li
+      (click)="formGroupCreatorComponent.openDialog()"
+      *ngIf="role === 'Admin'"
+    >
       <a href="javascript:void(0)" class="bx-green">
         <i class="bx bx-grid-alt bx-green"></i>
         <span class="nav-item">FormGroup</span>
       </a>
       <span class="tooltip">Create FormGroup</span>
     </li>
-    <li (click)="formCreatorComponent.openDialog($event)">
+    <li
+      (click)="formCreatorComponent.openDialog($event)"
+      *ngIf="role === 'Admin'"
+    >
       <a href="javascript:void(0)" class="bx-purple">
         <i class="bx bx-shopping-bag bx-purple"></i>
         <span class="nav-item">Form</span>
       </a>
       <span class="tooltip">Create Form</span>
     </li>
-    <li (click)="questionCreatorComponent.openDialog($event)">
+    <li
+      (click)="questionCreatorComponent.openDialog($event)"
+      *ngIf="role === 'Admin'"
+    >
       <a href="javascript:void(0)" class="bx-green">
         <i class="bx bxs-food-menu bx-green"></i>
         <span class="nav-item">Question</span>
       </a>
       <span class="tooltip">Create Question</span>
     </li>
-    <li (click)="navigateBasedOnRouteAnswer()">
+    <li (click)="navigateBasedOnRouteAnswer()" *ngIf="role === 'Admin'">
       <a class="bx-purple">
         <i class="bx bxs-chalkboard bx-purple"></i>
         <span class="nav-item">{{ buttonAnswer }}</span>
       </a>
       <span class="tooltip">{{ buttonAnswer }}</span>
     </li>
-    <li (click)="navigateBasedOnRoute()">
+    <li (click)="navigateBasedOnRoute()" *ngIf="role === 'Admin'">
       <a class="bx-green">
         <i class="bx bx-chart bx-green"></i>
         <span class="nav-item">{{ buttonLabel }}</span>

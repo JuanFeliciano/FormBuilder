@@ -1,4 +1,4 @@
-.dialog-container {
+.top-container {
   display: flex;
   flex-direction: row;
 }
@@ -17,7 +17,6 @@ button {
   margin-bottom: 0;
   cursor: pointer;
   background: #383838;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: #fff;
 
   transition: background-color 0.2s ease-out;
@@ -27,72 +26,80 @@ button {
     height: 25px;
   }
 }
-.dialog,
-.dialog-message {
+
+.main-container {
   height: 70vh;
-  width: 65vh;
+  width: 80vh;
   border: none;
   border-radius: 20px;
-  padding: 20px;
-  color: #fff;
-  background-color: #383838;
+  padding: 0;
+  color: #1f1f1f;
+  background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.dialog-message {
-  height: 30vh;
-  width: 30vw;
-
-  button {
-    height: 8vh;
-    width: 10vw;
-    color: #fff;
-    font-weight: bold;
-    font-size: x-large;
-    position: fixed;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+  display: flex;
+  flex-direction: column;
 }
 
 select {
-  width: 20vw;
-  height: 3vh;
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 6px;
+  font-weight: 500;
 }
 
 .title {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
-  flex-direction: row;
+  align-items: center;
+}
 
-  h1 {
-    margin-right: 60px;
+.question-container {
+  position: relative;
+
+  .question-input {
+    margin: 0;
+    margin-left: 60px;
+    margin-top: 10px;
+    min-width: 30vw;
   }
 }
 
 .form-group {
   display: flex;
+  position: relative;
   flex-direction: row;
   margin: 0;
   width: 300px;
 
-  label {
-    color: #f5f5f5;
-    font-size: 16px;
-    margin-left: 10px;
-    width: 100px;
-  }
+  .label-input {
+    position: relative;
+    margin-top: 20px;
 
-  .label-question {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
+    h4 {
+      margin-left: 10px;
+    }
+
+    .btn-remove-question {
+      position: absolute;
+      top: 40%;
+      left: 5%;
+      background-color: transparent;
+
+      svg {
+        margin: 0;
+      }
+    }
   }
 
   input {
@@ -101,21 +108,54 @@ select {
     padding: 25px;
     background-color: #f5f5f5;
     height: 36px;
-    width: 58vh;
+    width: 70vh;
     margin-top: 15px;
     margin-left: 10px;
   }
 
-  .btn-remove-question {
-    margin-top: 20px;
-    margin-left: 25px;
-    min-width: 60px;
-    background-color: #ff4d4d;
-
-    svg {
-      margin: 0;
-    }
+  input:hover {
+    box-shadow: inset 0 0 0 1px #000;
   }
+}
+
+.form-question {
+  border: 1.5px solid #1f1f1f;
+  border-radius: 20px;
+  padding: 10px;
+  padding-bottom: 20px;
+  margin-top: 25px;
+}
+
+.btn-remove-question {
+  position: absolute;
+  min-width: 10px;
+  background-color: transparent;
+  top: -47%;
+  left: -90px;
+}
+
+.label-question {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.footer {
+  position: sticky;
+  bottom: -22%;
+  padding: 10px 20px;
+  background-color: white;
+  border-top: 1px solid #ddd;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .btn {
@@ -124,45 +164,51 @@ select {
 
 .btn-close-dialog,
 .btn-submit,
-.btn-add {
-  background-color: #0d99ff;
+.btn-add,
+.btn-add-question {
   min-width: 70px;
   margin: 0;
+}
+
+.btn-submit,
+.btn-add {
+  right: 0;
+  left: 0;
+}
+
+.btn-add-question {
+  background-color: #fff;
+  color: #1f1f1f;
+  font-weight: bold;
+  border: 1.5px solid #000;
+  padding: 10px;
+  min-width: 100px;
   margin-top: 5px;
+  margin-left: 10px;
+}
+
+.btn-submit {
+  background-color: #daff7d;
+  color: #1f1f1f;
+  font-weight: bold;
+}
+
+.btn-add {
+  background-color: #fff;
+  border: 1.5px solid #000;
+  padding: 5px;
+  color: #1f1f1f;
+  font-weight: bold;
 }
 
 .btn-close-dialog {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
   svg {
     margin: 0;
   }
-}
-
-.idgroup-container {
-  display: flex;
-  margin-bottom: 10px;
-  align-items: center;
-
-  label {
-    height: 20px;
-  }
-
-  input {
-    width: 10vw;
-    height: 3vh;
-    margin-left: 10px;
-    border: none;
-    border-radius: 2px;
-    padding: 15px;
-  }
-}
-
-#title {
-  border: none;
-  border-radius: 4px;
-  padding: 25px;
-  background-color: #f5f5f5;
-  height: 3vh;
-  width: 58vh;
-  margin-top: 10px;
-  margin-left: 10px;
 }

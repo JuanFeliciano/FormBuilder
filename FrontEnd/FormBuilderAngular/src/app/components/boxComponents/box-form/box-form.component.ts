@@ -24,11 +24,13 @@ import { FormDeleterComponent } from '../../deleterComponents/form-deleter/form-
   styleUrls: ['./box-form.component.scss'],
 })
 export class BoxFormComponent implements OnInit, OnChanges {
-  @Input() formGroupId: number;
   formsSelected: Form[];
   idForm: number;
   selectedForm: Form = { id: 0, idGroup: 0, title: '', questions: [] };
   visibleElements: boolean[] = [];
+  role: string = localStorage.getItem('role')!;
+
+  @Input() formGroupId: number;
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(FormUpdaterComponent) formUpdater: FormUpdaterComponent;
@@ -40,22 +42,18 @@ export class BoxFormComponent implements OnInit, OnChanges {
     private formGroupService: FormGroupService,
     private questionService: QuestionService,
     private el: ElementRef,
-    private renderer: Renderer2,
-    private cdr: ChangeDetectorRef
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
     this.formService.formUpdated.subscribe(() => {
       this.getFormByGroupId();
-      this.cdr.detectChanges();
     });
     this.formService.formDeleted.subscribe(() => {
       this.getFormByGroupId();
-      this.cdr.detectChanges();
     });
     this.questionService.questionCreated.subscribe(() => {
       this.getFormByGroupId();
-      this.cdr.detectChanges();
     });
 
     if (this.formsSelected && this.formsSelected.length > 0) {
@@ -88,7 +86,6 @@ export class BoxFormComponent implements OnInit, OnChanges {
     this.idForm = form.id;
     this.selectedForm = form;
 
-    this.cdr.detectChanges();
     this.dialog.nativeElement.showModal();
   }
 

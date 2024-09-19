@@ -31,12 +31,13 @@ export class QuestionCreatorComponent {
     }
 
     this.questionGroup = this.fb.group({
+      idForm: [null, Validators.required],
       questions: this.fb.array([this.createQuestionGroup()]),
     });
   }
 
   getForm(): void {
-    this.formService.GetForm().subscribe({
+    this.formService.getForm().subscribe({
       next: (data: Form[]) => {
         this.forms = data;
       },
@@ -70,13 +71,11 @@ export class QuestionCreatorComponent {
       const questionData: Question[] = this.questions.controls.map(
         (questionControl) => {
           return {
-            idForm: this.idForm,
+            idForm: this.questionGroup.get('idForm')?.value,
             content: questionControl.get('content')?.value,
           };
         }
       ) as Question[];
-
-      console.log(questionData);
 
       this.questionService.createQuestion(questionData).subscribe({
         next: (response) => {

@@ -20,10 +20,11 @@ import { FormGroupDeleterComponent } from '../../deleterComponents/form-group-de
 })
 export class BoxFormGroupComponent implements OnInit {
   formGroup: FormGroup;
-  formGroupList: FormGroupModel[] = [];
-  selectedFormGroup: FormGroupModel = { id: 0, title: '', forms: [] };
   idFormGroup: number = 0;
   visibleElements: boolean[] = [];
+  role: string = localStorage.getItem('role')!;
+  formGroupList: FormGroupModel[] = [];
+  selectedFormGroup: FormGroupModel = { id: 0, title: '', forms: [] };
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(FormGroupUpdaterComponent)
@@ -57,9 +58,6 @@ export class BoxFormGroupComponent implements OnInit {
     this.formGroupService.getFormGroup().subscribe({
       next: (data: FormGroupModel[]) => {
         this.formGroupList = data;
-      },
-      error: (err) => {
-        console.error('Failed to fetch form groups', err);
       },
     });
   }
