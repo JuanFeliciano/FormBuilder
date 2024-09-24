@@ -1,5 +1,5 @@
 .main-container {
-  h1 {
+  .eight-one {
     z-index: 1;
     display: flex;
     position: absolute;
@@ -14,16 +14,6 @@
   grid-template-columns: repeat(4, 1fr);
   position: absolute;
   top: 5%;
-}
-
-hr {
-  position: relative;
-  top: 40px;
-  left: 77px;
-  width: 12%;
-  height: 1px;
-  z-index: 0;
-  background-color: #1f1f1f;
 }
 
 .box-form {
@@ -72,13 +62,6 @@ hr {
     border: none;
     padding: 5px;
   }
-
-  img {
-    border-radius: 20px;
-    height: 156px;
-    width: 332px;
-    cursor: pointer;
-  }
 }
 
 .edit-container {
@@ -110,14 +93,11 @@ hr {
   transform: translateY(5px);
 }
 
-.form-group-dialog,
-.dialog-put,
-.dialog-message {
+.dialog {
   height: 70vh;
   width: 65vw;
   border: none;
   border-radius: 20px;
-  padding: 20px;
   color: #1f1f1f;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -125,92 +105,14 @@ hr {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.dialog-message {
-  height: 30vh;
-  width: 30vw;
-
-  button {
-    height: 8vh;
-    width: 10vw;
-    color: #fff;
-    font-weight: bold;
-    font-size: x-large;
-    position: fixed;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-}
-
-.dialog-put {
-  height: 24vh;
-  width: 40vw;
 
   .title {
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    height: 9vh;
+    border-bottom: 1.5px solid #ddd;
   }
-
-  input {
-    width: 32vw;
-    height: 5vh;
-    border: none;
-    border-radius: 4px;
-    margin-left: 10px;
-  }
-
-  .old-title {
-    display: flex;
-    margin-bottom: 40px;
-
-    p {
-      color: #7b8385;
-    }
-
-    label {
-      margin-right: 20px;
-    }
-  }
-}
-
-.title {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  flex-direction: column;
-
-  h1 {
-    height: 35px;
-  }
-}
-
-.btn {
-  color: #fff;
-  font-weight: bold;
-}
-
-.title-btn {
-  display: flex;
-  justify-content: space-between;
-
-  h1 {
-    display: flex;
-    position: absolute;
-    left: 2%;
-  }
-}
-
-.btn-submit {
-  height: 30px;
-  background-color: #0d99ff;
-  border-radius: 10px;
-  border: none;
-  min-width: 70px;
-  margin: 0;
-  margin-top: 5px;
-  cursor: pointer;
 }
 
 .btn-close-dialog {
@@ -244,11 +146,4 @@ hr {
   border: 1px solid #1f1f1f;
   border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.form-component {
-  display: flex;
-  position: absolute;
-  top: 12%;
-  left: 3%;
 }

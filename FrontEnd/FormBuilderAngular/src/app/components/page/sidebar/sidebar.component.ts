@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
@@ -12,6 +13,7 @@ import { LoginService } from 'src/app/services/LoginService/login.service';
 import { catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/UserService/user.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,7 +34,8 @@ export class SidebarComponent {
     private router: Router,
     private renderer: Renderer2,
     private el: ElementRef,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private userService: UserService
   ) {
     this.router.events.subscribe(() => {
       this.currentRoute = this.router.url;
@@ -45,7 +48,7 @@ export class SidebarComponent {
   buttonLabel: string = '';
   buttonAnswer: string = '';
   username: string = localStorage.getItem('name')!;
-  role: string = localStorage.getItem('role')!;
+  role: string | null = this.userService.getRole();
 
   Logout(): void {
     const alertMessage: boolean = confirm('Are you sure?');
@@ -54,9 +57,6 @@ export class SidebarComponent {
       this.loginService
         .Logout()
         .pipe(
-          tap(() => {
-            this.router.navigate(['/login']);
-          }),
           catchError((error: HttpErrorResponse) => {
             console.error('Error during logout', error);
             alert(
@@ -97,14 +97,14 @@ export class SidebarComponent {
   }
 
   navigateBasedOnRoute(): void {
-    if (this.currentRoute === '/dashboard' || this.currentRoute === '/answer') {
+    if (this.currentRoute != '/nps') {
       this.router.navigate(['/nps']);
     } else if (this.currentRoute === '/nps') {
       this.router.navigate(['/dashboard']);
     }
   }
   navigateBasedOnRouteAnswer(): void {
-    if (this.currentRoute === '/dashboard' || this.currentRoute === '/nps') {
+    if (this.currentRoute != '/answer') {
       this.router.navigate(['/answer']);
     } else if (this.currentRoute === '/answer') {
       this.router.navigate(['/dashboard']);

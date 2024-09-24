@@ -17,6 +17,7 @@ import { BoxQuestionComponent } from '../box-question/box-question.component';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 import { QuestionService } from 'src/app/services/QuestionService/question.service';
 import { FormDeleterComponent } from '../../deleterComponents/form-deleter/form-deleter.component';
+import { UserService } from 'src/app/services/UserService/user.service';
 
 @Component({
   selector: 'app-box-form',
@@ -28,7 +29,7 @@ export class BoxFormComponent implements OnInit, OnChanges {
   idForm: number;
   selectedForm: Form = { id: 0, idGroup: 0, title: '', questions: [] };
   visibleElements: boolean[] = [];
-  role: string = localStorage.getItem('role')!;
+  role: string | null = this.userService.getRole();
 
   @Input() formGroupId: number;
 
@@ -41,6 +42,7 @@ export class BoxFormComponent implements OnInit, OnChanges {
     private formService: FormService,
     private formGroupService: FormGroupService,
     private questionService: QuestionService,
+    private userService: UserService,
     private el: ElementRef,
     private renderer: Renderer2
   ) {}

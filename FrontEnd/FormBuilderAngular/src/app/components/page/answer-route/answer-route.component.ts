@@ -1,20 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-answer-route',
   templateUrl: './answer-route.component.html',
   styleUrls: ['./answer-route.component.scss'],
 })
-export class AnswerRouteComponent implements OnInit {
+export class AnswerRouteComponent {
   role: string | null;
 
-  constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    this.role = localStorage.getItem('role');
-    if (this.role != 'Admin') {
-      this.router.navigate(['/home']);
-    }
-  }
+  constructor() {}
 }

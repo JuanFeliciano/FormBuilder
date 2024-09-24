@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -52,6 +51,11 @@ export class FormGroupUpdaterComponent implements OnChanges {
     this.formGroupService.getFormGroupById(id).subscribe({
       next: (data: FormGroupModel) => {
         this.selectFormGroupPut = data;
+
+        this.formGroup.patchValue({
+          id: this.selectFormGroupPut.id,
+          title: '',
+        });
 
         this.dialog.nativeElement.showModal();
       },

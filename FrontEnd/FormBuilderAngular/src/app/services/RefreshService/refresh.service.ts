@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { RefreshRoute } from 'src/app/interfaces/interfaces';
+import { TokenService } from '../TokenService/token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +10,14 @@ import { RefreshRoute } from 'src/app/interfaces/interfaces';
 export class RefreshService {
   private url: string = 'http://localhost:5117/Refresh';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   RefreshToken(): Observable<RefreshRoute> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const refreshToken: string | null = localStorage.getItem('refreshToken');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    });
+    const refreshToken: string | null = this.tokenService.getRefreshToken();
 
     return this.http
       .post<RefreshRoute>(this.url, { refreshToken }, { headers })
@@ -22,6 +26,10 @@ export class RefreshService {
           localStorage.setItem('token', response.accessToken);
           localStorage.setItem('refreshToken', response.refreshToken);
           localStorage.setItem('expiresAt', response.dateToken.toString());
+        }),
+        catchError((error) => {
+          console.error('erro no refresh', error);
+          return throwError(error);
         })
       );
   }

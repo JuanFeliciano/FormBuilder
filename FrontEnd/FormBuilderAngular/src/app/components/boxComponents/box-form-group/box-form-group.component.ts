@@ -12,6 +12,7 @@ import { FormGroupModel } from 'src/app/interfaces/interfaces';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 import { FormGroupUpdaterComponent } from '../../updaterComponents/form-group-updater/form-group-updater.component';
 import { FormGroupDeleterComponent } from '../../deleterComponents/form-group-deleter/form-group-deleter.component';
+import { UserService } from 'src/app/services/UserService/user.service';
 
 @Component({
   selector: 'app-box-form-group',
@@ -22,7 +23,7 @@ export class BoxFormGroupComponent implements OnInit {
   formGroup: FormGroup;
   idFormGroup: number = 0;
   visibleElements: boolean[] = [];
-  role: string = localStorage.getItem('role')!;
+  role: string | null = this.userService.getRole();
   formGroupList: FormGroupModel[] = [];
   selectedFormGroup: FormGroupModel = { id: 0, title: '', forms: [] };
 
@@ -34,6 +35,7 @@ export class BoxFormGroupComponent implements OnInit {
 
   constructor(
     private formGroupService: FormGroupService,
+    private userService: UserService,
     private el: ElementRef,
     private renderer: Renderer2,
     private fb: FormBuilder
