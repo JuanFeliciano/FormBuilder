@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap, throwError } from 'rxjs';
-import { DecodedToken, User } from 'src/app/interfaces/interfaces';
+import { JwtPayload, User } from 'src/app/interfaces/interfaces';
 import { TokenService } from '../TokenService/token.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,11 @@ export class LoginService {
   private urlLogin: string = 'http://localhost:5117/Login';
   private urlLogout: string = 'http://localhost:5117/LogOut';
 
-  constructor(private http: HttpClient, private tokenService: TokenService) {}
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+    private router: Router
+  ) {}
 
   Login(loginData: {
     username: User['username'];
@@ -22,30 +27,33 @@ export class LoginService {
 
     return this.http.post<User>(this.urlLogin, loginData, { headers }).pipe(
       tap((response) => {
-        const decodedToken: DecodedToken = jwtDecode(response.accessToken);
+        const decodedToken: JwtPayload = jwtDecode(response.accessToken);
 
-        this.setSession(response, decodedToken.exp);
+        this.setSession(response, decodedToken.exp!);
       })
     );
   }
 
-  Logout(): Observable<any> {
-    const token: string | null = localStorage.getItem('token');
+  Logout(): Observable<string> {
+    const token: string | null = this.tokenService.getAcessToken();
 
     if (!token) {
       return throwError(() => new Error('No token was found'));
     }
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     return this.http
       .post(this.urlLogout, {}, { headers, responseType: 'text' })
-      .pipe(tap(() => this.tokenService.clearStorage()));
+      .pipe(
+        tap(() => {
+          this.router.navigate(['/login']), this.tokenService.clearStorage();
+        })
+      );
   }
 
   private setSession(authResult: any, expire: number) {
     localStorage.setItem('token', authResult.accessToken);
     localStorage.setItem('refreshToken', authResult.refreshToken);
     localStorage.setItem('expiresAt', expire.toString());
-    localStorage.setItem('role', authResult.role);
   }
 }

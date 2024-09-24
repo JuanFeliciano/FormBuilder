@@ -5,12 +5,15 @@
   >
     <h5>{{ question.content }}</h5>
     <div class="answer-container">
-      <input
-        class="grade-input"
-        type="text"
-        placeholder="Grade"
+      <select
+        id="grade-select"
+        type="number"
         [(ngModel)]="userAnswers[i].grade"
-      />
+      >
+        <option value="grade" *ngFor="let item of listGrade" [value]="item">
+          {{ item }}
+        </option>
+      </select>
 
       <input
         class="description-input"

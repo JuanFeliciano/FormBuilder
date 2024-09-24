@@ -17,6 +17,7 @@ import { AnswerService } from 'src/app/services/AnswerService/answer.service';
 })
 export class BoxQuestionComponent implements OnChanges {
   userAnswers: Answer[] = [];
+  listGrade: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   user: User;
 
   @Input() selectedForm: Form | null = null;

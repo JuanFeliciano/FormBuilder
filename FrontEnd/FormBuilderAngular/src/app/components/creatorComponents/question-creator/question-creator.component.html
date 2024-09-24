@@ -22,9 +22,9 @@
           <div class="form-group">
             <div class="label-input">
               <h4>Select Form</h4>
-              <select formControlName="idForm" name="formSelect">
+              <select formControlName="idForm">
                 <option *ngFor="let form of forms" [value]="form.id">
-                  {{ form.id }} - {{ form.title }}
+                  {{ form.title }} - {{ form.id }}
                 </option>
               </select>
             </div>

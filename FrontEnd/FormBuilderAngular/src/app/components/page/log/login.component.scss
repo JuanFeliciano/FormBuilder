@@ -1,4 +1,3 @@
-// Variáveis de cores
 $button-background-color: #fff;
 $button-border-color: #000;
 $button-text-color: #000;
@@ -19,63 +18,13 @@ $hover-color: darken($link-color, 10%);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 120vh;
+  width: 100vw;
   padding: 0 20px;
-
-  .side-image {
-    max-width: 150px;
-    height: auto;
-    margin: 0 80px;
-  }
-
-  .left-image,
-  .right-image {
-    animation: float 4s ease-in-out infinite;
-  }
-
-  .blue-image,
-  .ball-image {
-    animation: kick 4s ease-in-out infinite;
-  }
-
-  @keyframes kick {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateX(-5px);
-    }
-  }
-
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(5px);
-    }
-    50% {
-      transform: translateX(-10px);
-    }
-  }
-
-  .left-image {
-    margin-bottom: 200px;
-  }
-
-  .ball-image {
-    margin-top: 900px;
-  }
-
-  .blue-image {
-    margin-bottom: 500px;
-  }
-
-  .right-image {
-    margin-top: 300px;
-  }
 }
 
 .container {
+  position: absolute;
   width: 600px;
   height: 600px;
   padding: 5rem;
