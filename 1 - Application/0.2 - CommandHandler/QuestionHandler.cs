@@ -47,6 +47,19 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             return question;
         }
 
+        public async Task<List<Question>> GetByIdForm(int id)
+        {
+            if (id <= 0)
+                throw new Exception("Id parameter invalid");
+
+
+            DataTable questionTable = await _questionRepo.GetByIdForm(id);
+            List<Question> questionList = questionTable.ConvertDataTableToList<Question>();
+            Console.WriteLine(questionList);
+
+            return questionList;
+        }
+
         public async Task<List<Question>> Post([FromBody] Question[] questions)
         {
             List<Form> formList = await _formRepo.Get();

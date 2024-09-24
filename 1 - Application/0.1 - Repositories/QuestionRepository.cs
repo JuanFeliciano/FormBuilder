@@ -51,6 +51,16 @@ namespace MovtechForms.Application.Repositories.MainRepositories
             return questions;
         }
 
+        public async Task<DataTable> GetByIdForm(int id)
+        {
+            string query = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
+            SqlParameter[] parameter = { new("@IdForm", id) };
+
+            DataTable questionTable = await _dbService.ExecuteQuery(query, parameter);
+
+            return questionTable;
+        }
+
         public async Task<DataTable> Post([FromBody] Question[] questions)
         {
             await _bulkService.BulkInsertQuestions(questions);

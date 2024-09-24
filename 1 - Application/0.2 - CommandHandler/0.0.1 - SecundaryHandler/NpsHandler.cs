@@ -19,8 +19,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
 
             List<Answer> gradeList = gradeTable.ConvertDataTableToList<Answer>();
 
-            if (gradeList.Count == 0)
-                throw new Exception("No Grades available");
+           
 
             int gradeLessThanSix = gradeList.Where(i => i.Grade <= 6).Count();
             int gradeGreaterThanEight = gradeList.Where(i => i.Grade > 8).Count();

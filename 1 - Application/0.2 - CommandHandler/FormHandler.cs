@@ -25,9 +25,6 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
             List<Form> selectResult = await _formRepo.Get();
 
 
-            if (selectResult.Count is 0)
-                throw new Exception("There are no forms");
-
 
             return selectResult;
         }
