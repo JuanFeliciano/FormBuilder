@@ -9,6 +9,7 @@ import { Question } from 'src/app/interfaces/interfaces';
 export class QuestionService {
   questionCreated = new EventEmitter<void>();
   questionGetter = new EventEmitter<void>();
+  questionUpdated = new EventEmitter<void>();
 
   private url: string = 'http://localhost:5117/Question';
   private urlByIdForm: string = 'http://localhost:5117/Question/IdForm';
@@ -16,10 +17,7 @@ export class QuestionService {
   constructor(private http: HttpClient) {}
 
   createQuestion(questionArray: Question[]): Observable<Question[]> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
+    const headers: HttpHeaders = this.getHeaders();
 
     return this.http
       .post<Question[]>(this.url, questionArray, { headers })
@@ -30,11 +28,14 @@ export class QuestionService {
       );
   }
 
+  getById(id: number): Observable<Question> {
+    const headers: HttpHeaders = this.getHeaders();
+
+    return this.http.get<Question>(`${this.url}/${id}`, { headers });
+  }
+
   getByIdForm(id: number): Observable<Question[]> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
+    const headers: HttpHeaders = this.getHeaders();
 
     return this.http
       .get<Question[]>(`${this.urlByIdForm}/${id}`, { headers })
@@ -43,5 +44,28 @@ export class QuestionService {
           this.questionGetter.emit();
         })
       );
+  }
+
+  updateQuestion(question: Question): Observable<Question> {
+    const headers: HttpHeaders = this.getHeaders();
+
+    console.log(question, 'dentro do metodo update do service');
+
+    return this.http
+      .put<Question>(`${this.url}/${question.id}`, question , { headers })
+      .pipe(
+        tap(() => {
+          this.questionUpdated.emit();
+        })
+      );
+  }
+
+  private getHeaders(): HttpHeaders {
+    const headers: HttpHeaders = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json',
+    });
+
+    return headers;
   }
 }

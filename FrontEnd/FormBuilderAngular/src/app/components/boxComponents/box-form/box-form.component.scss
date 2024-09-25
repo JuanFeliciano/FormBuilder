@@ -89,14 +89,29 @@ input {
 }
 
 .edit-container {
+  position: absolute;
+  left: 50%;
+  top: -11%;
   border: 2px solid #1f1f1f;
   height: 5.8vh;
   width: 6vw;
   font-weight: bold;
+  border-radius: 10px;
+  background-color: #fff;
 
   label {
     display: flex;
     justify-content: center;
+  }
+
+  .edit {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .delete {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 
   .edit:hover,
@@ -106,13 +121,14 @@ input {
 }
 
 .btn-edit {
+  position: relative;
   display: flex;
   align-items: center;
   height: 4vh;
   justify-content: space-between;
   button {
     border: none;
-    background-color: transparent;
+    background-color: #fff;
     cursor: pointer;
   }
 }

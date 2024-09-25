@@ -52,7 +52,7 @@ export class FormUpdaterComponent implements OnChanges {
         questions: [],
       };
 
-      this.formService.updateForm(formData.id, formData).subscribe({
+      this.formService.updateForm(formData.id, formData).subscribe({ //mudar
         next: () => {
           this.dialogPut.nativeElement.close();
           this.updateEvent.emit();

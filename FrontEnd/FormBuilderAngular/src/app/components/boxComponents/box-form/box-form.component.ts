@@ -42,9 +42,7 @@ export class BoxFormComponent implements OnInit, OnChanges {
     private formService: FormService,
     private formGroupService: FormGroupService,
     private questionService: QuestionService,
-    private userService: UserService,
-    private el: ElementRef,
-    private renderer: Renderer2
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -101,18 +99,6 @@ export class BoxFormComponent implements OnInit, OnChanges {
     if (confirmDelete) {
       this.formDeleter.deleteForm(id);
     }
-  }
-
-  ActiveEditContainer(index: number) {
-    const editContainers =
-      this.el.nativeElement.querySelectorAll('.edit-container');
-
-    const editContainer = editContainers[index];
-
-    const hasClass = editContainer.classList.contains('active');
-
-    if (hasClass) this.renderer.removeClass(editContainer, 'active');
-    else this.renderer.addClass(editContainer, 'active');
   }
 
   openPutDialog(form: Form): void {

@@ -9,23 +9,42 @@ import {
 } from '@angular/core';
 import { Answer, Form, Question, User } from 'src/app/interfaces/interfaces';
 import { AnswerService } from 'src/app/services/AnswerService/answer.service';
+import { UserService } from 'src/app/services/UserService/user.service';
+import { QuestionUpdaterComponent } from '../../updaterComponents/question-updater/question-updater.component';
 
 @Component({
   selector: 'app-box-question',
   templateUrl: './box-question.component.html',
   styleUrls: ['./box-question.component.scss'],
 })
-export class BoxQuestionComponent implements OnChanges {
+export class BoxQuestionComponent implements OnInit, OnChanges {
   userAnswers: Answer[] = [];
-  listGrade: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   user: User;
+  role: string | null = this.userService.getRole();
+  listGrade: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  visibleElements: boolean[];
 
   @Input() selectedForm: Form | null = null;
   @Input() selectedQuestionList: Question[] = [];
   @Input() idForm: number = 0;
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+  @ViewChild(QuestionUpdaterComponent)
+  questionUpdaterComponent: QuestionUpdaterComponent;
 
-  constructor(private answerService: AnswerService) {}
+  constructor(
+    private answerService: AnswerService,
+    private userService: UserService
+  ) {}
+
+  ngOnInit(): void {
+    if (this.selectedQuestionList) {
+      this.visibleElements = new Array(this.selectedQuestionList.length).fill(
+        false
+      );
+    } else {
+      this.visibleElements = [];
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedQuestionList'] && this.selectedQuestionList) {
@@ -65,7 +84,16 @@ export class BoxQuestionComponent implements OnChanges {
     });
   }
 
-  closeModal() {
+  openPutModal(): void {
+    console.log('abrindo modal');
+    this.questionUpdaterComponent.openDialog();
+  }
+
+  closeModal(): void {
     this.dialog.nativeElement.close();
+  }
+
+  toggleElement(index: number): void {
+    this.visibleElements[index] = !this.visibleElements[index];
   }
 }

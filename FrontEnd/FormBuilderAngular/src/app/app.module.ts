@@ -30,6 +30,8 @@ import { AnswerRouteComponent } from './components/page/answer-route/answer-rout
 import { AnswerDialogComponent } from './components/dialogs/answer-dialog/answer-dialog/answer-dialog.component';
 import { AnswerComponent } from './components/page/answer/answer.component';
 import { InterceptorHttp } from './auth-interceptor/auth.interceptor';
+import { UpdateDialogComponent } from './components/dialogs/question-dialog/update-dialog/update-dialog.component';
+import { QuestionUpdaterComponent } from './components/updaterComponents/question-updater/question-updater.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { InterceptorHttp } from './auth-interceptor/auth.interceptor';
     AnswerComponent,
     AnswerRouteComponent,
     AnswerDialogComponent,
+    UpdateDialogComponent,
+    QuestionUpdaterComponent,
   ],
   imports: [
     BrowserModule,
