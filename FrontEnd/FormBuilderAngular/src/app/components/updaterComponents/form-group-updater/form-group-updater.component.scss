@@ -1,9 +1,8 @@
 .dialog-put {
-  height: 30vh;
+  height: 33vh;
   width: 40vw;
   border: none;
   border-radius: 20px;
-  padding: 20px;
   color: #1f1f1f;
   background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -11,11 +10,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  .title {
-    display: flex;
-    flex-direction: row;
-  }
 
   input {
     width: 32vw;
@@ -55,12 +49,19 @@
 .title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1.5px solid #ddd;
   margin-bottom: 20px;
-  flex-direction: column;
+  flex-direction: row;
 
   h1 {
     height: 35px;
   }
+}
+
+form {
+  padding: 20px;
 }
 
 .form-group {
@@ -70,19 +71,16 @@
   padding: 10px;
 }
 
-.btn {
-  color: #fff;
-  font-weight: bold;
-}
-
 .btn-submit {
   position: relative;
-  top: 22px;
+  top: 6px;
   left: 69.5vh;
   height: 30px;
-  background-color: #9381ff;
+  background-color: #fff;
+  color: #000;
+  font-weight: bold;
   border-radius: 10px;
-  border: none;
+  border: 1.5px solid #000;
   min-width: 70px;
   margin: 0;
   margin-top: 5px;

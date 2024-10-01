@@ -18,6 +18,7 @@ import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.serv
 import { QuestionService } from 'src/app/services/QuestionService/question.service';
 import { FormDeleterComponent } from '../../deleterComponents/form-deleter/form-deleter.component';
 import { UserService } from 'src/app/services/UserService/user.service';
+import { FormCreatorComponent } from '../../creatorComponents/form-creator/form-creator.component';
 
 @Component({
   selector: 'app-box-form',
@@ -37,12 +38,15 @@ export class BoxFormComponent implements OnInit, OnChanges {
   @ViewChild(FormUpdaterComponent) formUpdater: FormUpdaterComponent;
   @ViewChild(FormDeleterComponent) formDeleter: FormDeleterComponent;
   @ViewChild(BoxQuestionComponent) questionComponent: BoxQuestionComponent;
+  @ViewChild(FormCreatorComponent) creatorComponent: FormCreatorComponent;
 
   constructor(
     private formService: FormService,
     private formGroupService: FormGroupService,
     private questionService: QuestionService,
-    private userService: UserService
+    private userService: UserService,
+    private el: ElementRef,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -82,6 +86,10 @@ export class BoxFormComponent implements OnInit, OnChanges {
     }
   }
 
+  createForm(): void {
+    this.creatorComponent.openDialog();
+  }
+
   openFormDialog(form: Form) {
     this.idForm = form.id;
     this.selectedForm = form;
@@ -93,12 +101,20 @@ export class BoxFormComponent implements OnInit, OnChanges {
     this.dialog.nativeElement.close();
   }
 
-  deleteForm(id: number): void {
-    const confirmDelete = confirm('Are you sure about that?');
+  deleteForm(form: Form): void {
+    this.formDeleter.deleteForm(form);
+  }
 
-    if (confirmDelete) {
-      this.formDeleter.deleteForm(id);
-    }
+  ActiveEditContainer(index: number) {
+    const editContainers =
+      this.el.nativeElement.querySelectorAll('.edit-container');
+
+    const editContainer = editContainers[index];
+
+    const hasClass = editContainer.classList.contains('active');
+
+    if (hasClass) this.renderer.removeClass(editContainer, 'active');
+    else this.renderer.addClass(editContainer, 'active');
   }
 
   openPutDialog(form: Form): void {

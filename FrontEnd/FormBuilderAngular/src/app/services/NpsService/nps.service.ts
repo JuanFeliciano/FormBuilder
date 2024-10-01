@@ -11,11 +11,6 @@ export class NpsService {
   constructor(private http: HttpClient) {}
 
   GetNpsScore(): Observable<number> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.get<number>(this.url, { headers });
+    return this.http.get<number>(this.url);
   }
 }

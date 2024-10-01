@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormGroupCreatorComponent } from './components/creatorComponents/form-group-creator/form-group-creator.component';
 import { BoxFormGroupComponent } from './components/boxComponents/box-form-group/box-form-group.component';
-import { BoxFormComponent } from './components/boxComponents/box-form/box-form.component';
 import { BoxQuestionComponent } from './components/boxComponents/box-question/box-question.component';
 import { FormCreatorComponent } from './components/creatorComponents/form-creator/form-creator.component';
 import { QuestionCreatorComponent } from './components/creatorComponents/question-creator/question-creator.component';
@@ -18,20 +17,21 @@ import { FormDeleterComponent } from './components/deleterComponents/form-delete
 import { NpsComponent } from './components/page/nps/nps.component';
 import { NpsRouteComponent } from './components/page/nps-route/nps-route.component';
 import { SidebarComponent } from './components/page/sidebar/sidebar.component';
-import { FormDialogComponent } from './components/dialogs/form-dialog/createDialog/form-dialog.component';
-import { FormGroupDialogCreateComponent } from './components/dialogs/form-group-dialog/createDialog/form-group-dialog-create.component';
-import { FormGroupDialogUpdateComponent } from './components/dialogs/form-group-dialog/updateDialog/form-group-dialog-update/form-group-dialog-update.component';
-import { FormDialogUpdateComponent } from './components/dialogs/form-dialog/updateDialog/form-dialog-update/form-dialog-update.component';
-import { FormGroupDialogDeleteComponent } from './components/dialogs/form-group-dialog/deleteDialog/form-group-dialog-delete/form-group-dialog-delete.component';
-import { FormDialogDeleteComponent } from './components/dialogs/form-dialog/deleteDialog/form-dialog-delete/form-dialog-delete.component';
+import { DialogMessageComponent } from './components/dialogs/dialog-message';
 import { LoginComponent } from './components/page/log/login.component';
 import { MainComponent } from './components/mainComponents/main.component';
-import { AnswerRouteComponent } from './components/page/answer-route/answer-route.component';
-import { AnswerDialogComponent } from './components/dialogs/answer-dialog/answer-dialog/answer-dialog.component';
-import { AnswerComponent } from './components/page/answer/answer.component';
 import { InterceptorHttp } from './auth-interceptor/auth.interceptor';
-import { UpdateDialogComponent } from './components/dialogs/question-dialog/update-dialog/update-dialog.component';
 import { QuestionUpdaterComponent } from './components/updaterComponents/question-updater/question-updater.component';
+import { AnswerDialogComponent } from './components/dialogs/answer-dialog/answer-dialog.component';
+import { QuestionDeleterComponent } from './components/deleterComponents/question-deleter/question-deleter.component';
+import { FormsComponent } from './components/page/forms-page/forms/forms.component';
+import { FormsRouteComponent } from './components/page/forms-page/forms-route/forms-route.component';
+import { BoxFormComponent } from './components/boxComponents/box-form/box-form.component';
+import { AnswerRouteComponent } from './components/page/answer-page/answer-route/answer-route.component';
+import { AnswerComponent } from './components/page/answer-page/answer/answer.component';
+import { QuestionsComponent } from './components/page/questions-page/questions/questions.component';
+import { QuestionsRouteComponent } from './components/page/questions-page/questions-route/questions-route.component';
+import { BoxAnswerComponent } from './components/boxComponents/box-answer/box-answer.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,6 @@ import { QuestionUpdaterComponent } from './components/updaterComponents/questio
     MainComponent,
     FormGroupCreatorComponent,
     BoxFormGroupComponent,
-    BoxFormComponent,
     BoxQuestionComponent,
     FormCreatorComponent,
     QuestionCreatorComponent,
@@ -51,17 +50,18 @@ import { QuestionUpdaterComponent } from './components/updaterComponents/questio
     NpsComponent,
     NpsRouteComponent,
     SidebarComponent,
-    FormDialogComponent,
-    FormGroupDialogCreateComponent,
-    FormGroupDialogUpdateComponent,
-    FormDialogUpdateComponent,
-    FormGroupDialogDeleteComponent,
-    FormDialogDeleteComponent,
+    DialogMessageComponent,
     AnswerComponent,
     AnswerRouteComponent,
-    AnswerDialogComponent,
-    UpdateDialogComponent,
     QuestionUpdaterComponent,
+    AnswerDialogComponent,
+    QuestionDeleterComponent,
+    FormsComponent,
+    FormsRouteComponent,
+    BoxFormComponent,
+    QuestionsComponent,
+    QuestionsRouteComponent,
+    BoxAnswerComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,62 +10,53 @@ export class QuestionService {
   questionCreated = new EventEmitter<void>();
   questionGetter = new EventEmitter<void>();
   questionUpdated = new EventEmitter<void>();
+  questionDeleted = new EventEmitter<void>();
 
   private url: string = 'http://localhost:5117/Question';
-  private urlByIdForm: string = 'http://localhost:5117/Question/IdForm';
 
   constructor(private http: HttpClient) {}
 
   createQuestion(questionArray: Question[]): Observable<Question[]> {
-    const headers: HttpHeaders = this.getHeaders();
+    return this.http.post<Question[]>(this.url, questionArray).pipe(
+      tap(() => {
+        this.questionCreated.emit();
+      })
+    );
+  }
 
-    return this.http
-      .post<Question[]>(this.url, questionArray, { headers })
-      .pipe(
-        tap(() => {
-          this.questionCreated.emit();
-        })
-      );
+  get(): Observable<Question[]> {
+    return this.http.get<Question[]>(this.url);
   }
 
   getById(id: number): Observable<Question> {
-    const headers: HttpHeaders = this.getHeaders();
-
-    return this.http.get<Question>(`${this.url}/${id}`, { headers });
+    return this.http.get<Question>(`${this.url}/${id}`);
   }
 
   getByIdForm(id: number): Observable<Question[]> {
-    const headers: HttpHeaders = this.getHeaders();
-
-    return this.http
-      .get<Question[]>(`${this.urlByIdForm}/${id}`, { headers })
-      .pipe(
-        tap(() => {
-          this.questionGetter.emit();
-        })
-      );
+    return this.http.get<Question[]>(`${this.url}/IdForm/${id}`).pipe(
+      tap(() => {
+        this.questionGetter.emit();
+      })
+    );
   }
 
-  updateQuestion(question: Question): Observable<Question> {
-    const headers: HttpHeaders = this.getHeaders();
-
-    console.log(question, 'dentro do metodo update do service');
-
-    return this.http
-      .put<Question>(`${this.url}/${question.id}`, question , { headers })
-      .pipe(
-        tap(() => {
-          this.questionUpdated.emit();
-        })
-      );
+  update(question: Question): Observable<Question> {
+    return this.http.put<Question>(`${this.url}/${question.id}`, question).pipe(
+      tap(() => {
+        this.questionUpdated.emit();
+      })
+    );
   }
 
-  private getHeaders(): HttpHeaders {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return headers;
+  delete(id: number): Observable<string> {
+    return this.http
+      .delete(`${this.url}/${id}`, {
+        responseType: 'text',
+      })
+      .pipe(
+        tap(() => {
+          this.questionDeleted.emit();
+        })
+      );
   }
 }

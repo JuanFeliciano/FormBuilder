@@ -10,7 +10,7 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormGroupModel } from 'src/app/interfaces/interfaces';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
-import { FormGroupDialogUpdateComponent } from '../../dialogs/form-group-dialog/updateDialog/form-group-dialog-update/form-group-dialog-update.component';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
 
 @Component({
   selector: 'app-form-group-updater',
@@ -22,8 +22,8 @@ export class FormGroupUpdaterComponent implements OnChanges {
   selectFormGroupPut: FormGroupModel = { id: 0, title: '', forms: [] };
 
   @ViewChild('dialog') dialog: ElementRef;
-  @ViewChild(FormGroupDialogUpdateComponent)
-  formUpdate: FormGroupDialogUpdateComponent;
+  @ViewChild(DialogMessageComponent)
+  dialogMessage: DialogMessageComponent;
 
   @Input() formGroupInput: FormGroupModel;
 
@@ -73,22 +73,19 @@ export class FormGroupUpdaterComponent implements OnChanges {
         forms: [],
       };
 
-      this.formGroupService
-        .updateFormGroup(formGroupData.id, formGroupData) //mudar
-        .subscribe({
-          next: () => {
-            this.closePutDialog(new Event(''));
-            this.updateEvent.emit();
-          },
-          error: (error) => {
-            console.error('Error updating Form Group', error);
-          },
-        });
+      this.formGroupService.updateFormGroup(formGroupData).subscribe({
+        next: () => {
+          this.closePutDialog();
+          this.dialogMessage.openDialog('Form Group Updated Successfully');
+        },
+        error: (error) => {
+          console.error('Error updating Form Group', error);
+        },
+      });
     }
   }
 
-  closePutDialog(event: Event): void {
-    event.stopPropagation();
+  closePutDialog(): void {
     this.dialog.nativeElement.close();
   }
 }

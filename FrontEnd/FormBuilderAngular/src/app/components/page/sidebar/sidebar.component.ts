@@ -41,12 +41,16 @@ export class SidebarComponent {
       this.currentRoute = this.router.url;
       this.updateButtonLabel();
       this.updateButtonAnswer();
+      this.updateButtonForms();
+      this.updateButtonQuestions();
     });
   }
 
   currentRoute: string = '';
   buttonLabel: string = '';
   buttonAnswer: string = '';
+  buttonForms: string = '';
+  buttonQuestions: string = '';
   username: string = localStorage.getItem('name')!;
   role: string | null = this.userService.getRole();
 
@@ -81,7 +85,12 @@ export class SidebarComponent {
   }
 
   updateButtonLabel(): void {
-    if (this.currentRoute === '/dashboard' || this.currentRoute === '/answer') {
+    if (
+      this.currentRoute === '/dashboard' ||
+      this.currentRoute === '/answer' ||
+      this.currentRoute === '/forms' ||
+      this.currentRoute === '/questions'
+    ) {
       this.buttonLabel = 'NPS';
     } else if (this.currentRoute === '/nps') {
       this.buttonLabel = 'Dashboard';
@@ -89,10 +98,25 @@ export class SidebarComponent {
   }
 
   updateButtonAnswer(): void {
-    if (this.currentRoute === '/dashboard' || this.currentRoute === '/nps') {
+    if (this.currentRoute != '/answer') {
       this.buttonAnswer = 'Answer';
     } else if (this.currentRoute === '/answer') {
       this.buttonAnswer = 'Dashboard';
+    }
+  }
+
+  updateButtonForms(): void {
+    if (this.currentRoute != '/forms') {
+      this.buttonForms = 'Forms';
+    } else if (this.currentRoute === '/forms') {
+      this.buttonForms = 'Dashboard';
+    }
+  }
+  updateButtonQuestions(): void {
+    if (this.currentRoute != '/questions') {
+      this.buttonQuestions = 'Questions';
+    } else if (this.currentRoute === '/questions') {
+      this.buttonQuestions = 'Dashboard';
     }
   }
 
@@ -107,6 +131,20 @@ export class SidebarComponent {
     if (this.currentRoute != '/answer') {
       this.router.navigate(['/answer']);
     } else if (this.currentRoute === '/answer') {
+      this.router.navigate(['/dashboard']);
+    }
+  }
+  navigateBasedOnRouteForms(): void {
+    if (this.currentRoute != '/forms') {
+      this.router.navigate(['/forms']);
+    } else if (this.currentRoute === '/forms') {
+      this.router.navigate(['/dashboard']);
+    }
+  }
+  navigateBasedOnRouteQuestions(): void {
+    if (this.currentRoute != '/questions') {
+      this.router.navigate(['/questions']);
+    } else if (this.currentRoute === '/questions') {
       this.router.navigate(['/dashboard']);
     }
   }

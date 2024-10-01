@@ -8,7 +8,6 @@
 .box-form {
   display: flex;
   flex-direction: column;
-  padding: 10px;
   height: 150px;
   width: 300px;
   background-color: #fff;
@@ -25,6 +24,8 @@
   align-items: center;
   height: 4vh;
   justify-content: space-between;
+  border-bottom: 1.5px solid #ddd;
+  padding: 10px;
   button {
     border: none;
     background-color: transparent;
@@ -35,8 +36,9 @@
 .edit-container {
   position: absolute;
   left: 50%;
-  top: -11%;
+  top: 13%;
   border: 2px solid #1f1f1f;
+  background-color: #fff;
   border-radius: 10px;
   height: 5.8vh;
   width: 6vw;

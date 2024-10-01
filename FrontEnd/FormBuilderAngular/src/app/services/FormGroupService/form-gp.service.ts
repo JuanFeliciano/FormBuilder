@@ -15,35 +15,16 @@ export class FormGroupService {
   constructor(private http: HttpClient) {}
 
   createFormGroup(formGroup: FormGroupModel): Observable<FormGroupModel> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http
-      .post<FormGroupModel>(this.url, formGroup, {
-        headers: headers,
+    return this.http.post<FormGroupModel>(this.url, formGroup).pipe(
+      tap(() => {
+        this.formGroupCreated.emit();
       })
-      .pipe(
-        tap(() => {
-          this.formGroupCreated.emit();
-        })
-      );
+    );
   }
 
-  updateFormGroup(
-    id: number,
-    formGroup: FormGroupModel
-  ): Observable<FormGroupModel> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
+  updateFormGroup(formGroup: FormGroupModel): Observable<FormGroupModel> {
     return this.http
-      .put<FormGroupModel>(`${this.url}/${id}`, formGroup, {
-        headers: headers,
-      })
+      .put<FormGroupModel>(`${this.url}/${formGroup.id}`, formGroup)
       .pipe(
         tap(() => {
           this.formGroupUpdated.emit();
@@ -52,12 +33,7 @@ export class FormGroupService {
   }
 
   deleteFormGroup(id: number): Observable<any> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.delete(`${this.url}/${id}`, { headers }).pipe(
+    return this.http.delete(`${this.url}/${id}`).pipe(
       tap(() => {
         this.formGroupDeleted.emit();
       })
@@ -65,22 +41,10 @@ export class FormGroupService {
   }
 
   getFormGroup(): Observable<FormGroupModel[]> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.get<FormGroupModel[]>(this.url, { headers: headers });
+    return this.http.get<FormGroupModel[]>(this.url);
   }
 
   getFormGroupById(id: number): Observable<FormGroupModel> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.get<FormGroupModel>(`${this.url}/${id}`, {
-      headers: headers,
-    });
+    return this.http.get<FormGroupModel>(`${this.url}/${id}`);
   }
 }

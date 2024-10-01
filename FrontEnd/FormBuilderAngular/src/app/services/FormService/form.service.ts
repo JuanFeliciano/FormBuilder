@@ -15,70 +15,32 @@ export class FormService {
   constructor(private http: HttpClient) {}
 
   createForm(form: Form): Observable<Form> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.post<Form>(this.url, form, {
-      headers: headers,
-    });
+    return this.http.post<Form>(this.url, form);
   }
 
-  updateForm(id: number, form: Form): Observable<Form> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http
-      .put<Form>(`${this.url}/${id}`, form, {
-        headers: headers,
+  updateForm(form: Form): Observable<Form> {
+    return this.http.put<Form>(`${this.url}/${form.id}`, form).pipe(
+      tap(() => {
+        this.formUpdated.emit();
       })
-      .pipe(
-        tap(() => {
-          this.formUpdated.emit();
-        })
-      );
+    );
   }
 
   deleteForm(id: number): Observable<any> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
     console.log(id);
 
-    return this.http
-      .delete(`${this.url}/${id}`, {
-        responseType: 'text',
-        headers: headers,
+    return this.http.delete(`${this.url}/${id}`).pipe(
+      tap(() => {
+        this.formDeleted.emit();
       })
-      .pipe(
-        tap(() => {
-          this.formDeleted.emit();
-        })
-      );
+    );
   }
 
   getForm(): Observable<Form[]> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.get<Form[]>(this.url, { headers });
+    return this.http.get<Form[]>(this.url);
   }
 
   getFormById(id: number): Observable<Form> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.get<Form>(`${this.url}/${id}`, {
-      headers: headers,
-    });
+    return this.http.get<Form>(`${this.url}/${id}`);
   }
 }

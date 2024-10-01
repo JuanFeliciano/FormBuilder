@@ -11,6 +11,9 @@ import { Answer, Form, Question, User } from 'src/app/interfaces/interfaces';
 import { AnswerService } from 'src/app/services/AnswerService/answer.service';
 import { UserService } from 'src/app/services/UserService/user.service';
 import { QuestionUpdaterComponent } from '../../updaterComponents/question-updater/question-updater.component';
+import { QuestionService } from 'src/app/services/QuestionService/question.service';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
+import { QuestionDeleterComponent } from '../../deleterComponents/question-deleter/question-deleter.component';
 
 @Component({
   selector: 'app-box-question',
@@ -18,43 +21,86 @@ import { QuestionUpdaterComponent } from '../../updaterComponents/question-updat
   styleUrls: ['./box-question.component.scss'],
 })
 export class BoxQuestionComponent implements OnInit, OnChanges {
-  userAnswers: Answer[] = [];
-  user: User;
-  role: string | null = this.userService.getRole();
-  listGrade: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  visibleElements: boolean[];
-
-  @Input() selectedForm: Form | null = null;
-  @Input() selectedQuestionList: Question[] = [];
-  @Input() idForm: number = 0;
-  @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
-  @ViewChild(QuestionUpdaterComponent)
-  questionUpdaterComponent: QuestionUpdaterComponent;
-
   constructor(
     private answerService: AnswerService,
+    private questionService: QuestionService,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    if (this.selectedQuestionList) {
-      this.visibleElements = new Array(this.selectedQuestionList.length).fill(
-        false
-      );
+    this.questionService.questionUpdated.subscribe(() =>
+      this.getQuestionByFormId()
+    );
+    this.questionService.questionDeleted.subscribe(() =>
+      this.getQuestionByFormId()
+    );
+
+    if (this.questionList) {
+      this.visibleElements = new Array(this.questionList.length).fill(false);
     } else {
       this.visibleElements = [];
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedQuestionList'] && this.selectedQuestionList) {
-      this.userAnswers = this.selectedQuestionList.map((question) => ({
+    if (changes['formId'] && !changes['formId'].isFirstChange()) {
+      if (changes['formId'].previousValue !== changes['formId'].currentValue) {
+        this.getQuestionByFormId();
+      }
+    }
+
+    if (changes['questionList'] && this.questionList) {
+      this.userAnswers = this.questionList.map((question) => ({
         id: 0,
         idQuestion: question.id,
         idUser: 0,
         grade: 0,
         description: '',
       }));
+
+      this.visibleElements = new Array(this.questionList.length).fill(false);
+    }
+  }
+
+  @Input() selectedForm: Form[] | null = null;
+  @Input() formId: number;
+
+  @ViewChild(QuestionDeleterComponent)
+  questionDeleter: QuestionDeleterComponent;
+  @ViewChild(DialogMessageComponent)
+  dialogMessage: DialogMessageComponent;
+  @ViewChild(QuestionUpdaterComponent)
+  questionUpdaterComponent: QuestionUpdaterComponent;
+
+  userAnswers: Answer[] = [];
+  questionList: Question[];
+  role: string | null = this.userService.getRole();
+  listGrade: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  visibleElements: boolean[];
+
+  getQuestionByFormId(): void {
+    if (this.formId != 0) {
+      this.questionService.getByIdForm(this.formId).subscribe({
+        next: (data: Question[]) => {
+          this.questionList = data;
+
+          this.userAnswers = this.questionList.map((question) => ({
+            id: 0,
+            idQuestion: question.id,
+            idUser: 0,
+            grade: 0,
+            description: '',
+          }));
+
+          this.visibleElements = new Array(this.questionList.length).fill(
+            false
+          );
+          console.log('User Answers initialized: ', this.userAnswers);
+        },
+        error: (err) => {
+          console.log('error fetching questions by form id', err);
+        },
+      });
     }
   }
 
@@ -67,7 +113,7 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
     const answers: Answer[] = this.userAnswers.map((answer, index) => ({
       id: 0,
       idUser: 0,
-      idQuestion: this.selectedQuestionList![index]?.id,
+      idQuestion: this.questionList![index]?.id,
       grade: answer.grade,
       description: answer.description,
     }));
@@ -75,7 +121,7 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
     this.answerService.bulkAnswer(answers).subscribe({
       next: (response) => {
         console.log('Response submitted successfully', response);
-        this.dialog.nativeElement.showModal();
+        this.dialogMessage.openDialog('Responses Sent');
       },
       error: (err) => {
         console.error('Failed to submit answers', err);
@@ -84,13 +130,12 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
     });
   }
 
-  openPutModal(): void {
-    console.log('abrindo modal');
-    this.questionUpdaterComponent.openDialog();
+  deleteQuestion(question: Question): void {
+    this.questionDeleter.deleteQuestion(question);
   }
 
-  closeModal(): void {
-    this.dialog.nativeElement.close();
+  openPutModal(): void {
+    this.questionUpdaterComponent.openDialog();
   }
 
   toggleElement(index: number): void {

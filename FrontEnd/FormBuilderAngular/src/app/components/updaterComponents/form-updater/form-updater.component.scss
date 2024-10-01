@@ -1,11 +1,10 @@
 .dialog-put {
-  height: 25vh;
+  height: 37vh;
   width: 40vw;
   border: none;
   border-radius: 20px;
-  padding: 20px;
-  color: #fff;
-  background-color: #383838;
+  color: #000;
+  background-color: #fff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   position: fixed;
   top: 50%;
@@ -15,52 +14,76 @@
   .title {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-direction: row;
+    padding: 10px;
+    border-bottom: 1.5px solid #ddd;
+  }
 
-    .button-container {
-      .btn-submit {
-        margin-right: 10px;
-      }
-    }
+  form {
+    padding: 20px;
+  }
+
+  .form-group {
+    padding: 10px;
+    border: 1.5px solid #000;
+    border-radius: 20px;
   }
 
   .label-input {
     display: flex;
+    align-items: center;
     margin-top: 10px;
     margin-bottom: 30px;
 
     p {
       margin-left: 20px;
-      color: grey;
+      padding: 5px;
+      border-radius: 10px;
+      color: #1f1f1f;
+      background-color: #f5f5f5;
     }
   }
 
   input {
     width: 32vw;
     height: 5vh;
+    padding: 10px;
     border: none;
     border-radius: 4px;
     margin-left: 10px;
+    background-color: #f5f5f5;
   }
 }
 
-.btn {
+.select-container {
+  label {
+    margin-right: 10px;
+  }
+}
+
+.btn-submit {
+  position: relative;
+  top: 6px;
+  left: 69.5vh;
   height: 30px;
-  background-color: #daff7d;
+  background-color: #fff;
+  color: #000;
+  font-weight: bold;
   border-radius: 10px;
-  border: none;
+  border: 1.5px solid #000;
   min-width: 70px;
   margin: 0;
   margin-top: 5px;
-  font-weight: bold;
-
+  margin-right: 10px;
   cursor: pointer;
 }
 
 .btn-close-dialog {
-  background-color: #9381ff;
-  width: 10px;
-
+  background-color: transparent;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
   svg {
     margin-right: 15px;
     height: 25px;

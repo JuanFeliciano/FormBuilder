@@ -71,6 +71,7 @@ header {
   align-items: center;
   text-decoration: none;
   border-radius: 0.8rem;
+  width: 100%;
 }
 
 .sidebar ul li a:hover {
@@ -179,6 +180,14 @@ p {
 
 .nav-item {
   opacity: 0;
+  display: inline-block;
+  min-width: 50px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
 .active .nav-item {

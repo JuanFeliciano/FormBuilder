@@ -1,8 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Answer, Form, Question } from 'src/app/interfaces/interfaces';
+import { Form, Question } from 'src/app/interfaces/interfaces';
 import { FormService } from 'src/app/services/FormService/form.service';
 import { QuestionService } from 'src/app/services/QuestionService/question.service';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
 
 @Component({
   selector: 'app-question-updater',
@@ -14,6 +15,8 @@ export class QuestionUpdaterComponent implements OnInit {
   forms: Form[];
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+  @ViewChild(DialogMessageComponent)
+  dialogMessage: DialogMessageComponent;
   @Input() questionSelected: Question;
 
   constructor(
@@ -42,11 +45,10 @@ export class QuestionUpdaterComponent implements OnInit {
         answers: [],
       };
 
-      console.log(JSON.stringify(question));
-
-      this.questionService.updateQuestion(question).subscribe({
+      this.questionService.update(question).subscribe({
         next: () => {
           this.closeDialog();
+          this.dialogMessage.openDialog('Question Updated Successfully');
         },
         error: (err) => {
           console.log('Error updating Question', err);

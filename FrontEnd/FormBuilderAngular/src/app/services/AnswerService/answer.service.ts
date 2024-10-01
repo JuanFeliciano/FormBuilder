@@ -12,20 +12,14 @@ export class AnswerService {
   constructor(private http: HttpClient) {}
 
   bulkAnswer(answer: Answer[]): Observable<Answer[]> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.post<Answer[]>(this.url, answer, { headers: headers });
+    return this.http.post<Answer[]>(this.url, answer);
   }
 
   getAnswer(): Observable<Answer[]> {
-    const headers: HttpHeaders = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
+    return this.http.get<Answer[]>(this.url);
+  }
 
-    return this.http.get<Answer[]>(this.url, { headers });
+  getAnswerByQuestionId(questionId: number): Observable<Answer[]> {
+    return this.http.get<Answer[]>(`${this.url}/${questionId}`);
   }
 }

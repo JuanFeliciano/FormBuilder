@@ -1,5 +1,7 @@
-import { Component, ElementRef, EventEmitter, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
 import { FormService } from 'src/app/services/FormService/form.service';
+import { Form } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-form-deleter',
@@ -7,20 +9,22 @@ import { FormService } from 'src/app/services/FormService/form.service';
   styleUrls: ['./form-deleter.component.scss'],
 })
 export class FormDeleterComponent {
-  deleteEvent: EventEmitter<void> = new EventEmitter<void>();
-
-  @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+  @ViewChild(DialogMessageComponent) dialogMessage: DialogMessageComponent;
 
   constructor(private formService: FormService) {}
 
-  deleteForm(id: number): void {
-    this.formService.deleteForm(id).subscribe({
-      next: () => {
-        this.deleteEvent.emit();
-      },
-      error: (err) => {
-        console.error('Error deleting form', err);
-      },
-    });
+  deleteForm(form: Form): void {
+    const confirmMsg = confirm('Are you sure about this?');
+
+    if (confirmMsg) {
+      this.formService.deleteForm(form.id).subscribe({
+        next: () => {
+          this.dialogMessage.openDialog('Form Deleted Successfully');
+        },
+        error: (err) => {
+          console.error('Error deleting form', err);
+        },
+      });
+    }
   }
 }

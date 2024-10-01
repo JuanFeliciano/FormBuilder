@@ -21,7 +21,6 @@
   flex-direction: column;
   height: 205px;
   width: 342px;
-  padding: 10px;
   margin-top: 40px;
   margin-left: 70px;
   border: 2px solid #1f1f1f;
@@ -47,15 +46,10 @@
   h3 {
     display: flex;
     align-items: center;
-    margin-left: 11px;
     flex-grow: 1;
     padding: 4px;
     white-space: nowrap;
     overflow: hidden;
-    color: #1f1f1f;
-    border: 2px solid #fff;
-    border-radius: 30px;
-    background-color: #fff;
   }
 
   button {
@@ -66,13 +60,26 @@
 
 .edit-container {
   border: 2px solid #1f1f1f;
+  background-color: #fff;
+  border-radius: 10px;
   height: 5.8vh;
   width: 6vw;
   font-weight: bold;
+  z-index: 2;
 
   label {
     display: flex;
     justify-content: center;
+  }
+
+  .edit {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .delete {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 
   .edit:hover,
@@ -82,11 +89,22 @@
 }
 
 .btn-edit {
+  border-bottom: 1.5px solid #ddd;
+  padding: 8px;
   button {
     border: none;
     background-color: #2c2c2c;
     cursor: pointer;
   }
+}
+
+.description-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70%;
+  text-align: center;
+  z-index: 1;
 }
 
 .box-form:hover {
@@ -109,10 +127,17 @@
   .title {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 10px;
     height: 9vh;
     border-bottom: 1.5px solid #ddd;
   }
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .btn-close-dialog {
@@ -134,6 +159,20 @@
     height: 25px;
     margin: 0;
   }
+}
+
+.btn-create {
+  margin-right: 70px;
+  border-radius: 10px;
+  border: 1.5px solid #000;
+  background-color: #fff;
+  padding: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-create:hover {
+  background-color: #f5f5f5;
 }
 
 .message {

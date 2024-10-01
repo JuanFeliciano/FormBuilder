@@ -1,7 +1,7 @@
 <div class="container">
   <div
     class="box-form questions-container"
-    *ngFor="let question of selectedQuestionList ?? []; let i = index"
+    *ngFor="let question of questionList; let i = index"
   >
     <div class="btn-edit">
       <h5>{{ question.content }}</h5>
@@ -11,7 +11,7 @@
       >
         <label class="edit" (click)="openPutModal()">Edit</label>
 
-        <label class="delete">Delete</label>
+        <label class="delete" (click)="deleteQuestion(question)">Delete</label>
       </div>
       <button (click)="toggleElement(i)" *ngIf="role === 'Admin'">
         <svg
@@ -28,14 +28,16 @@
       </button>
     </div>
     <app-question-updater [questionSelected]="question" />
+    <app-question-deleter />
 
     <div class="answer-container">
       <select
         id="grade-select"
         type="number"
         [(ngModel)]="userAnswers[i].grade"
+        *ngIf="userAnswers[i]"
       >
-        <option value="grade" *ngFor="let item of listGrade" [value]="item">
+        <option *ngFor="let item of listGrade" [value]="item">
           {{ item }}
         </option>
       </select>
@@ -45,14 +47,10 @@
         type="text"
         placeholder="Description (optional)"
         [(ngModel)]="userAnswers[i].description"
+        *ngIf="userAnswers[i]"
       />
     </div>
   </div>
-
-  <dialog #dialog class="dialog">
-    <div class="container-message">
-      <h1>Responses Sent</h1>
-      <button (click)="closeModal()">Ok</button>
-    </div>
-  </dialog>
 </div>
+
+<app-dialog-message></app-dialog-message>

@@ -1,0 +1,69 @@
+.dialog {
+    height: 70vh;
+    width: 65vh;
+    border: none;
+    border-radius: 20px;
+    padding: 20px;
+    color: #fff;
+    background-color: #383838;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      width: 40px;
+      border: none;
+      border-radius: 50%;
+  
+      svg {
+        margin-right: 15px;
+        height: 25px;
+        margin: 0;
+      }
+    }
+  }
+  
+  .header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .question-content {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin-top: 10px;
+    background-color: #fff;
+    color: #1f1f1f;
+  
+    svg {
+      cursor: pointer;
+    }
+  
+    p {
+      margin-left: 5px;
+    }
+  }
+  
+  h4 {
+    display: flex;
+    align-items: center;
+  }
+  
+  .answer-content,
+  .ng-container {
+    border: 1px solid #fff;
+    border-radius: 10px;
+    margin: 10px 0 10px 0;
+    padding: 8px;
+  }

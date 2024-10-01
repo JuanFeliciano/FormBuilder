@@ -34,10 +34,12 @@
           </svg>
         </button>
       </div>
-      <p (click)="openDialog($event, formGroup.id)">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-        consectetur natus quod maiores dolorum saepe molestias delectus
-      </p>
+      <div class="description-container">
+        <p (click)="openDialog($event, formGroup.id)">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+          consectetur natus quod maiores dolorum saepe molestias delectus
+        </p>
+      </div>
     </div>
 
     <app-form-group-deleter />
@@ -47,24 +49,31 @@
       <dialog #dialog class="dialog">
         <div class="title">
           <h1>Group Title - {{ selectedFormGroup.title }}</h1>
-          <button class="btn btn-close-dialog" (click)="closeDialog($event)">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon"
-              viewBox="0 0 512 512"
-            >
-              <path
-                d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
-                fill="#2c2c2c"
-              />
-            </svg>
-          </button>
+          <div class="btn-container">
+            <button class="btn-create" (click)="createGroup()">
+              Create Group
+            </button>
+            <button class="btn btn-close-dialog" (click)="closeDialog($event)">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="ionicon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                  fill="#2c2c2c"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
         <app-box-form [formGroupId]="idFormGroup" class="form-component" />
       </dialog>
     </div>
   </div>
 </div>
+
+<app-form-group-creator />
 
 <ng-template #noData>
   <div class="message">

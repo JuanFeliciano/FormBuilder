@@ -1,7 +1,7 @@
 .box-form {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  // padding: 10px;
   height: 150px;
   width: 300px;
   background-color: #fff;
@@ -60,8 +60,8 @@ input {
 
 .forms-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
   margin-top: 20px;
   padding: 20px;
 }
@@ -74,6 +74,11 @@ input {
   border-bottom: 1.5px solid #ddd;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.btn-container {
+  display: flex;
 }
 
 .footer {
@@ -89,9 +94,8 @@ input {
 }
 
 .edit-container {
-  position: absolute;
-  left: 50%;
-  top: -11%;
+  position: relative;
+  top: 13px;
   border: 2px solid #1f1f1f;
   height: 5.8vh;
   width: 6vw;
@@ -105,13 +109,12 @@ input {
   }
 
   .edit {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
   }
-
   .delete {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 
   .edit:hover,
@@ -121,16 +124,25 @@ input {
 }
 
 .btn-edit {
-  position: relative;
   display: flex;
   align-items: center;
   height: 4vh;
   justify-content: space-between;
+  border-bottom: 1.5px solid #ddd;
+  padding: 10px;
   button {
     border: none;
-    background-color: #fff;
+    background-color: transparent;
     cursor: pointer;
   }
+}
+
+.description-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
 }
 
 .btn {
@@ -142,6 +154,20 @@ input {
   color: #fff;
   font-weight: bold;
   cursor: pointer;
+}
+
+.btn-create {
+  margin-right: 10px;
+  border: 1.5px solid #000;
+  border-radius: 10px;
+  background-color: #fff;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.btn-create:hover {
+  background-color: #f5f5f5;
 }
 
 .btn-close-dialog {

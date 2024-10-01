@@ -1,15 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormGroupModel } from 'src/app/interfaces/interfaces';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
-import { FormGroupDialogDeleteComponent } from '../../dialogs/form-group-dialog/deleteDialog/form-group-dialog-delete/form-group-dialog-delete.component';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
 
 @Component({
   selector: 'app-form-group-deleter',
@@ -17,11 +9,7 @@ import { FormGroupDialogDeleteComponent } from '../../dialogs/form-group-dialog/
   styleUrls: ['./form-group-deleter.component.scss'],
 })
 export class FormGroupDeleterComponent {
-  @Input() formGroupInput: FormGroupModel;
-  @ViewChild(FormGroupDialogDeleteComponent)
-  formGroupDeleteComponent: FormGroupDialogDeleteComponent;
-
-  deleteEvent = new EventEmitter<void>();
+  @ViewChild(DialogMessageComponent) dialogMessage: DialogMessageComponent;
 
   constructor(private formGroupService: FormGroupService) {}
 
@@ -31,8 +19,7 @@ export class FormGroupDeleterComponent {
     if (confirmMsg) {
       this.formGroupService.deleteFormGroup(formGroup.id).subscribe({
         next: () => {
-          console.log('Successfully deleting form Group');
-          this.deleteEvent.emit();
+          this.dialogMessage.openDialog('Form Group Deleted Successfully');
         },
         error: (err) => {
           console.error('Error deleting form Group', err);

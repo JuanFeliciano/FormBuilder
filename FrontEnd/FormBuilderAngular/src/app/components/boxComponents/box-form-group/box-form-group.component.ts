@@ -13,6 +13,7 @@ import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.serv
 import { FormGroupUpdaterComponent } from '../../updaterComponents/form-group-updater/form-group-updater.component';
 import { FormGroupDeleterComponent } from '../../deleterComponents/form-group-deleter/form-group-deleter.component';
 import { UserService } from 'src/app/services/UserService/user.service';
+import { FormGroupCreatorComponent } from '../../creatorComponents/form-group-creator/form-group-creator.component';
 
 @Component({
   selector: 'app-box-form-group',
@@ -32,6 +33,8 @@ export class BoxFormGroupComponent implements OnInit {
   updaterComponent: FormGroupUpdaterComponent;
   @ViewChild(FormGroupDeleterComponent)
   deleterComponent: FormGroupDeleterComponent;
+  @ViewChild(FormGroupCreatorComponent)
+  creatorComponent: FormGroupCreatorComponent;
 
   constructor(
     private formGroupService: FormGroupService,
@@ -78,15 +81,8 @@ export class BoxFormGroupComponent implements OnInit {
     });
   }
 
-  ActiveEditContainer(index: number) {
-    const editContainers =
-      this.el.nativeElement.querySelectorAll('.edit-container');
-    const editContainer = editContainers[index];
-
-    const hasClass = editContainer.classList.contains('active');
-
-    if (hasClass) this.renderer.removeClass(editContainer, 'active');
-    else this.renderer.addClass(editContainer, 'active');
+  createGroup(): void {
+    this.creatorComponent.openDialog();
   }
 
   openDialog(event: Event, id: number): void {

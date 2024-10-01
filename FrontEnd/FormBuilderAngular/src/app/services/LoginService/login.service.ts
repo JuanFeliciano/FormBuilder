@@ -23,9 +23,7 @@ export class LoginService {
     username: User['username'];
     password: User['password'];
   }): Observable<User> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    return this.http.post<User>(this.urlLogin, loginData, { headers }).pipe(
+    return this.http.post<User>(this.urlLogin, loginData).pipe(
       tap((response) => {
         const decodedToken: JwtPayload = jwtDecode(response.accessToken);
 
@@ -40,15 +38,11 @@ export class LoginService {
     if (!token) {
       return throwError(() => new Error('No token was found'));
     }
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-
-    return this.http
-      .post(this.urlLogout, {}, { headers, responseType: 'text' })
-      .pipe(
-        tap(() => {
-          this.router.navigate(['/login']), this.tokenService.clearStorage();
-        })
-      );
+    return this.http.post(this.urlLogout, {}, { responseType: 'text' }).pipe(
+      tap(() => {
+        this.router.navigate(['/login']), this.tokenService.clearStorage();
+      })
+    );
   }
 
   private setSession(authResult: any, expire: number) {

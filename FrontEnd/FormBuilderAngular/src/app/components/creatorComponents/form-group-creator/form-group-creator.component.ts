@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
-import { FormGroupDialogCreateComponent } from '../../dialogs/form-group-dialog/createDialog/form-group-dialog-create.component';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
 
 @Component({
   selector: 'app-form-group-creator',
@@ -20,8 +20,7 @@ export class FormGroupCreatorComponent implements OnInit {
   event: Event;
 
   @ViewChild('dialog') dialog: ElementRef;
-  @ViewChild(FormGroupDialogCreateComponent)
-  formGroupDialog: FormGroupDialogCreateComponent;
+  @ViewChild(DialogMessageComponent) dialogMessage: DialogMessageComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -87,7 +86,7 @@ export class FormGroupCreatorComponent implements OnInit {
         next: (response) => {
           console.log('Form Group created successfully', response);
           this.closeDialog();
-          this.formGroupDialog.openDialogMessage(new Event('open modal'));
+          this.dialogMessage.openDialog('Form Group Created Successfully');
         },
         error: (error) => {
           console.error('Error creating Form Group', error);

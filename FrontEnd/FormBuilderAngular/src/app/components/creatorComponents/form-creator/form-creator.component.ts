@@ -3,7 +3,7 @@ import { FormService } from '../../../services/FormService/form.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormGroupModel, Question } from '../../../interfaces/interfaces';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
-import { FormDialogComponent } from '../../dialogs/form-dialog/createDialog/form-dialog.component';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
 
 @Component({
   selector: 'app-form-creator',
@@ -15,7 +15,7 @@ export class FormCreatorComponent {
   formsGroup: FormGroupModel[];
 
   @ViewChild('dialog') dialog: ElementRef;
-  @ViewChild(FormDialogComponent) formDialog: FormDialogComponent;
+  @ViewChild(DialogMessageComponent) dialogMessage: DialogMessageComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -86,8 +86,8 @@ export class FormCreatorComponent {
       this.formService.createForm(formData).subscribe({
         next: (response) => {
           console.log('Form created successfully', response);
-          this.closeDialog(new Event(''));
-          this.formDialog.openDialogMessage(new Event('modal open'));
+          this.closeDialog();
+          this.dialogMessage.openDialog('Form Created Successfully');
         },
         error: (error) => {
           console.error('Error creating Form', error);
@@ -96,13 +96,11 @@ export class FormCreatorComponent {
     }
   }
 
-  openDialog(event: Event): void {
-    event.stopPropagation();
+  openDialog(): void {
     this.dialog.nativeElement.showModal();
   }
 
-  closeDialog(event: Event): void {
-    event.stopPropagation();
+  closeDialog(): void {
     this.dialog.nativeElement.close();
 
     this.formGroup = this.fb.group({

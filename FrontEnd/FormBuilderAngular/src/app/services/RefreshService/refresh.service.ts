@@ -13,24 +13,18 @@ export class RefreshService {
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   RefreshToken(): Observable<RefreshRoute> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      'Content-Type': 'application/json',
-    });
     const refreshToken: string | null = this.tokenService.getRefreshToken();
 
-    return this.http
-      .post<RefreshRoute>(this.url, { refreshToken }, { headers })
-      .pipe(
-        tap((response) => {
-          localStorage.setItem('token', response.accessToken);
-          localStorage.setItem('refreshToken', response.refreshToken);
-          localStorage.setItem('expiresAt', response.dateToken.toString());
-        }),
-        catchError((error) => {
-          console.error('erro no refresh', error);
-          return throwError(error);
-        })
-      );
+    return this.http.post<RefreshRoute>(this.url, { refreshToken }).pipe(
+      tap((response) => {
+        localStorage.setItem('token', response.accessToken);
+        localStorage.setItem('refreshToken', response.refreshToken);
+        localStorage.setItem('expiresAt', response.dateToken.toString());
+      }),
+      catchError((error) => {
+        console.error('erro no refresh', error);
+        return throwError(error);
+      })
+    );
   }
 }

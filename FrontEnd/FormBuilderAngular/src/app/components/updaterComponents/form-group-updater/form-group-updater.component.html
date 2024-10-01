@@ -3,7 +3,7 @@
     <div class="title">
       <h1>Form Group Updater</h1>
       <div class="buttons-container">
-        <button class="btn btn-close-dialog" (click)="closePutDialog($event)">
+        <button class="btn btn-close-dialog" (click)="closePutDialog()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="ionicon"
@@ -38,5 +38,5 @@
     </form>
   </dialog>
 
-  <app-form-group-dialog-update [updateEvent]="updateEvent" />
+  <app-dialog-message />
 </div>

@@ -4,40 +4,51 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Renderer2,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormService } from 'src/app/services/FormService/form.service';
-import { BoxQuestionComponent } from '../../boxComponents/box-question/box-question.component';
-import { Form } from 'src/app/interfaces/interfaces';
+import { Form, FormGroupModel } from 'src/app/interfaces/interfaces';
+import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
 
 @Component({
   selector: 'app-form-updater',
   templateUrl: './form-updater.component.html',
   styleUrls: ['./form-updater.component.scss'],
 })
-export class FormUpdaterComponent implements OnChanges {
+export class FormUpdaterComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
-  updateEvent: EventEmitter<void> = new EventEmitter<void>();
+  formsGroups: FormGroupModel[];
 
   @Input() formInput: Form;
 
   @ViewChild('dialogPut') dialogPut: ElementRef<HTMLDialogElement>;
-  @ViewChild(BoxQuestionComponent) questionComponent: BoxQuestionComponent;
+  @ViewChild(DialogMessageComponent)
+  dialogMessage: DialogMessageComponent;
 
-  constructor(private fb: FormBuilder, private formService: FormService) {
+  constructor(
+    private fb: FormBuilder,
+    private formService: FormService,
+    private formGroupService: FormGroupService
+  ) {
     this.formGroup = this.fb.group({
       idGroup: 0,
       title: '',
     });
   }
 
+  ngOnInit(): void {
+    this.getFormGroup();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['formInput']) {
       this.formGroup.patchValue({
-        idGroup: this.formInput.idGroup,
+        idGroup: 0,
         title: this.formInput.title,
       });
     }
@@ -52,13 +63,24 @@ export class FormUpdaterComponent implements OnChanges {
         questions: [],
       };
 
-      this.formService.updateForm(formData.id, formData).subscribe({ //mudar
+      this.formService.updateForm(formData).subscribe({
         next: () => {
           this.dialogPut.nativeElement.close();
-          this.updateEvent.emit();
+          this.dialogMessage.openDialog('Form Updated Successfully');
         },
       });
     }
+  }
+
+  getFormGroup(): void {
+    this.formGroupService.getFormGroup().subscribe({
+      next: (data: FormGroupModel[]) => {
+        this.formsGroups = data;
+      },
+      error: (err) => {
+        console.log('Error fetching form group', err);
+      },
+    });
   }
 
   closePutDialog(event: Event) {

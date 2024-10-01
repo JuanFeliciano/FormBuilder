@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Form, Question } from '../../../interfaces/interfaces';
 import { QuestionService } from '../../../services/QuestionService/question.service';
 import { FormService } from 'src/app/services/FormService/form.service';
+import { DialogMessageComponent } from '../../dialogs/dialog-message';
 
 @Component({
   selector: 'app-question-creator',
@@ -15,7 +16,7 @@ export class QuestionCreatorComponent {
   forms: Form[];
 
   @ViewChild('dialog') dialog: ElementRef;
-  @ViewChild('dialogMessage') dialogMessage: ElementRef;
+  @ViewChild(DialogMessageComponent) dialogMessage: DialogMessageComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -81,7 +82,7 @@ export class QuestionCreatorComponent {
         next: (response) => {
           console.log('Question created successfully', response);
           this.closeDialog(new Event(''));
-          this.openDialogMessage(new Event('Modal open'));
+          this.dialogMessage.openDialog('Question Created Successfully');
         },
         error: (error) => {
           console.error('Error creating Form', error);
@@ -98,14 +99,5 @@ export class QuestionCreatorComponent {
   closeDialog(event: Event): void {
     event.stopPropagation();
     this.dialog.nativeElement.close();
-  }
-
-  openDialogMessage(event: Event): void {
-    event.stopPropagation();
-    this.dialogMessage.nativeElement.showModal();
-  }
-
-  closeDialogMessage(): void {
-    this.dialogMessage.nativeElement.close();
   }
 }
