@@ -1,7 +1,8 @@
 <div class="main-container">
   <h1 class="eight-one">Forms</h1>
-  <div class="container" *ngIf="formList.length > 0; else noData">
-    <div class="box-form" *ngFor="let form of formList; let i = index">
+  <app-search-box class="search-component" (searchEvent)="onSearch($event)" />
+  <div class="container" *ngIf="filteredForms.length > 0; else noData">
+    <div class="box-form" *ngFor="let form of filteredForms; let i = index">
       <div class="btn-edit">
         <h3>{{ form.id }} - {{ form.title }}</h3>
         <div
@@ -42,18 +43,26 @@
       <dialog #dialog class="dialog">
         <div class="title">
           <h1>Form Title - {{ selectedForm.title }}</h1>
-          <button class="btn btn-close-dialog" (click)="closeDialog($event)">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon"
-              viewBox="0 0 512 512"
-            >
-              <path
-                d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
-                fill="#2c2c2c"
-              />
-            </svg>
-          </button>
+          <div class="btn-container">
+            <button class="btn-create" (click)="updateForm(selectedForm)">
+              Update Question
+            </button>
+            <button class="btn-create" (click)="createQuestion()">
+              Create Question
+            </button>
+            <button class="btn btn-close-dialog" (click)="closeDialog($event)">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="ionicon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                  fill="#2c2c2c"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="scrollable-content">
           <app-box-question
@@ -65,6 +74,8 @@
     </div>
   </div>
 </div>
+
+<app-question-creator />
 
 <ng-template #noData>
   <div class="message">

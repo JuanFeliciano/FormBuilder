@@ -1,9 +1,10 @@
 <div class="main-container">
   <h1 class="eight-one">Questions</h1>
-  <div class="container" *ngIf="questionList.length > 0; else noData">
+  <app-search-box class="search-component" (searchEvent)="onSearch($event)" />
+  <div class="container" *ngIf="filteredQuestions.length > 0; else noData">
     <div
       class="box-question"
-      *ngFor="let question of questionList; let i = index"
+      *ngFor="let question of filteredQuestions; let i = index"
     >
       <div class="btn-edit">
         <h3>{{ question.id }} - {{ question.content }}</h3>
@@ -11,9 +12,7 @@
           class="edit-container"
           *ngIf="visibleElements[i] && role === 'Admin'"
         >
-          <label class="edit" (click)="openPutDialog($event, question)"
-            >Edit</label
-          >
+          <label class="edit" (click)="openPutDialog(question)">Edit</label>
           <label
             class="delete"
             (click)="deleterComponent.deleteQuestion(question)"
@@ -44,23 +43,33 @@
 
     <app-question-deleter />
     <app-question-updater [questionSelected]="selectedQuestion" />
+    <app-question-creator />
 
     <div class="dialog-container">
       <dialog #dialog class="dialog">
         <div class="title">
           <h1>Question Title - {{ selectedQuestion.content }}</h1>
-          <button class="btn btn-close-dialog" (click)="closeDialog($event)">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon"
-              viewBox="0 0 512 512"
-            >
-              <path
-                d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
-                fill="#2c2c2c"
-              />
-            </svg>
-          </button>
+
+          <div class="btn-container">
+            <button class="btn-create" (click)="updateQuestion()">
+              Update Question
+            </button>
+            <button class="btn-create" (click)="createQuestion()">
+              Create Question
+            </button>
+            <button class="btn btn-close-dialog" (click)="closeDialog($event)">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="ionicon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                  fill="#2c2c2c"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="scrollable-content">
           <app-box-answer [questionId]="selectedQuestion.id" />

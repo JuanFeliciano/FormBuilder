@@ -21,6 +21,22 @@ import { QuestionDeleterComponent } from '../../deleterComponents/question-delet
   styleUrls: ['./box-question.component.scss'],
 })
 export class BoxQuestionComponent implements OnInit, OnChanges {
+  @Input() selectedForm: Form[] | null = null;
+  @Input() formId: number;
+
+  @ViewChild(QuestionDeleterComponent)
+  questionDeleter: QuestionDeleterComponent;
+  @ViewChild(DialogMessageComponent)
+  dialogMessage: DialogMessageComponent;
+  @ViewChild(QuestionUpdaterComponent)
+  questionUpdaterComponent: QuestionUpdaterComponent;
+
+  userAnswers: Answer[] = [];
+  questionList: Question[];
+  role: string | null = this.userService.getRole();
+  listGrade: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  visibleElements: boolean[];
+
   constructor(
     private answerService: AnswerService,
     private questionService: QuestionService,
@@ -32,6 +48,9 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
       this.getQuestionByFormId()
     );
     this.questionService.questionDeleted.subscribe(() =>
+      this.getQuestionByFormId()
+    );
+    this.questionService.questionCreated.subscribe(() =>
       this.getQuestionByFormId()
     );
 
@@ -61,22 +80,6 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
       this.visibleElements = new Array(this.questionList.length).fill(false);
     }
   }
-
-  @Input() selectedForm: Form[] | null = null;
-  @Input() formId: number;
-
-  @ViewChild(QuestionDeleterComponent)
-  questionDeleter: QuestionDeleterComponent;
-  @ViewChild(DialogMessageComponent)
-  dialogMessage: DialogMessageComponent;
-  @ViewChild(QuestionUpdaterComponent)
-  questionUpdaterComponent: QuestionUpdaterComponent;
-
-  userAnswers: Answer[] = [];
-  questionList: Question[];
-  role: string | null = this.userService.getRole();
-  listGrade: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  visibleElements: boolean[];
 
   getQuestionByFormId(): void {
     if (this.formId != 0) {
@@ -134,8 +137,8 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
     this.questionDeleter.deleteQuestion(question);
   }
 
-  openPutModal(): void {
-    this.questionUpdaterComponent.openDialog();
+  openPutModal(question: Question): void {
+    this.questionUpdaterComponent.openDialog(question);
   }
 
   toggleElement(index: number): void {

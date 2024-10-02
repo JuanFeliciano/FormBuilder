@@ -81,7 +81,7 @@ export class QuestionCreatorComponent {
       this.questionService.createQuestion(questionData).subscribe({
         next: (response) => {
           console.log('Question created successfully', response);
-          this.closeDialog(new Event(''));
+          this.closeDialog();
           this.dialogMessage.openDialog('Question Created Successfully');
         },
         error: (error) => {
@@ -91,13 +91,11 @@ export class QuestionCreatorComponent {
     }
   }
 
-  openDialog(event: Event): void {
-    event.stopPropagation();
+  openDialog(): void {
     this.dialog.nativeElement.showModal();
   }
 
-  closeDialog(event: Event): void {
-    event.stopPropagation();
+  closeDialog(): void {
     this.dialog.nativeElement.close();
   }
 }

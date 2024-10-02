@@ -1,4 +1,13 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Form, Question } from 'src/app/interfaces/interfaces';
 import { FormService } from 'src/app/services/FormService/form.service';
@@ -10,9 +19,11 @@ import { DialogMessageComponent } from '../../dialogs/dialog-message';
   templateUrl: './question-updater.component.html',
   styleUrls: ['./question-updater.component.scss'],
 })
-export class QuestionUpdaterComponent implements OnInit {
+export class QuestionUpdaterComponent implements OnInit, OnChanges {
   questionForm: FormGroup;
   forms: Form[];
+
+  updateQuestionEmitter: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(DialogMessageComponent)
@@ -27,13 +38,22 @@ export class QuestionUpdaterComponent implements OnInit {
 
   ngOnInit(): void {
     this.getForms();
+    this.initializeForm();
+  }
 
-    this.questionForm = this.fb.group({
-      id: 0,
-      idForm: 0,
-      content: '',
-      answers: [],
-    });
+  ngOnChanges(): void {
+    this.initializeForm();
+  }
+
+  private initializeForm(): void {
+    if (this.questionSelected) {
+      this.questionForm = this.fb.group({
+        id: this.questionSelected.id || 0,
+        idForm: 0,
+        content: this.questionSelected.content || '',
+        answers: [],
+      });
+    }
   }
 
   updateQuestion(): void {
@@ -45,10 +65,13 @@ export class QuestionUpdaterComponent implements OnInit {
         answers: [],
       };
 
+      console.log('objeto question', question);
       this.questionService.update(question).subscribe({
         next: () => {
           this.closeDialog();
           this.dialogMessage.openDialog('Question Updated Successfully');
+
+          this.updateQuestionEmitter.emit();
         },
         error: (err) => {
           console.log('Error updating Question', err);
@@ -68,7 +91,8 @@ export class QuestionUpdaterComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  openDialog(question: Question): void {
+    this.questionSelected = question;
     this.dialog.nativeElement.showModal();
   }
 

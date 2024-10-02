@@ -1,9 +1,10 @@
 <div class="main-container">
   <h1 class="eight-one">Forms Group</h1>
-  <div class="container" *ngIf="formGroupList.length > 0; else noData">
+  <app-search-box class="search-component" (searchEvent)="onSearch($event)" />
+  <div class="container" *ngIf="filteredGroups.length > 0; else noData">
     <div
       class="box-form"
-      *ngFor="let formGroup of formGroupList; let i = index"
+      *ngFor="let formGroup of filteredGroups; let i = index"
     >
       <div class="btn-edit">
         <h3>{{ formGroup.id }} - {{ formGroup.title }}</h3>
@@ -50,8 +51,14 @@
         <div class="title">
           <h1>Group Title - {{ selectedFormGroup.title }}</h1>
           <div class="btn-container">
-            <button class="btn-create" (click)="createGroup()">
-              Create Group
+            <button
+              class="btn-create btn-update"
+              (click)="updateGroup(selectedFormGroup.id)"
+            >
+              Update Group
+            </button>
+            <button class="btn-create" (click)="createForm()">
+              Create Form
             </button>
             <button class="btn btn-close-dialog" (click)="closeDialog($event)">
               <svg
@@ -73,7 +80,7 @@
   </div>
 </div>
 
-<app-form-group-creator />
+<app-form-creator />
 
 <ng-template #noData>
   <div class="message">

@@ -32,6 +32,7 @@ import { AnswerComponent } from './components/page/answer-page/answer/answer.com
 import { QuestionsComponent } from './components/page/questions-page/questions/questions.component';
 import { QuestionsRouteComponent } from './components/page/questions-page/questions-route/questions-route.component';
 import { BoxAnswerComponent } from './components/boxComponents/box-answer/box-answer.component';
+import { SearchBoxComponent } from './components/search-box/search-box.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { BoxAnswerComponent } from './components/boxComponents/box-answer/box-an
     QuestionsComponent,
     QuestionsRouteComponent,
     BoxAnswerComponent,
+    SearchBoxComponent,
   ],
   imports: [
     BrowserModule,

@@ -23,6 +23,7 @@ import { DialogMessageComponent } from '../../dialogs/dialog-message';
 export class FormUpdaterComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
   formsGroups: FormGroupModel[];
+  updateEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() formInput: Form;
 
@@ -67,6 +68,8 @@ export class FormUpdaterComponent implements OnInit, OnChanges {
         next: () => {
           this.dialogPut.nativeElement.close();
           this.dialogMessage.openDialog('Form Updated Successfully');
+
+          this.updateEvent.emit();
         },
       });
     }

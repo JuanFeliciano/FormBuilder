@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { QuestionCreatorComponent } from 'src/app/components/creatorComponents/question-creator/question-creator.component';
 import { FormDeleterComponent } from 'src/app/components/deleterComponents/form-deleter/form-deleter.component';
 import { FormUpdaterComponent } from 'src/app/components/updaterComponents/form-updater/form-updater.component';
 import { Form } from 'src/app/interfaces/interfaces';
@@ -23,6 +24,7 @@ export class FormsComponent {
   visibleElements: boolean[] = [];
   role: string | null = this.userService.getRole();
   formList: Form[] = [];
+  filteredForms: Form[] = [];
   selectedForm: Form = { id: 0, idGroup: 0, title: '', questions: [] };
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
@@ -30,6 +32,8 @@ export class FormsComponent {
   updaterComponent: FormUpdaterComponent;
   @ViewChild(FormDeleterComponent)
   deleterComponent: FormDeleterComponent;
+  @ViewChild(QuestionCreatorComponent)
+  creatorComponent: QuestionCreatorComponent;
 
   constructor(
     private formService: FormService,
@@ -55,6 +59,7 @@ export class FormsComponent {
     this.formService.getForm().subscribe({
       next: (data: Form[]) => {
         this.formList = data;
+        this.filteredForms = [...this.formList];
       },
     });
   }
@@ -70,6 +75,27 @@ export class FormsComponent {
       error: (err) => {
         console.error('Failed to fetch form', err);
       },
+    });
+  }
+
+  createQuestion(): void {
+    this.creatorComponent.openDialog();
+  }
+
+  updateForm(form: Form): void {
+    this.selectedForm = form;
+    this.updaterComponent.dialogPut.nativeElement.showModal();
+
+    this.updaterComponent.updateEvent.subscribe(() => {
+      const updatedForm = this.formList.find(
+        (f) => f.id === this.selectedForm.id
+      );
+      if (updatedForm) {
+        updatedForm.title = this.selectedForm.title;
+      }
+
+      this.selectedForm.title =
+        this.updaterComponent.formGroup.get('title')?.value;
     });
   }
 
@@ -96,6 +122,16 @@ export class FormsComponent {
 
   toggleElement(index: number): void {
     this.visibleElements[index] = !this.visibleElements[index];
+  }
+
+  onSearch(searchValue: string): void {
+    this.formService.getForm().subscribe({
+      next: (data: Form[]) => {
+        this.filteredForms = data.filter((i) =>
+          i.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+        );
+      },
+    });
   }
 
   @HostListener('document:click', ['$event'])

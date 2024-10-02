@@ -9,7 +9,7 @@
         class="edit-container"
         *ngIf="visibleElements[i] && role === 'Admin'"
       >
-        <label class="edit" (click)="openPutModal()">Edit</label>
+        <label class="edit" (click)="openPutModal(question)">Edit</label>
 
         <label class="delete" (click)="deleteQuestion(question)">Delete</label>
       </div>

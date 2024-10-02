@@ -9,7 +9,7 @@ import { FormService } from 'src/app/services/FormService/form.service';
   styleUrls: ['./answer.component.scss'],
 })
 export class AnswerComponent implements OnInit {
-  formArray: Form[] = [];
+  filteredForms: Form[] = [];
   selectedFormId: number;
 
   @ViewChild('answerDialog') answerDialog: AnswerDialogComponent;
@@ -23,10 +23,20 @@ export class AnswerComponent implements OnInit {
   getForm(): void {
     this.formService.getForm().subscribe({
       next: (data: Form[]) => {
-        this.formArray = data;
+        this.filteredForms = data;
       },
       error: (err) => {
         console.log('error fetching form data', err);
+      },
+    });
+  }
+
+  onSearch(searchValue: string): void {
+    this.formService.getForm().subscribe({
+      next: (data: Form[]) => {
+        this.filteredForms = data.filter((i) =>
+          i.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+        );
       },
     });
   }

@@ -14,6 +14,7 @@ import { FormGroupUpdaterComponent } from '../../updaterComponents/form-group-up
 import { FormGroupDeleterComponent } from '../../deleterComponents/form-group-deleter/form-group-deleter.component';
 import { UserService } from 'src/app/services/UserService/user.service';
 import { FormGroupCreatorComponent } from '../../creatorComponents/form-group-creator/form-group-creator.component';
+import { FormCreatorComponent } from '../../creatorComponents/form-creator/form-creator.component';
 
 @Component({
   selector: 'app-box-form-group',
@@ -26,6 +27,7 @@ export class BoxFormGroupComponent implements OnInit {
   visibleElements: boolean[] = [];
   role: string | null = this.userService.getRole();
   formGroupList: FormGroupModel[] = [];
+  filteredGroups: FormGroupModel[] = [];
   selectedFormGroup: FormGroupModel = { id: 0, title: '', forms: [] };
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
@@ -33,14 +35,12 @@ export class BoxFormGroupComponent implements OnInit {
   updaterComponent: FormGroupUpdaterComponent;
   @ViewChild(FormGroupDeleterComponent)
   deleterComponent: FormGroupDeleterComponent;
-  @ViewChild(FormGroupCreatorComponent)
-  creatorComponent: FormGroupCreatorComponent;
+  @ViewChild(FormCreatorComponent)
+  creatorComponent: FormCreatorComponent;
 
   constructor(
     private formGroupService: FormGroupService,
     private userService: UserService,
-    private el: ElementRef,
-    private renderer: Renderer2,
     private fb: FormBuilder
   ) {}
 
@@ -63,6 +63,7 @@ export class BoxFormGroupComponent implements OnInit {
     this.formGroupService.getFormGroup().subscribe({
       next: (data: FormGroupModel[]) => {
         this.formGroupList = data;
+        this.filteredGroups = [...this.formGroupList];
       },
     });
   }
@@ -81,8 +82,24 @@ export class BoxFormGroupComponent implements OnInit {
     });
   }
 
-  createGroup(): void {
+  createForm(): void {
     this.creatorComponent.openDialog();
+  }
+
+  updateGroup(id: number): void {
+    this.updaterComponent.getFormGroupByIdToPut(id);
+
+    this.updaterComponent.updateEvent.subscribe(() => {
+      const updatedGroup = this.formGroupList.find(
+        (fg) => fg.id === this.selectedFormGroup.id
+      );
+      if (updatedGroup) {
+        updatedGroup.title = this.selectedFormGroup.title;
+      }
+
+      this.selectedFormGroup.title =
+        this.updaterComponent.formGroup.get('title')?.value;
+    });
   }
 
   openDialog(event: Event, id: number): void {
@@ -108,6 +125,16 @@ export class BoxFormGroupComponent implements OnInit {
 
   toggleElement(index: number): void {
     this.visibleElements[index] = !this.visibleElements[index];
+  }
+
+  onSearch(searchValue: string): void {
+    this.formGroupService.getFormGroup().subscribe({
+      next: (data: FormGroupModel[]) => {
+        this.filteredGroups = data.filter((i) =>
+          i.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())
+        );
+      },
+    });
   }
 
   @HostListener('document:click', ['$event'])

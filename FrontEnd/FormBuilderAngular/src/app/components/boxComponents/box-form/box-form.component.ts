@@ -19,6 +19,7 @@ import { QuestionService } from 'src/app/services/QuestionService/question.servi
 import { FormDeleterComponent } from '../../deleterComponents/form-deleter/form-deleter.component';
 import { UserService } from 'src/app/services/UserService/user.service';
 import { FormCreatorComponent } from '../../creatorComponents/form-creator/form-creator.component';
+import { QuestionCreatorComponent } from '../../creatorComponents/question-creator/question-creator.component';
 
 @Component({
   selector: 'app-box-form',
@@ -38,15 +39,14 @@ export class BoxFormComponent implements OnInit, OnChanges {
   @ViewChild(FormUpdaterComponent) formUpdater: FormUpdaterComponent;
   @ViewChild(FormDeleterComponent) formDeleter: FormDeleterComponent;
   @ViewChild(BoxQuestionComponent) questionComponent: BoxQuestionComponent;
-  @ViewChild(FormCreatorComponent) creatorComponent: FormCreatorComponent;
+  @ViewChild(QuestionCreatorComponent)
+  creatorComponent: QuestionCreatorComponent;
 
   constructor(
     private formService: FormService,
     private formGroupService: FormGroupService,
     private questionService: QuestionService,
-    private userService: UserService,
-    private el: ElementRef,
-    private renderer: Renderer2
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -56,7 +56,7 @@ export class BoxFormComponent implements OnInit, OnChanges {
     this.formService.formDeleted.subscribe(() => {
       this.getFormByGroupId();
     });
-    this.questionService.questionCreated.subscribe(() => {
+    this.formService.formCreated.subscribe(() => {
       this.getFormByGroupId();
     });
 
@@ -86,8 +86,24 @@ export class BoxFormComponent implements OnInit, OnChanges {
     }
   }
 
-  createForm(): void {
+  createQuestion(): void {
     this.creatorComponent.openDialog();
+  }
+
+  updateForm(form: Form): void {
+    this.selectedForm = form;
+    this.formUpdater.dialogPut.nativeElement.showModal();
+
+    this.formUpdater.updateEvent.subscribe(() => {
+      const updatedForm = this.formsSelected.find(
+        (f) => f.id === this.selectedForm.id
+      );
+      if (updatedForm) {
+        updatedForm.title = this.selectedForm.title;
+      }
+
+      this.selectedForm.title = this.formUpdater.formGroup.get('title')?.value;
+    });
   }
 
   openFormDialog(form: Form) {
@@ -103,18 +119,6 @@ export class BoxFormComponent implements OnInit, OnChanges {
 
   deleteForm(form: Form): void {
     this.formDeleter.deleteForm(form);
-  }
-
-  ActiveEditContainer(index: number) {
-    const editContainers =
-      this.el.nativeElement.querySelectorAll('.edit-container');
-
-    const editContainer = editContainers[index];
-
-    const hasClass = editContainer.classList.contains('active');
-
-    if (hasClass) this.renderer.removeClass(editContainer, 'active');
-    else this.renderer.addClass(editContainer, 'active');
   }
 
   openPutDialog(form: Form): void {

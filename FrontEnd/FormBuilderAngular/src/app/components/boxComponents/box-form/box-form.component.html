@@ -48,8 +48,11 @@
           <h1>Form Title - {{ selectedForm.title }}</h1>
 
           <div class="btn-container">
-            <button class="btn-create" (click)="createForm()">
-              Create Form
+            <button class="btn-create" (click)="updateForm(selectedForm)">
+              Update Form
+            </button>
+            <button class="btn-create" (click)="createQuestion()">
+              Create Question
             </button>
             <button class="btn btn-close-dialog" (click)="closeFormDialog()">
               <svg
@@ -84,5 +87,5 @@
     </dialog>
   </div>
 
-  <app-form-creator />
+  <app-question-creator />
 </div>

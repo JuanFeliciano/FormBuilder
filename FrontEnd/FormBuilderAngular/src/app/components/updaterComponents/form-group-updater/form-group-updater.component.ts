@@ -77,6 +77,8 @@ export class FormGroupUpdaterComponent implements OnChanges {
         next: () => {
           this.closePutDialog();
           this.dialogMessage.openDialog('Form Group Updated Successfully');
+
+          this.updateEvent.emit();
         },
         error: (error) => {
           console.error('Error updating Form Group', error);

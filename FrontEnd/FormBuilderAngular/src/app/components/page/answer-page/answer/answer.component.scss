@@ -1,7 +1,22 @@
 .main {
-  position: relative;
-  margin-left: 150px;
+  position: fixed;
+  left: 9%;
   color: #1f1f1f;
+
+  h1 {
+    width: 16vw;
+    position: absolute;
+    top: 10px;
+    color: #000;
+  }
+
+  .search-component {
+    display: flex;
+    top: 13px;
+    position: absolute;
+    left: 83.5vw;
+    max-width: 400px;
+  }
 
   .grade {
     display: flex;
@@ -31,9 +46,6 @@
 .container-answer {
   position: absolute;
   top: 40px;
-  display: grid;
-  flex-direction: row;
-  grid-template-columns: repeat(5, 1fr);
 
   h1 {
     position: relative;
@@ -44,16 +56,18 @@
 }
 
 .box-main {
-  display: flex;
-  position: absolute;
-  top: 5%;
+  position: relative;
+  top: 31px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 .box-answer {
   height: 110px;
   width: 342px;
-  margin-top: 40px;
-  margin-right: 100px;
+  margin-bottom: 100px;
+  margin-right: 70px;
   transition: transform 0.2s ease-in-out;
 
   .answer {

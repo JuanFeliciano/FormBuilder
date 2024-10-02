@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { QuestionCreatorComponent } from 'src/app/components/creatorComponents/question-creator/question-creator.component';
 import { QuestionDeleterComponent } from 'src/app/components/deleterComponents/question-deleter/question-deleter.component';
 import { QuestionUpdaterComponent } from 'src/app/components/updaterComponents/question-updater/question-updater.component';
 import { Question } from 'src/app/interfaces/interfaces';
@@ -16,7 +17,7 @@ export class QuestionsComponent {
   idQuestion: number = 0;
   visibleElements: boolean[] = [];
   role: string | null = this.userService.getRole();
-  questionList: Question[] = [];
+  filteredQuestions: Question[] = [];
   selectedQuestion: Question = { id: 0, idForm: 0, content: '', answers: [] };
 
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
@@ -24,6 +25,8 @@ export class QuestionsComponent {
   updaterComponent: QuestionUpdaterComponent;
   @ViewChild(QuestionDeleterComponent)
   deleterComponent: QuestionDeleterComponent;
+  @ViewChild(QuestionCreatorComponent)
+  creatorComponent: QuestionCreatorComponent;
 
   constructor(
     private questionService: QuestionService,
@@ -42,13 +45,13 @@ export class QuestionsComponent {
     this.questionService.questionUpdated.subscribe(() => this.getQuestions());
     this.questionService.questionDeleted.subscribe(() => this.getQuestions());
 
-    this.visibleElements = new Array(this.questionList.length).fill(false);
+    this.visibleElements = new Array(this.filteredQuestions.length).fill(false);
   }
 
   getQuestions(): void {
     this.questionService.get().subscribe({
       next: (data: Question[]) => {
-        this.questionList = data;
+        this.filteredQuestions = data;
       },
     });
   }
@@ -80,16 +83,50 @@ export class QuestionsComponent {
     }
   }
 
-  openPutDialog(event: Event, question: Question): void {
-    event.stopPropagation();
-
-    this.selectedQuestion = question;
-    this.updaterComponent.updateQuestion();
+  openPutDialog(question: Question): void {
+    this.updaterComponent.openDialog(question);
     this.question.patchValue({ id: question.id, title: question.content });
+  }
+
+  createQuestion(): void {
+    this.creatorComponent.openDialog();
+  }
+
+  updateQuestion(): void {
+    if (this.idQuestion === 0) {
+      console.error('Id da Pergunta inválido');
+      return;
+    }
+
+    this.updaterComponent.dialog.nativeElement.showModal();
+
+    this.updaterComponent.updateQuestionEmitter.subscribe(() => {
+      const updatedQuestion = this.filteredQuestions.find(
+        (f) => f.id === this.selectedQuestion.id
+      );
+      if (updatedQuestion) {
+        updatedQuestion.content = this.selectedQuestion.content;
+      }
+
+      this.selectedQuestion.content =
+        this.updaterComponent.questionForm.get('content')?.value;
+    });
   }
 
   toggleElement(index: number): void {
     this.visibleElements[index] = !this.visibleElements[index];
+  }
+
+  onSearch(searchValue: string): void {
+    this.questionService.get().subscribe({
+      next: (data: Question[]) => {
+        this.filteredQuestions = data.filter((i) =>
+          i.content
+            .toLocaleLowerCase()
+            .includes(searchValue.toLocaleLowerCase())
+        );
+      },
+    });
   }
 
   @HostListener('document:click', ['$event'])
@@ -97,7 +134,9 @@ export class QuestionsComponent {
     const clickInside = (event.target as HTMLElement).closest('.btn-edit');
 
     if (!clickInside) {
-      this.visibleElements = new Array(this.questionList.length).fill(false);
+      this.visibleElements = new Array(this.filteredQuestions.length).fill(
+        false
+      );
     }
   }
 }
