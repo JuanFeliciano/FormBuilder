@@ -57,7 +57,6 @@ header {
 }
 
 .sidebar ul li {
-  position: relative;
   list-style-type: none;
   height: 50px;
   width: 90%;
@@ -200,4 +199,9 @@ p {
 }
 li {
   cursor: pointer;
+}
+
+.logout-span {
+  position: absolute;
+  bottom: 0;
 }

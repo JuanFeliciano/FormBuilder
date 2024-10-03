@@ -1,0 +1,37 @@
+<div class="main-container">
+  <h1 class="eight-one">Forms</h1>
+  <app-search-box class="search-component" (searchEvent)="onSearch($event)" />
+  <div class="container">
+    <div
+      class="box-question"
+      *ngFor="let question of filteredQuestion; let i = index"
+    >
+      <div class="description-container">
+        <p>{{ question.content }}</p>
+      </div>
+      <div class="response-container">
+        <select [(ngModel)]="answers[i].grade">
+          <option value="" disabled>Select a grade</option>
+          <option *ngFor="let item of gradeList" [value]="item">
+            {{ item }}
+          </option>
+        </select>
+        <input
+          type="text"
+          placeholder="Description"
+          [(ngModel)]="answers[i].description"
+        />
+      </div>
+    </div>
+
+    <button class="btn-submit" (click)="submit()">Submit</button>
+  </div>
+</div>
+
+<app-dialog-message />
+
+<ng-template #noData>
+  <div class="message">
+    <h1>There are no Questions</h1>
+  </div>
+</ng-template>

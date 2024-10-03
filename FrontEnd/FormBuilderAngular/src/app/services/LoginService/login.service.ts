@@ -33,11 +33,6 @@ export class LoginService {
   }
 
   Logout(): Observable<string> {
-    const token: string | null = this.tokenService.getAcessToken();
-
-    if (!token) {
-      return throwError(() => new Error('No token was found'));
-    }
     return this.http.post(this.urlLogout, {}, { responseType: 'text' }).pipe(
       tap(() => {
         this.router.navigate(['/login']), this.tokenService.clearStorage();

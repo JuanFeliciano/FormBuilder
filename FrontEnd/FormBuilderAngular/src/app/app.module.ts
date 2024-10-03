@@ -33,6 +33,8 @@ import { QuestionsComponent } from './components/page/questions-page/questions/q
 import { QuestionsRouteComponent } from './components/page/questions-page/questions-route/questions-route.component';
 import { BoxAnswerComponent } from './components/boxComponents/box-answer/box-answer.component';
 import { SearchBoxComponent } from './components/search-box/search-box.component';
+import { FormComponent } from './components/page/FormById/form/form.component';
+import { FormRouteComponent } from './components/page/FormById/form-route/form-route.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { SearchBoxComponent } from './components/search-box/search-box.component
     QuestionsRouteComponent,
     BoxAnswerComponent,
     SearchBoxComponent,
+    FormComponent,
+    FormRouteComponent,
   ],
   imports: [
     BrowserModule,

@@ -85,12 +85,7 @@ export class SidebarComponent {
   }
 
   updateButtonLabel(): void {
-    if (
-      this.currentRoute === '/dashboard' ||
-      this.currentRoute === '/answer' ||
-      this.currentRoute === '/forms' ||
-      this.currentRoute === '/questions'
-    ) {
+    if (this.currentRoute != '/nps') {
       this.buttonLabel = 'NPS';
     } else if (this.currentRoute === '/nps') {
       this.buttonLabel = 'Dashboard';

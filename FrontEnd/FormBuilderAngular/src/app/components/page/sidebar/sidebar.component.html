@@ -45,7 +45,7 @@
     </li>
     <li (click)="navigateBasedOnRouteForms()">
       <a href="javascript:void(0)" class="bx-purple">
-        <i class="bx bx-paste bx-green"></i>
+        <i class="bx bx-paste bx-purple"></i>
         <span class="nav-item">{{ buttonForms }}</span>
       </a>
       <span class="tooltip">{{ buttonForms }}</span>
@@ -59,20 +59,20 @@
     </li>
     <li (click)="navigateBasedOnRouteAnswer()" *ngIf="role === 'Admin'">
       <a class="bx-purple">
-        <i class="bx bxs-chalkboard bx-green"></i>
+        <i class="bx bxs-chalkboard bx-purple"></i>
         <span class="nav-item">{{ buttonAnswer }}</span>
       </a>
       <span class="tooltip">{{ buttonAnswer }}</span>
     </li>
     <li (click)="navigateBasedOnRoute()" *ngIf="role === 'Admin'">
       <a class="bx-green">
-        <i class="bx bx-chart bx-purple"></i>
+        <i class="bx bx-chart bx-green"></i>
         <span class="nav-item">{{ buttonLabel }}</span>
       </a>
       <span class="tooltip">{{ buttonLabel }}</span>
     </li>
-    <li (click)="Logout()">
-      <a href="javascript:void(0)" class="bx-green">
+    <li class="logout-span" (click)="Logout()">
+      <a href="javascript:void(0)" class="bx-purple">
         <i class="bx bx-log-out bx-purple"></i>
         <span class="nav-item">LogOut</span>
       </a>
