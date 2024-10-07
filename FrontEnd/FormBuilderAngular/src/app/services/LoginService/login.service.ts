@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
-import { Observable, tap, throwError } from 'rxjs';
-import { JwtPayload, User } from 'src/app/interfaces/interfaces';
+import { Observable, tap } from 'rxjs';
 import { TokenService } from '../TokenService/token.service';
 import { Router } from '@angular/router';
+import { JwtPayload, User } from 'src/app/models/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',

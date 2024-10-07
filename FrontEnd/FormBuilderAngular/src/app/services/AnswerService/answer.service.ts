@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Answer } from 'src/app/interfaces/interfaces';
+import { Observable } from 'rxjs'; 
+import { Answer } from 'src/app/models/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',

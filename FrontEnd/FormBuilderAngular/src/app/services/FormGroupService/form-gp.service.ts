@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { FormGroupModel } from 'src/app/interfaces/interfaces';
+import { FormGroupModel } from 'src/app/models/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',

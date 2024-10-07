@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './AuthGuard/auth.guard';
-import { NpsRouteComponent } from './components/page/nps-route/nps-route.component';
-import { LoginComponent } from './components/page/log/login.component';
-import { MainComponent } from './components/mainComponents/main.component';
-import { FormsRouteComponent } from './components/page/forms-page/forms-route/forms-route.component';
-import { AnswerRouteComponent } from './components/page/answer-page/answer-route/answer-route.component';
-import { QuestionsRouteComponent } from './components/page/questions-page/questions-route/questions-route.component';
-import { FormRouteComponent } from './components/page/FormById/form-route/form-route.component';
+import { LoginComponent } from './pages/LoginPage/login.component';
+import { AuthGuard } from './guard/auth.guard';
+import { MainComponent } from './components/MainComponents/main.component';
+import { NpsRouteComponent } from './pages/NpsPage/NpsRoute/nps-route.component';
+import { AnswerRouteComponent } from './pages/AnswerPage/AnswerRoute/answer-route.component';
+import { FormsRouteComponent } from './pages/FormPage/FormsRoute/forms-route.component';
+import { FormRouteComponent } from './pages/FormByIdPage/FormRoute/form-route.component';
+import { QuestionsRouteComponent } from './pages/QuestionPage/QuestionRoute/questions-route.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },

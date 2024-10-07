@@ -5,36 +5,37 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormGroupCreatorComponent } from './components/creatorComponents/form-group-creator/form-group-creator.component';
-import { BoxFormGroupComponent } from './components/boxComponents/box-form-group/box-form-group.component';
-import { BoxQuestionComponent } from './components/boxComponents/box-question/box-question.component';
-import { FormCreatorComponent } from './components/creatorComponents/form-creator/form-creator.component';
-import { QuestionCreatorComponent } from './components/creatorComponents/question-creator/question-creator.component';
-import { FormGroupUpdaterComponent } from './components/updaterComponents/form-group-updater/form-group-updater.component';
-import { FormGroupDeleterComponent } from './components/deleterComponents/form-group-deleter/form-group-deleter.component';
-import { FormUpdaterComponent } from './components/updaterComponents/form-updater/form-updater.component';
-import { FormDeleterComponent } from './components/deleterComponents/form-deleter/form-deleter.component';
-import { NpsComponent } from './components/page/nps/nps.component';
-import { NpsRouteComponent } from './components/page/nps-route/nps-route.component';
-import { SidebarComponent } from './components/page/sidebar/sidebar.component';
-import { DialogMessageComponent } from './components/dialogs/dialog-message';
-import { LoginComponent } from './components/page/log/login.component';
-import { MainComponent } from './components/mainComponents/main.component';
-import { InterceptorHttp } from './auth-interceptor/auth.interceptor';
-import { QuestionUpdaterComponent } from './components/updaterComponents/question-updater/question-updater.component';
-import { AnswerDialogComponent } from './components/dialogs/answer-dialog/answer-dialog.component';
-import { QuestionDeleterComponent } from './components/deleterComponents/question-deleter/question-deleter.component';
-import { FormsComponent } from './components/page/forms-page/forms/forms.component';
-import { FormsRouteComponent } from './components/page/forms-page/forms-route/forms-route.component';
-import { BoxFormComponent } from './components/boxComponents/box-form/box-form.component';
-import { AnswerRouteComponent } from './components/page/answer-page/answer-route/answer-route.component';
-import { AnswerComponent } from './components/page/answer-page/answer/answer.component';
-import { QuestionsComponent } from './components/page/questions-page/questions/questions.component';
-import { QuestionsRouteComponent } from './components/page/questions-page/questions-route/questions-route.component';
-import { BoxAnswerComponent } from './components/boxComponents/box-answer/box-answer.component';
-import { SearchBoxComponent } from './components/search-box/search-box.component';
-import { FormComponent } from './components/page/FormById/form/form.component';
-import { FormRouteComponent } from './components/page/FormById/form-route/form-route.component';
+import { LoginComponent } from './pages/LoginPage/login.component';
+import { FormGroupCreatorComponent } from './components/CreatorComponents/FormGroupCreator/form-group-creator.component';
+import { BoxFormGroupComponent } from './components/BoxComponents/BoxFormGroup/box-form-group.component';
+import { BoxQuestionComponent } from './components/BoxComponents/BoxQuestion/box-question.component';
+import { FormCreatorComponent } from './components/CreatorComponents/FormCreator/form-creator.component';
+import { QuestionCreatorComponent } from './components/CreatorComponents/QuestionCreator/question-creator.component';
+import { FormGroupUpdaterComponent } from './components/UpdaterComponents/FormGroupUpdater/form-group-updater.component';
+import { FormGroupDeleterComponent } from './components/DeleterComponents/FormGroupDeleter/form-group-deleter.component';
+import { FormUpdaterComponent } from './components/UpdaterComponents/FormUpdater/form-updater.component';
+import { FormDeleterComponent } from './components/DeleterComponents/FormDeleter/form-deleter.component';
+import { NpsComponent } from './pages/NpsPage/Nps/nps.component';
+import { NpsRouteComponent } from './pages/NpsPage/NpsRoute/nps-route.component';
+import { SidebarComponent } from './components/Sidebar/sidebar.component';
+import { DialogMessageComponent } from './shared/MessageDialog/dialog-message';
+import { AnswerComponent } from './pages/AnswerPage/Answer/answer.component';
+import { AnswerRouteComponent } from './pages/AnswerPage/AnswerRoute/answer-route.component';
+import { QuestionUpdaterComponent } from './components/UpdaterComponents/QuestionUpdater/question-updater.component';
+import { AnswerDialogComponent } from './components/Dialogs/AnswerDialog/answer-dialog.component';
+import { QuestionDeleterComponent } from './components/DeleterComponents/QuestionDeleter/question-deleter.component';
+import { FormsComponent } from './pages/FormPage/Forms/forms.component';
+import { FormsRouteComponent } from './pages/FormPage/FormsRoute/forms-route.component';
+import { BoxFormComponent } from './components/BoxComponents/BoxForm/box-form.component';
+import { QuestionsComponent } from './pages/QuestionPage/Question/questions.component';
+import { QuestionsRouteComponent } from './pages/QuestionPage/QuestionRoute/questions-route.component';
+import { BoxAnswerComponent } from './components/BoxComponents/BoxAnswer/box-answer.component';
+import { SearchBoxComponent } from './components/Search/search-box.component';
+import { FormComponent } from './pages/FormByIdPage/Form/form.component';
+import { FormRouteComponent } from './pages/FormByIdPage/FormRoute/form-route.component';
+import { InterceptorHttp } from './auth/auth.interceptor';
+import { MainComponent } from './components/MainComponents/main.component';
+import { ConfirmDialogComponent } from './shared/ConfirmDialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { FormRouteComponent } from './components/page/FormById/form-route/form-r
     SearchBoxComponent,
     FormComponent,
     FormRouteComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

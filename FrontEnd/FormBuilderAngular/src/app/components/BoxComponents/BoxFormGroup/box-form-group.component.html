@@ -1,0 +1,88 @@
+<div class="main-container">
+  <h1 class="eight-one">Forms Group</h1>
+  <app-search-box class="search-component" (searchEvent)="onSearch($event)" />
+  <div class="container" *ngIf="filteredGroups.length > 0; else noData">
+    <div
+      class="box-form"
+      *ngFor="let formGroup of filteredGroups; let i = index"
+    >
+      <div class="btn-edit">
+        <h3>{{ formGroup.id }} - {{ formGroup.title }}</h3>
+        <div class="edit-container" *ngIf="visibleElements[i]">
+          <label class="edit" (click)="openPutDialog($event, formGroup)"
+            >Edit</label
+          >
+          <label
+            class="delete"
+            (click)="deleterComponent.deleteFormGroup(formGroup)"
+            >Delete</label
+          >
+        </div>
+        <button (click)="toggleElement(i)" *ngIf="canView()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#2c2c2c"
+          >
+            <path
+              d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div class="description-container">
+        <p (click)="openDialog($event, formGroup.id)">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+          consectetur natus quod maiores dolorum saepe molestias delectus
+        </p>
+      </div>
+    </div>
+
+    <app-form-group-deleter />
+    <app-form-group-updater [formGroupInput]="selectedFormGroup" />
+
+    <div class="dialog-container">
+      <dialog #dialog class="dialog">
+        <div class="title">
+          <h1>Group Title - {{ selectedFormGroup.title }}</h1>
+          <div class="btn-container">
+            <div class="optional-btn" *ngIf="canView()">
+              <button
+                class="btn-create btn-update"
+                (click)="updateGroup(selectedFormGroup.id)"
+              >
+                Update Group
+              </button>
+              <button class="btn-create" (click)="createForm()">
+                Create Form
+              </button>
+            </div>
+            <button class="btn btn-close-dialog" (click)="closeDialog($event)">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="ionicon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
+                  fill="#2c2c2c"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <app-box-form [formGroupId]="idFormGroup" class="form-component" />
+      </dialog>
+    </div>
+  </div>
+</div>
+
+<app-form-creator />
+
+<ng-template #noData>
+  <div class="message">
+    <h1>There are no Forms Group</h1>
+  </div>
+</ng-template>

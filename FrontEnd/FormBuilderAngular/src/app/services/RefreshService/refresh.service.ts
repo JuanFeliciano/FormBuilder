@@ -1,8 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { RefreshRoute } from 'src/app/interfaces/interfaces';
 import { TokenService } from '../TokenService/token.service';
+import { RefreshRoute } from 'src/app/models/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
