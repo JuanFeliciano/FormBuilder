@@ -44,6 +44,23 @@ namespace MovtechForms.Application.Controllers.CoreControllers
             }
         }
 
+        [Authorize]
+        [HttpGet("IdForm/{id}")]
+        public async Task<IActionResult> GetByIdForm(int id)
+        {
+            try
+            {
+                return StatusCode(200, await _questionService.GetByIdForm(id));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, $"Error when querying objects: {ex.Message}");
+            }
+        }
+
+
+
 
         [Authorize(Roles = "Admin")]
         [HttpPost]

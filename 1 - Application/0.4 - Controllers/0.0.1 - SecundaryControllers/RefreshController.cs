@@ -7,7 +7,6 @@ namespace MovtechForms._1___Application._0._4___Controllers._0._0._1___Secundary
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
     public class RefreshController : ControllerBase
     {
         private readonly IHttpContextAccessor _context;
@@ -29,7 +28,7 @@ namespace MovtechForms._1___Application._0._4___Controllers._0._0._1___Secundary
                 Console.WriteLine($"RefreshToken recebido: {refresh.RefreshToken}");
                 return StatusCode(200, new
                 {
-                    AcessToken = tokenRefresh.Item2,
+                    AccessToken = tokenRefresh.Item2,
                     RefreshToken = tokenRefresh.Item1,
                     DateToken = tokenRefresh.Item3
 

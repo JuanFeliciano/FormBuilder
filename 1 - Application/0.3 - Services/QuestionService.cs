@@ -22,6 +22,11 @@ namespace MovtechForms.Application.Services.MainServices
             return await _questionHandler.GetById(id);
         }
 
+        public async Task<List<Question>> GetByIdForm(int id)
+        {
+            return await _questionHandler.GetByIdForm(id);
+        }
+
         public async Task<List<Question>> Post([FromBody] Question[] questions)
         {
             return await _questionHandler.Post(questions);

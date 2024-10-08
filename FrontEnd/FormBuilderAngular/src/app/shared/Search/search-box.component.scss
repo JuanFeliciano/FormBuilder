@@ -1,0 +1,89 @@
+.main {
+  position: relative;
+  left: 7.5vw;
+  top: -20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 82vw;
+  border-radius: 20px;
+}
+
+.eight-one {
+  z-index: 1;
+  display: flex;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.btn-container {
+  margin-right: 20px;
+}
+
+.box .search-box {
+  position: relative;
+  right: 0;
+  height: 40px;
+  width: 50px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#check:checked ~ .search-box {
+  width: 340px !important;
+}
+
+.search-box input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 25px;
+  background: #fff;
+  outline: none;
+  border: none;
+  padding-left: 20px;
+  padding-right: 50px;
+  right: 0;
+  transition: all 0.3s ease;
+}
+
+.search-box .icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  text-align: center;
+  line-height: 40px;
+  color: #000;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#check:checked ~ .search-box .icon {
+  color: #000;
+  border-radius: 0 25px 25px 0;
+}
+
+#check {
+  display: none;
+}

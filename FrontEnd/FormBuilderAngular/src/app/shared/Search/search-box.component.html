@@ -1,0 +1,19 @@
+<div class="main">
+  <h1 class="eight-one">{{ title }}</h1>
+  <div class="box">
+    <div class="btn-container">
+      <app-crud-buttons />
+    </div>
+    <input type="checkbox" id="check" />
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Type here..."
+        (input)="onSearchInput($event)"
+      />
+      <label for="check" class="icon">
+        <i class="fas fa-search"></i>
+      </label>
+    </div>
+  </div>
+</div>

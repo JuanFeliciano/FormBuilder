@@ -16,8 +16,6 @@ namespace MovtechForms._1___Application._0._2___CommandHandler
         {
             List<FormGroup> selectResult = await _formGroupRepo.Get();
 
-            if (selectResult.Count is 0)
-                throw new Exception("There are no Forms Group");
 
             return selectResult;
         }

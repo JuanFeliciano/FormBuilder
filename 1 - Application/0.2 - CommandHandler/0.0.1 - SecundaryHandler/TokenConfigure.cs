@@ -37,11 +37,11 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             ];
 
-            JwtSecurityToken tokenJwt = new (
+            JwtSecurityToken tokenJwt = new(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(1),
+                expires: DateTime.Now.AddMinutes(10),
                 signingCredentials: creds
                 );
 

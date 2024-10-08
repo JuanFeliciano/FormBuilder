@@ -57,15 +57,24 @@ namespace MovtechForms.Application.Repositories.UseCases
 
         public async Task DeleteForEach(int idForm)
         {
+
+            string selectQueryQuestion = "SELECT * FROM Questions WHERE IdForm = @IdForm;";
+            SqlParameter[] questionParameters = { new("IdForm", idForm) };
+
+            DataTable questionTable = await _dbService.ExecuteQuery(selectQueryQuestion, questionParameters);
+            List<Question> questionList = questionTable.ConvertDataTableToList<Question>();
+
+            foreach (Question question in questionList) {
+                string deleteAnswerQuery = "DELETE FROM Answer WHERE IdQuestion = @IdQuestion;";
+                SqlParameter[] answerParameters = { new("IdQuestion", question.Id) };
+
+                await _dbService.ExecuteQuery(deleteAnswerQuery, answerParameters);
+            }
+
             string deleteQuestionQuery = "DELETE FROM Questions WHERE IdForm = @IdForm;";
             SqlParameter[] deleteQuestionParameter = { new("@IdForm", idForm) };
 
             await _dbService.ExecuteQuery(deleteQuestionQuery, deleteQuestionParameter);
-
-            string deleteFormQuery = "DELETE FROM Forms WHERE Id = @Id;";
-            SqlParameter[] deleteFormParameter = { new("@Id", idForm) };
-
-            await _dbService.ExecuteQuery(deleteFormQuery, deleteFormParameter);
         }
     }
 }

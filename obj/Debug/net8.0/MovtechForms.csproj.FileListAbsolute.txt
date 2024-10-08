@@ -56,3 +56,10 @@ C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Fro
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Microsoft.AspNetCore.SpaServices.Extensions.dll
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\FrontEnd\FormBuilderAngular\proxy.conf.json
 C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\MovtechForms.staticwebassets.runtime.json
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Google.Apis.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Google.Apis.Auth.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Google.Apis.Core.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\System.CodeDom.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\System.Management.dll
+C:\Users\Estagiario2\source\repos\MovtechForms\MovtechForms\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Management.dll

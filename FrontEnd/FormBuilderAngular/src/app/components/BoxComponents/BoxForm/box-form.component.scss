@@ -1,0 +1,197 @@
+.box-form {
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  width: 285px;
+  background-color: #fff;
+  border-radius: 20px;
+  border: 2px solid #1f1f1f;
+
+  transition: transform 0.2s ease-in-out;
+
+  p {
+    cursor: pointer;
+  }
+
+  .btn-edit {
+    display: flex;
+    height: 4vh;
+
+    h5 {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    button {
+      padding: 0;
+    }
+  }
+}
+
+.box-form:hover {
+  transform: translateY(5px);
+}
+
+.dialog {
+  border: none;
+  border-radius: 20px;
+  color: #1f1f1f;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.main-container {
+  height: 70vh;
+  width: 133vh;
+}
+
+input {
+  width: 32vw;
+  height: 5vh;
+  border: none;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.forms-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.title {
+  position: sticky;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 20px;
+  border-bottom: 1.5px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-container {
+  display: flex;
+}
+
+.footer {
+  position: sticky;
+  bottom: -22%;
+  padding: 10px 20px;
+  background-color: white;
+  border-top: 1px solid #ddd;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.edit-container {
+  position: relative;
+  top: 13px;
+  border: 2px solid #1f1f1f;
+  height: 5.8vh;
+  width: 6vw;
+  font-weight: bold;
+  border-radius: 10px;
+  background-color: #fff;
+
+  label {
+    display: flex;
+    justify-content: center;
+  }
+
+  .edit {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  .delete {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  .edit:hover,
+  .delete:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.btn-edit {
+  display: flex;
+  align-items: center;
+  height: 4vh;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #ddd;
+  padding: 10px;
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+
+.description-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+.btn {
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  min-width: 70px;
+  margin: 0;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-create {
+  margin-right: 10px;
+  border: 1.5px solid #000;
+  border-radius: 10px;
+  background-color: #fff;
+  font-weight: bold;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.btn-create:hover {
+  background-color: #f5f5f5;
+}
+
+.btn-close-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+  width: 10px;
+  svg {
+    margin-right: 15px;
+    height: 25px;
+    margin: 0;
+  }
+}
+
+.btn-submit {
+  border: 1.5px solid #000;
+  background-color: #fff;
+  color: #1f1f1f;
+  margin-right: 10px;
+}
+
+.box-dialog {
+  margin: 0;
+}

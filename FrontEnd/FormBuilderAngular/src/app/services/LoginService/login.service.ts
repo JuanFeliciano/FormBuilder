@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
-import { Observable, tap, throwError } from 'rxjs';
-import { JwtPayload, User } from 'src/app/interfaces/interfaces';
+import { Observable, tap } from 'rxjs';
 import { TokenService } from '../TokenService/token.service';
 import { Router } from '@angular/router';
+import { JwtPayload, User } from 'src/app/models/interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +23,7 @@ export class LoginService {
     username: User['username'];
     password: User['password'];
   }): Observable<User> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    return this.http.post<User>(this.urlLogin, loginData, { headers }).pipe(
+    return this.http.post<User>(this.urlLogin, loginData).pipe(
       tap((response) => {
         const decodedToken: JwtPayload = jwtDecode(response.accessToken);
 
@@ -35,20 +33,11 @@ export class LoginService {
   }
 
   Logout(): Observable<string> {
-    const token: string | null = this.tokenService.getAcessToken();
-
-    if (!token) {
-      return throwError(() => new Error('No token was found'));
-    }
-    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-
-    return this.http
-      .post(this.urlLogout, {}, { headers, responseType: 'text' })
-      .pipe(
-        tap(() => {
-          this.router.navigate(['/login']), this.tokenService.clearStorage();
-        })
-      );
+    return this.http.post(this.urlLogout, {}, { responseType: 'text' }).pipe(
+      tap(() => {
+        this.router.navigate(['/login']), this.tokenService.clearStorage();
+      })
+    );
   }
 
   private setSession(authResult: any, expire: number) {

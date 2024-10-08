@@ -1,0 +1,81 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 20px;
+}
+
+.box-form {
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  width: 300px;
+  background-color: #fff;
+  border-radius: 20px;
+  border: 2px solid #1f1f1f;
+  background-color: #fff;
+
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn-edit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 4vh;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #ddd;
+  padding: 10px;
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+}
+
+.edit-container {
+  position: absolute;
+  left: 50%;
+  top: 13%;
+  border: 2px solid #1f1f1f;
+  background-color: #fff;
+  border-radius: 10px;
+  height: 5.8vh;
+  width: 6vw;
+  font-weight: bold;
+
+  label {
+    display: flex;
+    justify-content: center;
+  }
+
+  .edit {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .delete {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .edit:hover,
+  .delete:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.answer-container {
+  position: relative;
+  top: 6vh;
+  display: flex;
+  justify-content: center;
+
+  input {
+    padding: 5px;
+  }
+
+  .grade-input {
+    width: 2vw;
+  }
+}

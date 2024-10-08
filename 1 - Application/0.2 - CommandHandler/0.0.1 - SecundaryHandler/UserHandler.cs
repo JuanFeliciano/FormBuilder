@@ -87,7 +87,7 @@ namespace MovtechForms._1___Application._0._2___CommandHandler._0._0._1___Secund
             _tokenConfigure.RevokeToken(token);
 
             string newAcessToken = tokenGenerator.Result.Item1;
-            var newRefreshToken = tokenGenerator.Result.Item2;
+            string newRefreshToken = tokenGenerator.Result.Item2;
 
 
             user.RefreshToken = newRefreshToken;

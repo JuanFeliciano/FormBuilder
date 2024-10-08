@@ -7,10 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FrontEnd\NovaPasta\**" />
+    <Content Remove="FrontEnd\NovaPasta\**" />
+    <EmbeddedResource Remove="FrontEnd\NovaPasta\**" />
+    <None Remove="FrontEnd\NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="1 - Application\0.1 - Repositories\0.0.1 - SecundaryRepositories\NpsScore.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />

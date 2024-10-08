@@ -1,0 +1,9 @@
+<div class="main" *ngIf="canView()">
+  <button (click)="formGroupCreator.openDialog()">Create Form Group</button>
+  <button (click)="formCreator.openDialog()">Create Form</button>
+  <button (click)="questionCreator.openDialog()">Create Question</button>
+</div>
+
+<app-form-group-creator />
+<app-form-creator />
+<app-question-creator />
