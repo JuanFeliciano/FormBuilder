@@ -47,29 +47,29 @@ header {
   #btn {
     position: absolute;
     color: #fff;
-    top: 0.4rem;
+    top: 1.3rem;
     left: 50%;
     font-size: 1.2rem;
-    line-height: 50px;
     transform: translateX(-50%);
     cursor: pointer;
   }
 }
 
-.sidebar ul {
+.nav-container {
   height: 81vh;
 }
 
-.sidebar ul li {
+.nav-item-container {
   position: relative;
-  list-style-type: none;
   height: 50px;
   width: 90%;
   margin: 0.8rem auto;
-  line-height: 50px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-.sidebar ul li a {
+.nav-item-container a {
   color: #fff;
   display: flex;
   align-items: center;
@@ -79,11 +79,12 @@ header {
   border-radius: 0.8rem;
 }
 
-.sidebar ul li a:hover {
-  color: #1e1e1e;
+.nav-item-container:hover {
+  background-color: #2e2e2e;
+  border-radius: 15px;
 }
 
-.sidebar ul li a i {
+.nav-item-container a i {
   min-width: 50px;
   text-align: center;
   height: 50px;
@@ -91,19 +92,11 @@ header {
   line-height: 50px;
 }
 
-.bx-green:hover {
-  background-color: #daff7d;
-}
-
-.bx-purple:hover {
-  background-color: #9381ff;
-}
-
 .tooltip {
   background-color: #fff;
 }
 
-.sidebar ul li .tooltip {
+.nav-item-container .tooltip {
   position: absolute;
   left: 125px;
   top: 50%;
@@ -116,11 +109,11 @@ header {
   opacity: 0;
 }
 
-.sidebar ul li:hover .tooltip {
+.nav-item-container:hover .tooltip {
   opacity: 1;
 }
 
-.active ul li .tooltip {
+.active .nav-item-container .tooltip {
   display: none;
 }
 
@@ -195,10 +188,10 @@ p {
   height: 30px;
   width: 30px;
 }
-li {
-  cursor: pointer;
-}
 
 .logout-span {
-  top: 40%;
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  width: 50px;
 }

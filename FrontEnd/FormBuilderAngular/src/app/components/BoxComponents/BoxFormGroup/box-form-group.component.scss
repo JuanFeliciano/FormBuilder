@@ -1,26 +1,23 @@
 .main-container {
-  .eight-one {
-    z-index: 1;
-    display: flex;
-    position: absolute;
-    left: 5%;
-    top: 2%;
-  }
+  position: relative;
+  top: 2vh;
+}
 
-  .search-component {
-    display: flex;
-    left: 72%;
-    max-width: 400px;
-    position: relative;
-  }
+.search-component {
+  position: absolute;
+  left: -5rem;
 }
 
 .container {
-  display: grid;
-  flex-direction: row;
-  grid-template-columns: repeat(4, 1fr);
-  position: absolute;
-  top: 5%;
+  position: relative;
+  left: 3.5vw;
+  top: 2.5rem;
+  width: 85.5vw;
+
+  .box-main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .box-form {
@@ -28,10 +25,9 @@
   flex-direction: column;
   height: 205px;
   width: 342px;
-  margin-top: 40px;
-  margin-left: 70px;
-  border: 2px solid #1f1f1f;
+  border: 2px solid #000;
   border-radius: 20px;
+  margin-bottom: 50px;
   transition: transform 0.2s ease-in-out;
 
   .btn-edit {

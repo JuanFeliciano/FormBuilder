@@ -30,7 +30,8 @@
     </div>
     <div class="description-container">
       <p (click)="openFormDialog(form)">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+        Clicando você abrirá um modal com todas as perguntas que pertencem a
+        este formulário específico!
       </p>
     </div>
   </div>
@@ -68,10 +69,7 @@
           </div>
         </div>
         <div class="scrollable-content">
-          <app-box-question
-            class="box-question"
-            [formId]="idForm"
-          />
+          <app-box-question class="box-question" [formId]="idForm" />
         </div>
       </div>
       <footer class="footer">

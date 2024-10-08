@@ -1,6 +1,9 @@
 <div class="main" *ngIf="filteredForms.length > 0; else noData">
-  <h1>Respond to Forms</h1>
-  <app-search-box class="search-component" (searchEvent)="onSearch($event)" />
+  <app-search-box
+    class="search-component"
+    [title]="'Answers'"
+    (searchEvent)="onSearch($event)"
+  />
   <div class="container-answer">
     <div class="box-main">
       <div class="box-answer" *ngFor="let form of filteredForms">
@@ -10,8 +13,9 @@
           </div>
           <div class="description-container">
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
-              eligendi quam perferendis quo cupiditate
+              Clicando você abrirá um modal com todas as perguntas deste
+              formulário específico, podendo também todas as respostas para cada
+              pergunta!
             </p>
           </div>
         </div>

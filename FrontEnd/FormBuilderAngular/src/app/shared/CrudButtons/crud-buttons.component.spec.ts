@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuestionsComponent } from './questions.component';
+import { CrudButtonsComponent } from './crud-buttons.component';
 
-describe('QuestionsComponent', () => {
-  let component: QuestionsComponent;
-  let fixture: ComponentFixture<QuestionsComponent>;
+describe('CrudButtonsComponent', () => {
+  let component: CrudButtonsComponent;
+  let fixture: ComponentFixture<CrudButtonsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ QuestionsComponent ]
+      declarations: [ CrudButtonsComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(QuestionsComponent);
+    fixture = TestBed.createComponent(CrudButtonsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

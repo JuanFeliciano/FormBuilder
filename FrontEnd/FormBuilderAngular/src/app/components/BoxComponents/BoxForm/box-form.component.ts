@@ -122,12 +122,12 @@ export class BoxFormComponent implements OnInit, OnChanges {
     }
   }
 
-  @HostListener('document:click', ['$event'])
-  outClick(event: Event) {
-    const clickInside = (event.target as HTMLElement).closest('.btn-edit');
+  // @HostListener('document:click', ['$event'])
+  // outClick(event: Event) {
+  //   const clickInside = (event.target as HTMLElement).closest('.btn-edit');
 
-    if (!clickInside) {
-      this.visibleElements = new Array(this.formsSelected.length).fill(false);
-    }
-  }
+  //   if (!clickInside) {
+  //     this.visibleElements = new Array(this.formsSelected.length).fill(false);
+  //   }
+  // }
 }

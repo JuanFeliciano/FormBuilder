@@ -1,17 +1,13 @@
-import {
-  Component,
-  ElementRef,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { LoginService } from 'src/app/services/LoginService/login.service';
 import { catchError, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/UserService/user.service';
-import { FormGroupCreatorComponent } from '../CreatorComponents/FormGroupCreator/form-group-creator.component';
-import { FormCreatorComponent } from '../CreatorComponents/FormCreator/form-creator.component';
-import { QuestionCreatorComponent } from '../CreatorComponents/QuestionCreator/question-creator.component';
+import { FormGroupCreatorComponent } from '../../components/CreatorComponents/FormGroupCreator/form-group-creator.component';
+import { FormCreatorComponent } from '../../components/CreatorComponents/FormCreator/form-creator.component';
+import { QuestionCreatorComponent } from '../../components/CreatorComponents/QuestionCreator/question-creator.component';
+import { ConfirmDialogComponent } from '../ConfirmDialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,6 +20,7 @@ export class SidebarComponent {
   @ViewChild(FormCreatorComponent) formCreatorComponent: FormCreatorComponent;
   @ViewChild(QuestionCreatorComponent)
   questionCreatorComponent: QuestionCreatorComponent;
+  @ViewChild(ConfirmDialogComponent) confirmDialog: ConfirmDialogComponent;
 
   constructor(
     private router: Router,
@@ -42,7 +39,6 @@ export class SidebarComponent {
     '/nps': 'NPS',
     '/answer': 'Answer',
     '/forms': 'Forms',
-    '/questions': 'Questions',
   };
   isHovered: boolean = false;
   username: string = localStorage.getItem('name')!;
@@ -61,22 +57,24 @@ export class SidebarComponent {
   }
 
   Logout(): void {
-    const alertMessage: boolean = confirm('Are you sure?');
+    this.confirmDialog.openDialog();
 
-    if (alertMessage) {
-      this.loginService
-        .Logout()
-        .pipe(
-          catchError((error: HttpErrorResponse) => {
-            console.error('Error during logout', error);
-            alert(
-              'LogOut failed: ' + (error.error?.message || 'Unknown Error')
-            );
-            return throwError(() => new Error('LogOut failed'));
-          })
-        )
-        .subscribe();
-    }
+    this.confirmDialog.shouldDelete.subscribe((shouldDelete: boolean) => {
+      if (shouldDelete) {
+        this.loginService
+          .Logout()
+          .pipe(
+            catchError((error: HttpErrorResponse) => {
+              console.error('Error during logout', error);
+              alert(
+                'LogOut failed: ' + (error.error?.message || 'Unknown Error')
+              );
+              return throwError(() => new Error('LogOut failed'));
+            })
+          )
+          .subscribe();
+      }
+    });
   }
 
   ActiveSidebar() {
@@ -90,7 +88,11 @@ export class SidebarComponent {
     }
   }
 
-  onHover(state: boolean): void {
-    this.isHovered = state;
+  canView(): boolean {
+    if (this.role === 'Admin') {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

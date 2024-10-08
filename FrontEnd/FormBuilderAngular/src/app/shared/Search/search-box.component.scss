@@ -1,13 +1,35 @@
-.box {
+.main {
   position: relative;
-  max-width: 342px;
-  width: 100%;
+  left: 7.5vw;
+  top: -20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 82vw;
+  border-radius: 20px;
+}
+
+.eight-one {
+  z-index: 1;
+  display: flex;
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  position: relative;
   margin: 0;
   box-sizing: border-box;
 }
 
+.btn-container {
+  margin-right: 20px;
+}
+
 .box .search-box {
-  position: absolute;
+  position: relative;
   right: 0;
   height: 40px;
   width: 50px;

@@ -1,42 +1,48 @@
 <div class="main-container">
-  <h1 class="eight-one">Forms Group</h1>
-  <app-search-box class="search-component" (searchEvent)="onSearch($event)" />
+  <app-search-box
+    class="search-component"
+    [title]="'Forms Groups'"
+    (searchEvent)="onSearch($event)"
+  />
+
   <div class="container" *ngIf="filteredGroups.length > 0; else noData">
-    <div
-      class="box-form"
-      *ngFor="let formGroup of filteredGroups; let i = index"
-    >
-      <div class="btn-edit">
-        <h3>{{ formGroup.id }} - {{ formGroup.title }}</h3>
-        <div class="edit-container" *ngIf="visibleElements[i]">
-          <label class="edit" (click)="openPutDialog($event, formGroup)"
-            >Edit</label
-          >
-          <label
-            class="delete"
-            (click)="deleterComponent.deleteFormGroup(formGroup)"
-            >Delete</label
-          >
+    <div class="box-main">
+      <div
+        class="box-form"
+        *ngFor="let formGroup of filteredGroups; let i = index"
+      >
+        <div class="btn-edit">
+          <h3>{{ formGroup.id }} - {{ formGroup.title }}</h3>
+          <div class="edit-container" *ngIf="visibleElements[i]">
+            <label class="edit" (click)="openPutDialog($event, formGroup)"
+              >Edit</label
+            >
+            <label
+              class="delete"
+              (click)="deleterComponent.deleteFormGroup(formGroup)"
+              >Delete</label
+            >
+          </div>
+          <button (click)="toggleElement(i)" *ngIf="canView()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#2c2c2c"
+            >
+              <path
+                d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
+              />
+            </svg>
+          </button>
         </div>
-        <button (click)="toggleElement(i)" *ngIf="canView()">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#2c2c2c"
-          >
-            <path
-              d="M480-160q-33 0-56.5-23.5T400-240q0-33 23.5-56.5T480-320q33 0 56.5 23.5T560-240q0 33-23.5 56.5T480-160Zm0-240q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm0-240q-33 0-56.5-23.5T400-720q0-33 23.5-56.5T480-800q33 0 56.5 23.5T560-720q0 33-23.5 56.5T480-640Z"
-            />
-          </svg>
-        </button>
-      </div>
-      <div class="description-container">
-        <p (click)="openDialog($event, formGroup.id)">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-          consectetur natus quod maiores dolorum saepe molestias delectus
-        </p>
+        <div class="description-container">
+          <p (click)="openDialog($event, formGroup.id)">
+            Clicando você abrirá um modal com todos os formulários que pertencem
+            a este grupo específico!
+          </p>
+        </div>
       </div>
     </div>
 

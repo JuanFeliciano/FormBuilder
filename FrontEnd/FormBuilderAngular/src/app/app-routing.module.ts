@@ -7,7 +7,6 @@ import { NpsRouteComponent } from './pages/NpsPage/NpsRoute/nps-route.component'
 import { AnswerRouteComponent } from './pages/AnswerPage/AnswerRoute/answer-route.component';
 import { FormsRouteComponent } from './pages/FormPage/FormsRoute/forms-route.component';
 import { FormRouteComponent } from './pages/FormByIdPage/FormRoute/form-route.component';
-import { QuestionsRouteComponent } from './pages/QuestionPage/QuestionRoute/questions-route.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,11 +23,7 @@ const routes: Routes = [
     component: FormRouteComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'questions',
-    component: QuestionsRouteComponent,
-    canActivate: [AuthGuard],
-  },
+
   { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
 

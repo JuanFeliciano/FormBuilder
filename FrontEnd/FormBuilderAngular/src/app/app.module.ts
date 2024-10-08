@@ -17,7 +17,7 @@ import { FormUpdaterComponent } from './components/UpdaterComponents/FormUpdater
 import { FormDeleterComponent } from './components/DeleterComponents/FormDeleter/form-deleter.component';
 import { NpsComponent } from './pages/NpsPage/Nps/nps.component';
 import { NpsRouteComponent } from './pages/NpsPage/NpsRoute/nps-route.component';
-import { SidebarComponent } from './components/Sidebar/sidebar.component';
+import { SidebarComponent } from './shared/Sidebar/sidebar.component';
 import { DialogMessageComponent } from './shared/MessageDialog/dialog-message';
 import { AnswerComponent } from './pages/AnswerPage/Answer/answer.component';
 import { AnswerRouteComponent } from './pages/AnswerPage/AnswerRoute/answer-route.component';
@@ -27,15 +27,14 @@ import { QuestionDeleterComponent } from './components/DeleterComponents/Questio
 import { FormsComponent } from './pages/FormPage/Forms/forms.component';
 import { FormsRouteComponent } from './pages/FormPage/FormsRoute/forms-route.component';
 import { BoxFormComponent } from './components/BoxComponents/BoxForm/box-form.component';
-import { QuestionsComponent } from './pages/QuestionPage/Question/questions.component';
-import { QuestionsRouteComponent } from './pages/QuestionPage/QuestionRoute/questions-route.component';
 import { BoxAnswerComponent } from './components/BoxComponents/BoxAnswer/box-answer.component';
-import { SearchBoxComponent } from './components/Search/search-box.component';
+import { SearchBoxComponent } from './shared/Search/search-box.component';
 import { FormComponent } from './pages/FormByIdPage/Form/form.component';
 import { FormRouteComponent } from './pages/FormByIdPage/FormRoute/form-route.component';
 import { InterceptorHttp } from './auth/auth.interceptor';
 import { MainComponent } from './components/MainComponents/main.component';
 import { ConfirmDialogComponent } from './shared/ConfirmDialog/confirm-dialog.component';
+import { CrudButtonsComponent } from './shared/CrudButtons/crud-buttons.component';
 
 @NgModule({
   declarations: [
@@ -63,13 +62,12 @@ import { ConfirmDialogComponent } from './shared/ConfirmDialog/confirm-dialog.co
     FormsComponent,
     FormsRouteComponent,
     BoxFormComponent,
-    QuestionsComponent,
-    QuestionsRouteComponent,
     BoxAnswerComponent,
     SearchBoxComponent,
     FormComponent,
     FormRouteComponent,
     ConfirmDialogComponent,
+    CrudButtonsComponent,
   ],
   imports: [
     BrowserModule,
