@@ -56,9 +56,18 @@
           *ngIf="question.answers.length > 0; else answerData"
         >
           <div class="answer-content" *ngFor="let answer of question.answers">
-            <p>IdUser: {{ answer.idUser }}</p>
-            <p>Grade: {{ answer.grade }}</p>
-            <p>Description: {{ answer.description }}</p>
+            <p>
+              <span class="label-dynamic"> IdUser</span>
+              {{ answer.idUser }}
+            </p>
+            <p>
+              <span class="label-dynamic"> Grade</span>
+              {{ answer.grade }}
+            </p>
+            <p *ngIf="answer.description; else noDescription">
+              <span class="label-dynamic"> Description</span>
+              {{ answer.description }}
+            </p>
           </div>
         </div>
       </div>
@@ -70,4 +79,11 @@
   <div class="ng-container">
     <p>There are no Answers</p>
   </div>
+</ng-template>
+
+<ng-template #noDescription>
+  <p>
+    <span class="label-dynamic"> Description</span>
+    <span class="label-static">None</span>
+  </p>
 </ng-template>

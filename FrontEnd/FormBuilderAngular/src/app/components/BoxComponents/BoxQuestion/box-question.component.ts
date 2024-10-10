@@ -3,6 +3,7 @@ import {
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -30,9 +31,11 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
   questionUpdaterComponent: QuestionUpdaterComponent;
 
   userAnswers: Answer[] = [];
-  questionList: Question[];
+  questionList: Question[] = [];
   role: string | null = this.userService.getRole();
   listGrade: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  indexUpdate: number;
+  indexDelete: number;
   visibleElements: boolean[];
 
   constructor(
@@ -42,12 +45,6 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.questionService.questionUpdated.subscribe(() =>
-      this.getQuestionByFormId()
-    );
-    this.questionService.questionDeleted.subscribe(() =>
-      this.getQuestionByFormId()
-    );
     this.questionService.questionCreated.subscribe(() =>
       this.getQuestionByFormId()
     );
@@ -110,10 +107,10 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
       return;
     }
 
-    const answers: Answer[] = this.userAnswers.map((answer, index) => ({
+    const answers: Answer[] = this.userAnswers.map((answer, indexUpdate) => ({
       id: 0,
       idUser: 0,
-      idQuestion: this.questionList![index]?.id,
+      idQuestion: this.questionList![indexUpdate]?.id,
       grade: answer.grade,
       description: answer.description,
     }));
@@ -129,16 +126,26 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
     });
   }
 
-  deleteQuestion(question: Question): void {
+  deleteQuestion(question: Question, index: number): void {
+    this.indexDelete = index;
     this.questionDeleter.deleteQuestion(question);
   }
 
-  openPutModal(question: Question): void {
+  openPutModal(question: Question, indexUpdate: number): void {
+    this.indexUpdate = indexUpdate;
     this.questionUpdaterComponent.openDialog(question);
   }
 
-  toggleElement(index: number): void {
-    this.visibleElements[index] = !this.visibleElements[index];
+  toggleElement(indexUpdate: number): void {
+    this.visibleElements[indexUpdate] = !this.visibleElements[indexUpdate];
+  }
+
+  onQuestionUpdated(question: Question): void {
+    this.questionList[this.indexUpdate] = question;
+  }
+
+  onQuestionDeleted(): void {
+    this.questionList.splice(this.indexDelete, 1);
   }
 
   canView(): boolean {

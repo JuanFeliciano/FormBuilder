@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -25,6 +26,8 @@ export class FormGroupUpdaterComponent implements OnChanges {
   dialogMessage: DialogMessageComponent;
 
   @Input() formGroupInput: FormGroupModel;
+  @Output() groupUpdated: EventEmitter<FormGroupModel> =
+    new EventEmitter<FormGroupModel>();
 
   constructor(
     private formGroupService: FormGroupService,
@@ -71,8 +74,9 @@ export class FormGroupUpdaterComponent implements OnChanges {
       };
 
       this.formGroupService.updateFormGroup(formGroupData).subscribe({
-        next: () => {
+        next: (data: FormGroupModel) => {
           this.closePutDialog();
+          this.groupUpdated.emit(data);
           this.dialogMessage.openDialog('Form Group Updated Successfully');
         },
         error: (error) => {

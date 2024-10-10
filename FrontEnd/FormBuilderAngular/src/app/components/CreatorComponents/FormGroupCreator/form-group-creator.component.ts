@@ -83,8 +83,7 @@ export class FormGroupCreatorComponent implements OnInit {
       };
 
       this.formGroupService.createFormGroup(formGroupData).subscribe({
-        next: (response) => {
-          console.log('Form Group created successfully', response);
+        next: () => {
           this.closeDialog();
           this.dialogMessage.openDialog('Form Group Created Successfully');
         },

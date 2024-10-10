@@ -1,9 +1,12 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
+  Renderer2,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -21,8 +24,12 @@ import { DialogMessageComponent } from '../../../shared/MessageDialog/dialog-mes
 export class FormUpdaterComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
   formsGroups: FormGroupModel[];
+  changeForm: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() formInput: Form;
+  @Output() formUpdated: EventEmitter<Form> = new EventEmitter<Form>();
+
+  inputEvent: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('dialogPut') dialogPut: ElementRef<HTMLDialogElement>;
   @ViewChild(DialogMessageComponent)
@@ -31,7 +38,9 @@ export class FormUpdaterComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private formService: FormService,
-    private formGroupService: FormGroupService
+    private formGroupService: FormGroupService,
+    private el: ElementRef,
+    private renderer: Renderer2
   ) {
     this.formGroup = this.fb.group({
       idGroup: 0,
@@ -42,29 +51,23 @@ export class FormUpdaterComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.getFormGroup();
 
-    this.formGroupService.formGroupUpdated.subscribe(() => {
-      this.getFormGroup();
-    });
     this.formGroupService.formGroupCreated.subscribe(() => {
       this.getFormGroup();
     });
-    this.formGroupService.formGroupDeleted.subscribe(() => {
-      this.getFormGroup();
-    });
+
+    this.setClassInput();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['formInput']) {
       this.formGroup.patchValue({
-        idGroup: this.formInput.idGroup || 0,
-        title: this.formInput.title,
+        idGroup: 0,
+        title: '',
       });
     }
   }
 
   updateForm(): void {
-    console.log(this.formInput);
-
     if (this.formGroup.valid && this.formInput) {
       const formData: Form = {
         id: this.formInput.id,
@@ -74,9 +77,21 @@ export class FormUpdaterComponent implements OnInit, OnChanges {
       };
 
       this.formService.updateForm(formData).subscribe({
-        next: () => {
+        next: (data: Form) => {
+          this.formUpdated.emit(data);
+
+          if (formData.idGroup != this.formInput.idGroup) {
+            this.changeForm.emit();
+          }
+
           this.dialogPut.nativeElement.close();
           this.dialogMessage.openDialog('Form Updated Successfully');
+        },
+        error: (err) => {
+          console.error('Error when updating form', err);
+
+          console.log('idgrupo zero ');
+          this.setClassSelect();
         },
       });
     }
@@ -93,9 +108,57 @@ export class FormUpdaterComponent implements OnInit, OnChanges {
     });
   }
 
-  closePutDialog(event: Event) {
-    event.stopPropagation();
-
+  closePutDialog() {
+    this.resetStyles();
     this.dialogPut.nativeElement.close();
+    this.formGroup.reset();
+  }
+
+  onInput(event: any): void {
+    const value = event.target.value;
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const text = this.el.nativeElement.querySelector('.error-input');
+
+    if (value.length > 25) {
+      this.inputEvent.emit();
+    } else {
+      this.renderer.removeClass(input, 'error-message');
+      this.renderer.setStyle(text, 'opacity', '0');
+      this.renderer.setStyle(text, 'transform', 'translateY(20px)');
+    }
+  }
+
+  private setClassInput(): void {
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const text = this.el.nativeElement.querySelector('.error-input');
+
+    this.inputEvent.subscribe(() => {
+      this.renderer.addClass(input, 'error-message');
+      this.renderer.setStyle(text, 'opacity', '1');
+      this.renderer.setStyle(text, 'transform', 'translateY(0)');
+    });
+  }
+
+  private setClassSelect(): void {
+    const select = this.el.nativeElement.querySelector('select');
+    const text = this.el.nativeElement.querySelector('.error-select');
+
+    this.renderer.addClass(select, 'select-empty');
+    this.renderer.setStyle(text, 'opacity', '1');
+    this.renderer.setStyle(text, 'transform', 'translateY(0)');
+  }
+
+  private resetStyles(): void {
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const textInput = this.el.nativeElement.querySelector('.error-input');
+    const select = this.el.nativeElement.querySelector('select');
+    const textSelect = this.el.nativeElement.querySelector('.error-select');
+
+    this.renderer.removeClass(input, 'error-message');
+    this.renderer.setStyle(textInput, 'opacity', '0');
+    this.renderer.setStyle(textInput, 'transform', 'translateY(20px)');
+    this.renderer.removeClass(select, 'select-empty');
+    this.renderer.setStyle(textSelect, 'opacity', '0');
+    this.renderer.setStyle(textSelect, 'transform', 'translateY(20px)');
   }
 }

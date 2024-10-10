@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrudButtonsComponent } from './crud-buttons.component';
+import { CrudButtonsComponent } from './create-buttons.component';
 
 describe('CrudButtonsComponent', () => {
   let component: CrudButtonsComponent;
@@ -8,9 +8,8 @@ describe('CrudButtonsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CrudButtonsComponent ]
-    })
-    .compileComponents();
+      declarations: [CrudButtonsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CrudButtonsComponent);
     component = fixture.componentInstance;

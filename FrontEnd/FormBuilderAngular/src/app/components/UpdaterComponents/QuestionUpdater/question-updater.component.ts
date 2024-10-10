@@ -1,9 +1,12 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -24,17 +27,24 @@ export class QuestionUpdaterComponent implements OnInit, OnChanges {
   @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @ViewChild(DialogMessageComponent)
   dialogMessage: DialogMessageComponent;
+
   @Input() questionSelected: Question;
+  inputEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() questionUpdated: EventEmitter<Question> =
+    new EventEmitter<Question>();
 
   constructor(
     private questionService: QuestionService,
     private formService: FormService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private renderer: Renderer2,
+    private el: ElementRef
   ) {}
 
   ngOnInit(): void {
     this.getForms();
     this.initializeForm();
+    this.setClassInput();
   }
 
   ngOnChanges(): void {
@@ -62,13 +72,17 @@ export class QuestionUpdaterComponent implements OnInit, OnChanges {
       };
 
       this.questionService.update(question).subscribe({
-        next: () => {
-          this.dialogMessage.openDialog('Question Updated Successfully');
-
+        next: (data: Question) => {
+          this.questionUpdated.emit(data);
           this.closeDialog();
+          this.dialogMessage.openDialog('Question Updated Successfully');
         },
         error: (err) => {
           console.error('Error when updating question', err);
+
+          if (this.questionForm.get('idForm')?.value <= 0) {
+            this.setClassSelect();
+          }
         },
       });
     }
@@ -87,10 +101,61 @@ export class QuestionUpdaterComponent implements OnInit, OnChanges {
 
   openDialog(question: Question): void {
     this.questionSelected = question;
+    this.questionForm.reset();
     this.dialog.nativeElement.showModal();
   }
 
   closeDialog(): void {
+    this.questionForm.reset();
+    this.resetStyles();
     this.dialog.nativeElement.close();
+  }
+
+  onInput(event: any): void {
+    const value = event.target.value;
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const text = this.el.nativeElement.querySelector('.error-input');
+
+    if (value.length > 100) {
+      this.inputEvent.emit();
+    } else {
+      this.renderer.removeClass(input, 'error-message');
+      this.renderer.setStyle(text, 'opacity', '0');
+      this.renderer.setStyle(text, 'transform', 'translateY(20px)');
+    }
+  }
+
+  private setClassInput(): void {
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const text = this.el.nativeElement.querySelector('.error-input');
+
+    this.inputEvent.subscribe(() => {
+      this.renderer.addClass(input, 'error-message');
+      this.renderer.setStyle(text, 'opacity', '1');
+      this.renderer.setStyle(text, 'transform', 'translateY(0)');
+    });
+  }
+
+  private setClassSelect(): void {
+    const select = this.el.nativeElement.querySelector('select');
+    const text = this.el.nativeElement.querySelector('.error-select');
+
+    this.renderer.addClass(select, 'select-empty');
+    this.renderer.setStyle(text, 'opacity', '1');
+    this.renderer.setStyle(text, 'transform', 'translateY(0)');
+  }
+
+  private resetStyles(): void {
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const textInput = this.el.nativeElement.querySelector('.error-input');
+    const select = this.el.nativeElement.querySelector('select');
+    const textSelect = this.el.nativeElement.querySelector('.error-select');
+
+    this.renderer.removeClass(input, 'error-message');
+    this.renderer.setStyle(textInput, 'opacity', '0');
+    this.renderer.setStyle(textInput, 'transform', 'translateY(20px)');
+    this.renderer.removeClass(select, 'select-empty');
+    this.renderer.setStyle(textSelect, 'opacity', '0');
+    this.renderer.setStyle(textSelect, 'transform', 'translateY(20px)');
   }
 }

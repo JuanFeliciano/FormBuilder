@@ -1,4 +1,4 @@
-<div class="forms-container">
+<div class="forms-container" *ngIf="formsSelected.length > 0; else noData">
   <div
     class="box-form box-dialog"
     *ngFor="let form of formsSelected; let i = index"
@@ -6,9 +6,9 @@
     <div class="btn-edit">
       <h5>{{ form.id }} - {{ form.title }}</h5>
       <div class="edit-container" *ngIf="visibleElements[i]">
-        <label class="edit" (click)="openPutDialog(form)">Edit</label>
+        <label class="edit" (click)="openPutDialog(form, i)">Edit</label>
 
-        <label class="delete" (click)="deleteForm(form)">Delete</label>
+        <label class="delete" (click)="deleteForm(form, i)">Delete</label>
       </div>
       <button (click)="toggleElement(i)" *ngIf="canView()">
         <svg
@@ -36,8 +36,11 @@
     </div>
   </div>
 
-  <app-form-updater [formInput]="selectedForm" />
-  <app-form-deleter #formDeleter />
+  <app-form-updater
+    [formInput]="selectedForm"
+    (formUpdated)="onFormUpdated($event)"
+  />
+  <app-form-deleter #formDeleter (formDeleted)="onFormDeleted()" />
 
   <div class="dialog-container">
     <dialog #dialog class="dialog">
@@ -85,3 +88,9 @@
 
   <app-question-creator />
 </div>
+
+<ng-template #noData>
+  <div class="message">
+    <h1>There are no Forms</h1>
+  </div>
+</ng-template>

@@ -26,6 +26,10 @@ export class FormCreatorComponent {
   ngOnInit(): void {
     this.getFormGroup();
 
+    this.formGroupService.formGroupCreated.subscribe(() => {
+      this.getFormGroup();
+    });
+
     this.formGroup = this.fb.group({
       id: [null],
       idGroup: [null],

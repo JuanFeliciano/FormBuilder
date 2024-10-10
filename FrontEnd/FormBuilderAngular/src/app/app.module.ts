@@ -27,14 +27,13 @@ import { QuestionDeleterComponent } from './components/DeleterComponents/Questio
 import { FormsComponent } from './pages/FormPage/Forms/forms.component';
 import { FormsRouteComponent } from './pages/FormPage/FormsRoute/forms-route.component';
 import { BoxFormComponent } from './components/BoxComponents/BoxForm/box-form.component';
-import { BoxAnswerComponent } from './components/BoxComponents/BoxAnswer/box-answer.component';
 import { SearchBoxComponent } from './shared/Search/search-box.component';
 import { FormComponent } from './pages/FormByIdPage/Form/form.component';
 import { FormRouteComponent } from './pages/FormByIdPage/FormRoute/form-route.component';
-import { InterceptorHttp } from './auth/auth.interceptor';
 import { MainComponent } from './components/MainComponents/main.component';
 import { ConfirmDialogComponent } from './shared/ConfirmDialog/confirm-dialog.component';
-import { CrudButtonsComponent } from './shared/CrudButtons/crud-buttons.component';
+import { CrudButtonsComponent } from './shared/CreateButtons/create-buttons.component';
+import { InterceptorHttp } from './auth/AuthInterceptor/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -62,7 +61,6 @@ import { CrudButtonsComponent } from './shared/CrudButtons/crud-buttons.componen
     FormsComponent,
     FormsRouteComponent,
     BoxFormComponent,
-    BoxAnswerComponent,
     SearchBoxComponent,
     FormComponent,
     FormRouteComponent,

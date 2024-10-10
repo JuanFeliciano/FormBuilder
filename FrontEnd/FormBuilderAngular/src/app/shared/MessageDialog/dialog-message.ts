@@ -22,6 +22,7 @@ export class DialogMessageComponent {
   closeDialog(): void {
     if (this.dialog) {
       this.dialog.nativeElement.close();
+      console.log('fechando modal');
     }
   }
 }

@@ -7,8 +7,6 @@ import { Form } from 'src/app/models/interfaces/interfaces';
   providedIn: 'root',
 })
 export class FormService {
-  formUpdated = new EventEmitter<void>();
-  formDeleted = new EventEmitter<void>();
   formCreated = new EventEmitter<void>();
 
   private url: string = 'http://localhost:5117/Form';
@@ -24,19 +22,11 @@ export class FormService {
   }
 
   updateForm(form: Form): Observable<Form> {
-    return this.http.put<Form>(`${this.url}/${form.id}`, form).pipe(
-      tap(() => {
-        this.formUpdated.emit();
-      })
-    );
+    return this.http.put<Form>(`${this.url}/${form.id}`, form);
   }
 
   deleteForm(id: number): Observable<any> {
-    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' }).pipe(
-      tap(() => {
-        this.formDeleted.emit();
-      })
-    );
+    return this.http.delete(`${this.url}/${id}`, { responseType: 'text' });
   }
 
   getForm(): Observable<Form[]> {

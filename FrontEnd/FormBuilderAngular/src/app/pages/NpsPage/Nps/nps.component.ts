@@ -13,14 +13,21 @@ export class NpsComponent implements AfterViewInit {
   detractors: string;
   passives: string;
   promoters: string;
+  canShow: boolean = true;
 
   constructor(private npsService: NpsService) {}
 
   ngAfterViewInit(): void {
-    this.npsService.GetNpsScore().subscribe((score) => {
-      this.npsScore = score;
-      this.updateNeedlePosition(score);
-      this.updateScoreStyle(score);
+    this.npsService.GetNpsScore().subscribe({
+      next: (score: number) => {
+        this.npsScore = score;
+        this.updateNeedlePosition(score);
+        this.updateScoreStyle(score);
+      },
+      error: (err) => {
+        this.canShow = false;
+        console.error('Error fetching NPS data', err);
+      },
     });
   }
 
