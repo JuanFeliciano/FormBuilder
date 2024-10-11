@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="questionList.length > 0; else noData">
   <div
     class="box-form questions-container"
     *ngFor="let question of questionList; let i = index"
@@ -6,9 +6,11 @@
     <div class="btn-edit">
       <h5>{{ question.content }}</h5>
       <div class="edit-container" *ngIf="visibleElements[i]">
-        <label class="edit" (click)="openPutModal(question)">Edit</label>
+        <label class="edit" (click)="openPutModal(question, i)">Edit</label>
 
-        <label class="delete" (click)="deleteQuestion(question)">Delete</label>
+        <label class="delete" (click)="deleteQuestion(question, i)"
+          >Delete</label
+        >
       </div>
       <button (click)="toggleElement(i)" *ngIf="canView()">
         <svg
@@ -24,8 +26,11 @@
         </svg>
       </button>
     </div>
-    <app-question-updater [questionSelected]="question" />
-    <app-question-deleter />
+    <app-question-updater
+      [questionSelected]="question"
+      (questionUpdated)="onQuestionUpdated($event)"
+    />
+    <app-question-deleter (questionDeleted)="onQuestionDeleted()" />
 
     <div class="answer-container">
       <select
@@ -51,3 +56,9 @@
 </div>
 
 <app-dialog-message />
+
+<ng-template #noData>
+  <div class="message">
+    <h1>There are no Questions</h1>
+  </div>
+</ng-template>

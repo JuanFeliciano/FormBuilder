@@ -5,9 +5,9 @@ import { QuestionCreatorComponent } from 'src/app/components/CreatorComponents/Q
 import { UserService } from 'src/app/services/UserService/user.service';
 
 @Component({
-  selector: 'app-crud-buttons',
-  templateUrl: './crud-buttons.component.html',
-  styleUrls: ['./crud-buttons.component.scss'],
+  selector: 'app-create-buttons',
+  templateUrl: './create-buttons.component.html',
+  styleUrls: ['./create-buttons.component.scss'],
 })
 export class CrudButtonsComponent {
   role: string | null = this.userService.getRole();

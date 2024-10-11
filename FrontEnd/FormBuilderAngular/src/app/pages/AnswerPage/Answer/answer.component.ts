@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AnswerDialogComponent } from 'src/app/components/Dialogs/AnswerDialog/answer-dialog.component';
 import { Form } from 'src/app/models/interfaces/interfaces';
+import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 import { FormService } from 'src/app/services/FormService/form.service';
 
 @Component({
@@ -14,10 +15,20 @@ export class AnswerComponent implements OnInit {
 
   @ViewChild('answerDialog') answerDialog: AnswerDialogComponent;
 
-  constructor(private formService: FormService) {}
+  constructor(
+    private formService: FormService,
+    private formGroupService: FormGroupService
+  ) {}
 
   ngOnInit(): void {
     this.getForm();
+
+    this.formService.formCreated.subscribe(() => {
+      this.getForm();
+    });
+    this.formGroupService.formGroupCreated.subscribe(() => {
+      this.getForm();
+    });
   }
 
   getForm(): void {

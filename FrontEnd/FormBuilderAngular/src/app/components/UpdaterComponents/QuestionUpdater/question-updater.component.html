@@ -28,8 +28,10 @@
           <input
             id="groupTitle"
             formControlName="content"
-            placeholder=" New Group Title"
+            placeholder=" New Content"
+            (input)="onInput($event)"
           />
+          <p class="error-input">Content cannot exceed 100 characters!</p>
         </div>
 
         <div class="select-container">
@@ -39,6 +41,7 @@
               {{ form.id }} - {{ form.title }}
             </option>
           </select>
+          <p class="error-select">Some Form must be selected!</p>
         </div>
       </div>
       <button type="submit" class="btn btn-submit" (click)="updateQuestion()">
@@ -46,6 +49,5 @@
       </button>
     </form>
   </dialog>
+  <app-dialog-message />
 </div>
-
-<app-dialog-message />

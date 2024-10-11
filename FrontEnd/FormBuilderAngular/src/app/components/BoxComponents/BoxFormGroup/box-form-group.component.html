@@ -14,12 +14,10 @@
         <div class="btn-edit">
           <h3>{{ formGroup.id }} - {{ formGroup.title }}</h3>
           <div class="edit-container" *ngIf="visibleElements[i]">
-            <label class="edit" (click)="openPutDialog($event, formGroup)"
+            <label class="edit" (click)="openPutDialog(formGroup, i)"
               >Edit</label
             >
-            <label
-              class="delete"
-              (click)="deleterComponent.deleteFormGroup(formGroup)"
+            <label class="delete" (click)="deleteFormGroup(formGroup, i)"
               >Delete</label
             >
           </div>
@@ -38,7 +36,7 @@
           </button>
         </div>
         <div class="description-container">
-          <p (click)="openDialog($event, formGroup.id)">
+          <p (click)="openDialog(formGroup.id)">
             Clicando você abrirá um modal com todos os formulários que pertencem
             a este grupo específico!
           </p>
@@ -46,8 +44,11 @@
       </div>
     </div>
 
-    <app-form-group-deleter />
-    <app-form-group-updater [formGroupInput]="selectedFormGroup" />
+    <app-form-group-deleter (groupDeleted)="onGroupDeleted()" />
+    <app-form-group-updater
+      [formGroupInput]="selectedFormGroup"
+      (groupUpdated)="onGroupUpdated($event)"
+    />
 
     <div class="dialog-container">
       <dialog #dialog class="dialog">
@@ -65,7 +66,7 @@
                 Create Form
               </button>
             </div>
-            <button class="btn btn-close-dialog" (click)="closeDialog($event)">
+            <button class="btn btn-close-dialog" (click)="closeDialog()">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="ionicon"

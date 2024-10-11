@@ -29,7 +29,9 @@
             id="groupTitle"
             formControlName="title"
             placeholder=" New Group Title"
+            (input)="onInput($event)"
           />
+          <p class="error-input">Title cannot exceed 25 characters!</p>
         </div>
       </div>
       <button type="submit" class="btn btn-submit" (click)="updateFormGroup()">

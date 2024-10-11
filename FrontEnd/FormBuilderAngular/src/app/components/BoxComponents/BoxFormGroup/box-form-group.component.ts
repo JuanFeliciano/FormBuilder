@@ -23,6 +23,8 @@ import { FormCreatorComponent } from '../../CreatorComponents/FormCreator/form-c
 export class BoxFormGroupComponent implements OnInit {
   formGroup: FormGroup;
   idFormGroup: number = 0;
+  indexUpdate: number;
+  indexDelete: number;
   visibleElements: boolean[] = [];
   role: string | null = this.userService.getRole();
   formGroupList: FormGroupModel[] = [];
@@ -46,14 +48,14 @@ export class BoxFormGroupComponent implements OnInit {
   ngOnInit(): void {
     this.getFormGroup();
 
+    this.formGroupService.formGroupCreated.subscribe(() => {
+      this.getFormGroup();
+    });
+
     this.formGroup = this.fb.group({
       id: 0,
       title: '',
     });
-
-    this.formGroupService.formGroupCreated.subscribe(() => this.getFormGroup());
-    this.formGroupService.formGroupUpdated.subscribe(() => this.getFormGroup());
-    this.formGroupService.formGroupDeleted.subscribe(() => this.getFormGroup());
 
     this.visibleElements = new Array(this.formGroupList.length).fill(false);
   }
@@ -89,29 +91,31 @@ export class BoxFormGroupComponent implements OnInit {
     this.updaterComponent.getFormGroupByIdToPut(id);
   }
 
-  openDialog(event: Event, id: number): void {
+  openDialog(id: number): void {
     this.idFormGroup = id;
     this.getFormGroupById(id);
-    event.stopPropagation();
   }
 
-  closeDialog(event: Event): void {
-    event.stopPropagation();
+  closeDialog(): void {
     if (this.dialog.nativeElement.open) {
       this.dialog.nativeElement.close();
     }
   }
 
-  openPutDialog(event: Event, formGroup: FormGroupModel): void {
-    event.stopPropagation();
-
+  openPutDialog(formGroup: FormGroupModel, indexUpdate: number): void {
+    this.indexUpdate = indexUpdate;
     this.selectedFormGroup = formGroup;
     this.updaterComponent.getFormGroupByIdToPut(this.selectedFormGroup.id);
     this.formGroup.patchValue({ id: formGroup.id, title: formGroup.title });
   }
 
-  toggleElement(index: number): void {
-    this.visibleElements[index] = !this.visibleElements[index];
+  deleteFormGroup(formGroup: FormGroupModel, index: number): void {
+    this.indexDelete = index;
+    this.deleterComponent.deleteFormGroup(formGroup);
+  }
+
+  toggleElement(indexUpdate: number): void {
+    this.visibleElements[indexUpdate] = !this.visibleElements[indexUpdate];
   }
 
   onSearch(searchValue: string): void {
@@ -123,6 +127,18 @@ export class BoxFormGroupComponent implements OnInit {
       },
     });
   }
+
+  onGroupUpdated(group: FormGroupModel): void {
+    this.selectedFormGroup = group;
+    this.filteredGroups[this.indexUpdate] = group;
+  }
+
+  onGroupDeleted(): void {
+    console.log(this.indexDelete);
+    this.filteredGroups.splice(this.indexDelete, 1);
+  }
+
+  onGroupCreated(): void {}
 
   canView(): boolean {
     if (this.role === 'Admin') {

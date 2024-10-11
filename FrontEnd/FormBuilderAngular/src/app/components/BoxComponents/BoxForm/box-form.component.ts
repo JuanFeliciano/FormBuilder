@@ -23,8 +23,10 @@ import { QuestionCreatorComponent } from '../../CreatorComponents/QuestionCreato
   styleUrls: ['./box-form.component.scss'],
 })
 export class BoxFormComponent implements OnInit, OnChanges {
-  formsSelected: Form[];
+  formsSelected: Form[] = [];
   idForm: number;
+  indexUpdate: number;
+  indexDelete: number;
   selectedForm: Form = { id: 0, idGroup: 0, title: '', questions: [] };
   visibleElements: boolean[] = [];
   role: string | null = this.userService.getRole();
@@ -45,12 +47,6 @@ export class BoxFormComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.formService.formUpdated.subscribe(() => {
-      this.getFormByGroupId();
-    });
-    this.formService.formDeleted.subscribe(() => {
-      this.getFormByGroupId();
-    });
     this.formService.formCreated.subscribe(() => {
       this.getFormByGroupId();
     });
@@ -81,12 +77,26 @@ export class BoxFormComponent implements OnInit, OnChanges {
     }
   }
 
+  getFormById(): void {
+    if (this.idForm != 0) {
+      this.formService.getFormById(this.idForm).subscribe({
+        next: (data: Form) => {
+          this.selectedForm = data;
+        },
+        error: (err) => {
+          console.error('Error when fething form by id - box form - ', err);
+        },
+      });
+    }
+  }
+
   createQuestion(): void {
     this.creatorComponent.openDialog();
   }
 
   updateForm(form: Form): void {
     this.selectedForm = form;
+    this.formUpdater.formGroup.reset();
     this.formUpdater.dialogPut.nativeElement.showModal();
   }
 
@@ -101,17 +111,31 @@ export class BoxFormComponent implements OnInit, OnChanges {
     this.dialog.nativeElement.close();
   }
 
-  deleteForm(form: Form): void {
+  deleteForm(form: Form, index: number): void {
+    this.indexDelete = index;
     this.formDeleter.deleteForm(form);
   }
 
-  openPutDialog(form: Form): void {
+  openPutDialog(form: Form, index: number): void {
+    this.indexUpdate = index;
     this.selectedForm = form;
+    this.formUpdater.formGroup.reset();
     this.formUpdater.dialogPut.nativeElement.showModal();
   }
 
   toggleElement(index: number): void {
     this.visibleElements[index] = !this.visibleElements[index];
+  }
+
+  onFormUpdated(form: Form): void {
+    this.formUpdater.changeForm.subscribe(() => {
+      this.formsSelected.splice(this.indexUpdate, 1);
+    });
+    this.formsSelected[this.indexUpdate] = form;
+  }
+
+  onFormDeleted(): void {
+    this.formsSelected.splice(this.indexDelete, 1);
   }
 
   canView(): boolean {
@@ -122,12 +146,12 @@ export class BoxFormComponent implements OnInit, OnChanges {
     }
   }
 
-  // @HostListener('document:click', ['$event'])
-  // outClick(event: Event) {
-  //   const clickInside = (event.target as HTMLElement).closest('.btn-edit');
+  @HostListener('document:click', ['$event'])
+  outClick(event: Event) {
+    const clickInside = (event.target as HTMLElement).closest('.btn-edit');
 
-  //   if (!clickInside) {
-  //     this.visibleElements = new Array(this.formsSelected.length).fill(false);
-  //   }
-  // }
+    if (!clickInside) {
+      this.visibleElements = new Array(this.formsSelected.length).fill(false);
+    }
+  }
 }

@@ -13,10 +13,8 @@
             class="edit-container"
             *ngIf="visibleElements[i] && role === 'Admin'"
           >
-            <label class="edit" (click)="openPutDialog(form)">Edit</label>
-            <label class="delete" (click)="deleterComponent.deleteForm(form)"
-              >Delete</label
-            >
+            <label class="edit" (click)="openPutDialog(form, i)">Edit</label>
+            <label class="delete" (click)="deleteForm(form, i)">Delete</label>
           </div>
           <button (click)="toggleElement(i)" *ngIf="canView()">
             <svg
@@ -33,7 +31,7 @@
           </button>
         </div>
         <div class="description-container">
-          <p (click)="openDialog(form.id)">
+          <p (click)="openDialog(form.id, i)">
             Clicando você abrirá um modal com todas as perguntas que pertencem a
             este formulário!
           </p>
@@ -41,8 +39,11 @@
       </div>
     </div>
 
-    <app-form-updater [formInput]="selectedForm" />
-    <app-form-deleter #formDeleter />
+    <app-form-updater
+      [formInput]="selectedForm"
+      (formUpdated)="onFormUpdate($event)"
+    />
+    <app-form-deleter #formDeleter (formDeleted)="onFormDelete()" />
 
     <div class="dialog-container">
       <dialog #dialog class="dialog">
@@ -93,7 +94,7 @@
 
   <ng-template #noData>
     <div class="message">
-      <h1>There are no Questions</h1>
+      <h1>There are no Forms</h1>
     </div>
   </ng-template>
 </div>

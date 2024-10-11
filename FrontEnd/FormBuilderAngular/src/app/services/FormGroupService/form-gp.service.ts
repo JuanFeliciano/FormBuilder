@@ -8,8 +8,7 @@ import { FormGroupModel } from 'src/app/models/interfaces/interfaces';
 })
 export class FormGroupService {
   formGroupCreated = new EventEmitter<void>();
-  formGroupUpdated = new EventEmitter<void>();
-  formGroupDeleted = new EventEmitter<void>();
+
   private url: string = 'http://localhost:5117/FormGroup';
 
   constructor(private http: HttpClient) {}
@@ -23,21 +22,14 @@ export class FormGroupService {
   }
 
   updateFormGroup(formGroup: FormGroupModel): Observable<FormGroupModel> {
-    return this.http
-      .put<FormGroupModel>(`${this.url}/${formGroup.id}`, formGroup)
-      .pipe(
-        tap(() => {
-          this.formGroupUpdated.emit();
-        })
-      );
+    return this.http.put<FormGroupModel>(
+      `${this.url}/${formGroup.id}`,
+      formGroup
+    );
   }
 
   deleteFormGroup(id: number): Observable<any> {
-    return this.http.delete(`${this.url}/${id}`).pipe(
-      tap(() => {
-        this.formGroupDeleted.emit();
-      })
-    );
+    return this.http.delete(`${this.url}/${id}`);
   }
 
   getFormGroup(): Observable<FormGroupModel[]> {

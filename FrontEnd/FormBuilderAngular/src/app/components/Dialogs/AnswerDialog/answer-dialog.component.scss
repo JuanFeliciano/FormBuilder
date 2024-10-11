@@ -80,9 +80,23 @@ h4 {
 .ng-container {
   border-radius: 10px;
   margin: 10px 0 10px 10px;
-  padding-left: 8px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   width: 10vw;
+  height: auto;
   border: 1.5px solid #000;
+  overflow-wrap: break-word;
+}
+
+.label-dynamic {
+  background-color: #ebe9e9;
+  padding: 0, 2px, 0;
+  border-radius: 5px;
+}
+
+.label-static {
+  font-style: italic;
+  margin-left: 5px;
 }

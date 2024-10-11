@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 import { DialogMessageComponent } from '../../../shared/MessageDialog/dialog-message';
 import { FormGroupModel } from 'src/app/models/interfaces/interfaces';
@@ -13,6 +13,8 @@ export class FormGroupDeleterComponent {
   @ViewChild(DialogMessageComponent) dialogMessage: DialogMessageComponent;
   @ViewChild(ConfirmDialogComponent) confirmDialog: ConfirmDialogComponent;
 
+  @Output() groupDeleted: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(private formGroupService: FormGroupService) {}
 
   deleteFormGroup(formGroup: FormGroupModel): void {
@@ -22,6 +24,7 @@ export class FormGroupDeleterComponent {
       if (shouldDelete) {
         this.formGroupService.deleteFormGroup(formGroup.id).subscribe({
           next: () => {
+            this.groupDeleted.emit();
             this.dialogMessage.openDialog('Form Group Deleted Successfully');
           },
           error: (err) => {

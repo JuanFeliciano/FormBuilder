@@ -183,11 +183,10 @@
 }
 
 .message {
-  display: flex;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 600%);
   padding: 10px;
   border: 1px solid #1f1f1f;
   border-radius: 20px;

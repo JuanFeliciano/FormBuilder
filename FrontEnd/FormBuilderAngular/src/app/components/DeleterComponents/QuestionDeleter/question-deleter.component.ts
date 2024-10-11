@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { QuestionService } from 'src/app/services/QuestionService/question.service';
 import { DialogMessageComponent } from '../../../shared/MessageDialog/dialog-message';
 import { Question } from 'src/app/models/interfaces/interfaces';
@@ -10,6 +10,8 @@ import { ConfirmDialogComponent } from '../../../shared/ConfirmDialog/confirm-di
   styleUrls: ['./question-deleter.component.scss'],
 })
 export class QuestionDeleterComponent {
+  @Output() questionDeleted: EventEmitter<void> = new EventEmitter<void>();
+
   @ViewChild(DialogMessageComponent) dialogMessage: DialogMessageComponent;
   @ViewChild(ConfirmDialogComponent) confirmDialog: ConfirmDialogComponent;
 
@@ -22,6 +24,7 @@ export class QuestionDeleterComponent {
       if (shouldDelete) {
         this.questionService.delete(question.id).subscribe({
           next: () => {
+            this.questionDeleted.emit();
             this.dialogMessage.openDialog('Question Deleted Successfully');
           },
           error: (err) => {

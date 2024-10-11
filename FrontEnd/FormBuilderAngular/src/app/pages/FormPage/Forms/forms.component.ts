@@ -7,6 +7,7 @@ import { Form } from 'src/app/models/interfaces/interfaces';
 import { FormService } from 'src/app/services/FormService/form.service';
 import { UserService } from 'src/app/services/UserService/user.service';
 import { BoxQuestionComponent } from 'src/app/components/BoxComponents/BoxQuestion/box-question.component';
+import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 
 @Component({
   selector: 'app-forms',
@@ -16,6 +17,8 @@ import { BoxQuestionComponent } from 'src/app/components/BoxComponents/BoxQuesti
 export class FormsComponent {
   form: FormGroup;
   idForm: number = 0;
+  indexUpdate: number;
+  indexDelete: number;
   visibleElements: boolean[] = [];
   role: string | null = this.userService.getRole();
   formList: Form[] = [];
@@ -33,6 +36,7 @@ export class FormsComponent {
 
   constructor(
     private formService: FormService,
+    private formGroupService: FormGroupService,
     private userService: UserService,
     private fb: FormBuilder
   ) {}
@@ -45,8 +49,8 @@ export class FormsComponent {
       title: '',
     });
 
-    this.formService.formUpdated.subscribe(() => this.getForms());
-    this.formService.formDeleted.subscribe(() => this.getForms());
+    this.formService.formCreated.subscribe(() => this.getForms());
+    this.formGroupService.formGroupCreated.subscribe(() => this.getForms());
 
     this.visibleElements = new Array(this.formList.length).fill(false);
   }
@@ -83,7 +87,8 @@ export class FormsComponent {
     this.updaterComponent.dialogPut.nativeElement.showModal();
   }
 
-  openDialog(id: number): void {
+  openDialog(id: number, index: number): void {
+    this.indexUpdate = index;
     this.idForm = id;
     this.getFormById(id);
   }
@@ -94,10 +99,16 @@ export class FormsComponent {
     }
   }
 
-  openPutDialog(form: Form): void {
+  openPutDialog(form: Form, index: number): void {
+    this.indexUpdate = index;
     this.selectedForm = form;
     this.updaterComponent.dialogPut.nativeElement.showModal();
     this.form.patchValue({ id: form.id, title: form.title });
+  }
+
+  deleteForm(form: Form, index: number): void {
+    this.indexDelete = index;
+    this.deleterComponent.deleteForm(form);
   }
 
   toggleElement(index: number): void {
@@ -112,6 +123,15 @@ export class FormsComponent {
         );
       },
     });
+  }
+
+  onFormUpdate(form: Form): void {
+    this.selectedForm = form;
+    this.filteredForms[this.indexUpdate] = form;
+  }
+
+  onFormDelete(): void {
+    this.filteredForms.splice(this.indexDelete, 1);
   }
 
   canView(): boolean {

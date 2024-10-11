@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormService } from 'src/app/services/FormService/form.service';
 import { DialogMessageComponent } from '../../../shared/MessageDialog/dialog-message';
 import { Form } from 'src/app/models/interfaces/interfaces';
@@ -10,6 +10,8 @@ import { ConfirmDialogComponent } from '../../../shared/ConfirmDialog/confirm-di
 })
 export class FormDeleterComponent {
   wantDelete: boolean;
+
+  @Output() formDeleted: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild(DialogMessageComponent) dialogMessage: DialogMessageComponent;
   @ViewChild(ConfirmDialogComponent) confirmDialog: ConfirmDialogComponent;
@@ -23,6 +25,7 @@ export class FormDeleterComponent {
       if (shouldDelete) {
         this.formService.deleteForm(form.id).subscribe({
           next: () => {
+            this.formDeleted.emit();
             this.dialogMessage.openDialog('Form Deleted Successfully');
           },
           error: (err) => {

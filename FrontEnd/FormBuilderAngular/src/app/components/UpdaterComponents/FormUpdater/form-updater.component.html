@@ -3,7 +3,7 @@
     <div class="title">
       <h1>Form Updater</h1>
       <div class="button-container">
-        <button class="btn btn-close-dialog" (click)="closePutDialog($event)">
+        <button class="btn btn-close-dialog" (click)="closePutDialog()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="ionicon"
@@ -21,11 +21,17 @@
       <div class="form-group">
         <div class="label-input">
           <label>Old Title:</label>
-          <p>{{ formInput.title }}</p>
+          <p class="title-pg">{{ formInput.title }}</p>
         </div>
         <div class="label-input new-title">
           <label for="title">New Title:</label>
-          <input formControlName="title" placeholder=" New Group Title" />
+          <input
+            id="groupTitle"
+            formControlName="title"
+            placeholder=" New Form Title"
+            (input)="onInput($event)"
+          />
+          <p class="error-input">Title cannot exceed 25 characters!</p>
         </div>
 
         <div class="select-container">
@@ -38,6 +44,7 @@
               {{ formGroup.id }} - {{ formGroup.title }}
             </option>
           </select>
+          <p class="error-select">Some Form Group must be selected!</p>
         </div>
       </div>
 

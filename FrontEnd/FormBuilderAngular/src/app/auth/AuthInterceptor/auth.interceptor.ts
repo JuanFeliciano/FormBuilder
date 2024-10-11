@@ -15,8 +15,9 @@ import {
   take,
   throwError,
 } from 'rxjs';
-import { TokenService } from '../services/TokenService/token.service';
-import { RefreshService } from '../services/RefreshService/refresh.service';
+import { TokenService } from 'src/app/services/TokenService/token.service';
+import { RefreshService } from 'src/app/services/RefreshService/refresh.service';
+import { LoginService } from 'src/app/services/LoginService/login.service';
 
 @Injectable()
 export class InterceptorHttp implements HttpInterceptor {
@@ -26,7 +27,8 @@ export class InterceptorHttp implements HttpInterceptor {
 
   constructor(
     private tokenService: TokenService,
-    private refreshService: RefreshService
+    private refreshService: RefreshService,
+    private loginService: LoginService
   ) {}
 
   intercept(
@@ -43,7 +45,6 @@ export class InterceptorHttp implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 && !authReq.url.includes('Login')) {
-          console.log('esta interceptando');
           return this.handle401Error(authReq, next);
         }
         return throwError(error);
@@ -68,10 +69,8 @@ export class InterceptorHttp implements HttpInterceptor {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
 
-      console.log('Entrou no método handle');
       const refreshToken = this.tokenService.getRefreshToken();
       if (refreshToken) {
-        console.log('Entrou no método refresh');
         return this.refreshService.RefreshToken().pipe(
           switchMap((tokenData) => {
             this.isRefreshing = false;
@@ -79,7 +78,6 @@ export class InterceptorHttp implements HttpInterceptor {
               tokenData.accessToken,
               tokenData.refreshToken
             );
-            console.log('Entrou no método pipe');
             this.refreshTokenSubject.next(tokenData.accessToken);
             return next.handle(
               this.addTokenHeader(request, tokenData.accessToken)
@@ -87,7 +85,14 @@ export class InterceptorHttp implements HttpInterceptor {
           }),
           catchError((err) => {
             this.isRefreshing = false;
-            this.tokenService.clearStorage();
+            this.loginService.Logout().subscribe({
+              next: () => {
+                console.log('Logout Completed');
+              },
+              error: (err) => {
+                console.error('Error logging out - ', err);
+              },
+            });
             return throwError(err);
           })
         );

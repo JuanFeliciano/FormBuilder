@@ -4,6 +4,7 @@ import { QuestionService } from '../../../services/QuestionService/question.serv
 import { FormService } from 'src/app/services/FormService/form.service';
 import { DialogMessageComponent } from '../../../shared/MessageDialog/dialog-message';
 import { Form, Question } from 'src/app/models/interfaces/interfaces';
+import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 @Component({
   selector: 'app-question-creator',
   templateUrl: './question-creator.component.html',
@@ -20,11 +21,20 @@ export class QuestionCreatorComponent {
   constructor(
     private fb: FormBuilder,
     private questionService: QuestionService,
-    private formService: FormService
+    private formService: FormService,
+    private formGroupService: FormGroupService
   ) {}
 
   ngOnInit(): void {
     this.getForm();
+
+    this.formService.formCreated.subscribe(() => {
+      this.getForm();
+    });
+
+    this.formGroupService.formGroupCreated.subscribe(() => {
+      this.getForm();
+    });
 
     if (!HTMLDialogElement.prototype.showModal) {
       console.error('your browser does not support the <dialog> element');
@@ -90,6 +100,7 @@ export class QuestionCreatorComponent {
   }
 
   openDialog(): void {
+    this.questionGroup.reset();
     this.dialog.nativeElement.showModal();
   }
 

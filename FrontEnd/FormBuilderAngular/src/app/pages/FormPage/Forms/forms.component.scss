@@ -129,7 +129,6 @@ input {
   margin-left: 10px;
 }
 
-
 .title {
   position: sticky;
   border-top-left-radius: 20px;
@@ -259,4 +258,15 @@ input {
 
 .box-dialog {
   margin: 0;
+}
+
+.message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-30%, 600%);
+  padding: 10px;
+  border: 1px solid #1f1f1f;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
