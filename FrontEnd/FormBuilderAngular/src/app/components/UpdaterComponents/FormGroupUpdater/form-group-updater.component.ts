@@ -4,7 +4,9 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
+  Renderer2,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -17,7 +19,7 @@ import { DialogMessageComponent } from '../../../shared/MessageDialog/dialog-mes
   templateUrl: './form-group-updater.component.html',
   styleUrls: ['./form-group-updater.component.scss'],
 })
-export class FormGroupUpdaterComponent implements OnChanges {
+export class FormGroupUpdaterComponent implements OnInit, OnChanges {
   formGroup: FormGroup;
   selectFormGroupPut: FormGroupModel = { id: 0, title: '', forms: [] };
 
@@ -25,19 +27,28 @@ export class FormGroupUpdaterComponent implements OnChanges {
   @ViewChild(DialogMessageComponent)
   dialogMessage: DialogMessageComponent;
 
+  inputEvent: EventEmitter<string> = new EventEmitter<string>();
+
   @Input() formGroupInput: FormGroupModel;
   @Output() groupUpdated: EventEmitter<FormGroupModel> =
     new EventEmitter<FormGroupModel>();
 
   constructor(
     private formGroupService: FormGroupService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private el: ElementRef,
+    private renderer: Renderer2
   ) {
     this.formGroup = this.fb.group({
       id: 0,
       title: '',
     });
   }
+
+  ngOnInit(): void {
+    this.setClassInput();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['formGroupInput']) {
       this.formGroup.patchValue({
@@ -88,5 +99,40 @@ export class FormGroupUpdaterComponent implements OnChanges {
 
   closePutDialog(): void {
     this.dialog.nativeElement.close();
+    this.resetStyles();
+  }
+
+  onInput(event: any): void {
+    const value = event.target.value;
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const text = this.el.nativeElement.querySelector('.error-input');
+
+    if (value.length > 25) {
+      this.inputEvent.emit();
+    } else {
+      this.renderer.removeClass(input, 'error-message');
+      this.renderer.setStyle(text, 'opacity', '0');
+      this.renderer.setStyle(text, 'transform', 'translateY(20px)');
+    }
+  }
+
+  private setClassInput(): void {
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const text = this.el.nativeElement.querySelector('.error-input');
+
+    this.inputEvent.subscribe(() => {
+      this.renderer.addClass(input, 'error-message');
+      this.renderer.setStyle(text, 'opacity', '1');
+      this.renderer.setStyle(text, 'transform', 'translateY(0)');
+    });
+  }
+
+  private resetStyles(): void {
+    const input = this.el.nativeElement.querySelector('#groupTitle');
+    const textInput = this.el.nativeElement.querySelector('.error-input');
+
+    this.renderer.removeClass(input, 'error-message');
+    this.renderer.setStyle(textInput, 'opacity', '0');
+    this.renderer.setStyle(textInput, 'transform', 'translateY(20px)');
   }
 }

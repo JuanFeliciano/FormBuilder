@@ -17,6 +17,7 @@ import {
 } from 'rxjs';
 import { TokenService } from 'src/app/services/TokenService/token.service';
 import { RefreshService } from 'src/app/services/RefreshService/refresh.service';
+import { LoginService } from 'src/app/services/LoginService/login.service';
 
 @Injectable()
 export class InterceptorHttp implements HttpInterceptor {
@@ -26,7 +27,8 @@ export class InterceptorHttp implements HttpInterceptor {
 
   constructor(
     private tokenService: TokenService,
-    private refreshService: RefreshService
+    private refreshService: RefreshService,
+    private loginService: LoginService
   ) {}
 
   intercept(
@@ -83,7 +85,14 @@ export class InterceptorHttp implements HttpInterceptor {
           }),
           catchError((err) => {
             this.isRefreshing = false;
-            this.tokenService.clearStorage();
+            this.loginService.Logout().subscribe({
+              next: () => {
+                console.log('Logout Completed');
+              },
+              error: (err) => {
+                console.error('Error logging out - ', err);
+              },
+            });
             return throwError(err);
           })
         );
