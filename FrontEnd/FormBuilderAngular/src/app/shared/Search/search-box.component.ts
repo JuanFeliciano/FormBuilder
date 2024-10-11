@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-search-box',
@@ -9,9 +9,15 @@ export class SearchBoxComponent {
   @Input() title: string;
   @Output() searchEvent: EventEmitter<string> = new EventEmitter<string>();
 
+  @ViewChild('input') input: ElementRef<HTMLInputElement>
+
   onSearchInput(event: any): void {
     const value: string = event.target.value;
 
     this.searchEvent.emit(value);
+  }
+
+  focusInput(): void {
+    this.input.nativeElement.focus()
   }
 }

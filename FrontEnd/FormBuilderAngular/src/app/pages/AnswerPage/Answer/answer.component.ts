@@ -3,6 +3,7 @@ import { AnswerDialogComponent } from 'src/app/components/Dialogs/AnswerDialog/a
 import { Form } from 'src/app/models/interfaces/interfaces';
 import { FormGroupService } from 'src/app/services/FormGroupService/form-gp.service';
 import { FormService } from 'src/app/services/FormService/form.service';
+import { QuestionService } from 'src/app/services/QuestionService/question.service';
 
 @Component({
   selector: 'app-answer',
@@ -17,7 +18,7 @@ export class AnswerComponent implements OnInit {
 
   constructor(
     private formService: FormService,
-    private formGroupService: FormGroupService
+    private formGroupService: FormGroupService,
   ) {}
 
   ngOnInit(): void {

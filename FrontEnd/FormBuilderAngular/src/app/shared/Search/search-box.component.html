@@ -7,11 +7,12 @@
     <input type="checkbox" id="check" />
     <div class="search-box">
       <input
+        #input
         type="text"
         placeholder="Type here..."
         (input)="onSearchInput($event)"
       />
-      <label for="check" class="icon">
+      <label for="check" class="icon" (click)="focusInput()">
         <i class="fas fa-search"></i>
       </label>
     </div>

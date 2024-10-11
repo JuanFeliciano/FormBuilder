@@ -7,8 +7,11 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { Form } from 'src/app/models/interfaces/interfaces';
+import { Form, Question } from 'src/app/models/interfaces/interfaces';
 import { FormService } from 'src/app/services/FormService/form.service';
+import { QuestionCreatorComponent } from '../../CreatorComponents/QuestionCreator/question-creator.component';
+import { QuestionService } from 'src/app/services/QuestionService/question.service';
+import { TaggedTemplateExpr } from '@angular/compiler';
 
 @Component({
   selector: 'app-answer-dialog',
@@ -19,15 +22,27 @@ export class AnswerDialogComponent implements OnChanges, OnInit {
   formSelected: Form = { id: 0, idGroup: 0, title: '', questions: [] };
   visibleAnswers: boolean[] = [];
 
-  @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
   @Input() formId: number;
 
-  constructor(private formService: FormService) {}
+  @ViewChild('dialog') dialog: ElementRef<HTMLDialogElement>;
+  @ViewChild(QuestionCreatorComponent)
+  questionCreator: QuestionCreatorComponent;
+
+  constructor(
+    private formService: FormService,
+    private questionService: QuestionService
+  ) {}
 
   ngOnInit(): void {
     this.visibleAnswers = new Array(this.formSelected.questions.length).fill(
       false
     );
+
+    this.questionService.questionCreated.subscribe((data: Question[]) => {
+      for (let question of data) {
+        this.formSelected.questions.push(question);
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

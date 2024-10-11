@@ -1,5 +1,6 @@
 import {
   Component,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
@@ -45,9 +46,11 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.questionService.questionCreated.subscribe(() =>
-      this.getQuestionByFormId()
-    );
+    this.questionService.questionCreated.subscribe((data: Question[]) => {
+      for (let question of data) {
+        this.questionList.push(question);
+      }
+    });
 
     if (this.questionList) {
       this.visibleElements = new Array(this.questionList.length).fill(false);
@@ -153,6 +156,15 @@ export class BoxQuestionComponent implements OnInit, OnChanges {
       return true;
     } else {
       return false;
+    }
+  }
+
+  @HostListener('window:click', ['$event'])
+  outClick(event: Event) {
+    const clickInside = (event.target as HTMLElement).closest('.btn-edit');
+
+    if (!clickInside) {
+      this.visibleElements = new Array(this.questionList.length).fill(false);
     }
   }
 }

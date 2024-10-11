@@ -1,4 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { QuestionService } from '../../../services/QuestionService/question.service';
 import { FormService } from 'src/app/services/FormService/form.service';
@@ -31,14 +37,10 @@ export class QuestionCreatorComponent {
     this.formService.formCreated.subscribe(() => {
       this.getForm();
     });
-
     this.formGroupService.formGroupCreated.subscribe(() => {
       this.getForm();
     });
 
-    if (!HTMLDialogElement.prototype.showModal) {
-      console.error('your browser does not support the <dialog> element');
-    }
 
     this.questionGroup = this.fb.group({
       idForm: [null, Validators.required],

@@ -7,8 +7,8 @@ import { Question } from 'src/app/models/interfaces/interfaces';
   providedIn: 'root',
 })
 export class QuestionService {
-  questionCreated = new EventEmitter<void>();
-  questionGetter = new EventEmitter<void>();
+  questionCreated: EventEmitter<Question[]> = new EventEmitter<Question[]>();
+  questionGetter: EventEmitter<Question[]> = new EventEmitter<Question[]>();
 
   private url: string = 'http://localhost:5117/Question';
 
@@ -16,8 +16,8 @@ export class QuestionService {
 
   createQuestion(questionArray: Question[]): Observable<Question[]> {
     return this.http.post<Question[]>(this.url, questionArray).pipe(
-      tap(() => {
-        this.questionCreated.emit();
+      tap((data: Question[]) => {
+        this.questionCreated.emit(data);
       })
     );
   }

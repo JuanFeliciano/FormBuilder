@@ -7,7 +7,8 @@ import { FormGroupModel } from 'src/app/models/interfaces/interfaces';
   providedIn: 'root',
 })
 export class FormGroupService {
-  formGroupCreated = new EventEmitter<void>();
+  formGroupCreated: EventEmitter<FormGroupModel> =
+    new EventEmitter<FormGroupModel>();
 
   private url: string = 'http://localhost:5117/FormGroup';
 
@@ -15,8 +16,8 @@ export class FormGroupService {
 
   createFormGroup(formGroup: FormGroupModel): Observable<FormGroupModel> {
     return this.http.post<FormGroupModel>(this.url, formGroup).pipe(
-      tap(() => {
-        this.formGroupCreated.emit();
+      tap((data: FormGroupModel) => {
+        this.formGroupCreated.emit(data);
       })
     );
   }

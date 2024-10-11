@@ -47,8 +47,8 @@ export class BoxFormComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.formService.formCreated.subscribe(() => {
-      this.getFormByGroupId();
+    this.formService.formCreated.subscribe((data: Form) => {
+      this.formsSelected.push(data);
     });
 
     if (this.formsSelected && this.formsSelected.length > 0) {
@@ -146,7 +146,7 @@ export class BoxFormComponent implements OnInit, OnChanges {
     }
   }
 
-  @HostListener('document:click', ['$event'])
+  @HostListener('window:click', ['$event'])
   outClick(event: Event) {
     const clickInside = (event.target as HTMLElement).closest('.btn-edit');
 

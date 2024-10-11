@@ -36,7 +36,7 @@
           </button>
         </div>
         <div class="description-container">
-          <p (click)="openDialog(formGroup.id)">
+          <p (click)="openDialog(formGroup.id, i)">
             Clicando você abrirá um modal com todos os formulários que pertencem
             a este grupo específico!
           </p>
@@ -58,11 +58,18 @@
             <div class="optional-btn" *ngIf="canView()">
               <button
                 class="btn-create btn-update"
-                (click)="updateGroup(selectedFormGroup.id)"
+                (click)="
+                  this.updaterComponent.getFormGroupByIdToPut(
+                    selectedFormGroup.id
+                  )
+                "
               >
                 Update Group
               </button>
-              <button class="btn-create" (click)="createForm()">
+              <button
+                class="btn-create"
+                (click)="this.creatorComponent.openDialog()"
+              >
                 Create Form
               </button>
             </div>

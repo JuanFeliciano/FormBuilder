@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { QuestionCreatorComponent } from 'src/app/components/CreatorComponents/QuestionCreator/question-creator.component';
 import { FormDeleterComponent } from 'src/app/components/DeleterComponents/FormDeleter/form-deleter.component';
 import { FormUpdaterComponent } from 'src/app/components/UpdaterComponents/FormUpdater/form-updater.component';
-import { Form } from 'src/app/models/interfaces/interfaces';
+import { Form, FormGroupModel } from 'src/app/models/interfaces/interfaces';
 import { FormService } from 'src/app/services/FormService/form.service';
 import { UserService } from 'src/app/services/UserService/user.service';
 import { BoxQuestionComponent } from 'src/app/components/BoxComponents/BoxQuestion/box-question.component';
@@ -49,8 +49,14 @@ export class FormsComponent {
       title: '',
     });
 
-    this.formService.formCreated.subscribe(() => this.getForms());
-    this.formGroupService.formGroupCreated.subscribe(() => this.getForms());
+    this.formService.formCreated.subscribe((data: Form) => {
+      this.filteredForms.push(data);
+    });
+    this.formGroupService.formGroupCreated.subscribe((data: FormGroupModel) => {
+      for (let form of data.forms) {
+        this.filteredForms.push(form);
+      }
+    });
 
     this.visibleElements = new Array(this.formList.length).fill(false);
   }

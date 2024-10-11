@@ -192,6 +192,14 @@ p {
 .logout-span {
   position: absolute;
   bottom: 0;
+}
+
+.active .logout-span {
   height: 50px;
+  width: 85%;
+}
+
+.logout-span:hover {
   width: 50px;
+  background-color: #2e2e2e;
 }

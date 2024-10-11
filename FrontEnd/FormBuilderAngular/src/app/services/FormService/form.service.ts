@@ -7,7 +7,7 @@ import { Form } from 'src/app/models/interfaces/interfaces';
   providedIn: 'root',
 })
 export class FormService {
-  formCreated = new EventEmitter<void>();
+  formCreated: EventEmitter<Form> = new EventEmitter<Form>();
 
   private url: string = 'http://localhost:5117/Form';
 
@@ -15,8 +15,8 @@ export class FormService {
 
   createForm(form: Form): Observable<Form> {
     return this.http.post<Form>(this.url, form).pipe(
-      tap(() => {
-        this.formCreated.emit();
+      tap((data: Form) => {
+        this.formCreated.emit(data);
       })
     );
   }
